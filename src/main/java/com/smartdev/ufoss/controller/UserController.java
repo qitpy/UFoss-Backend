@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @RestController
@@ -22,7 +21,7 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("add-user")
+    @PostMapping("/add-user")
     public UserDTO newUser(@RequestBody UserDTO model) {
         return userService.newUser(model);
     }

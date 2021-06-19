@@ -5,17 +5,22 @@ import com.smartdev.ufoss.entity.UserEntity;
 
 public class UserConverter {
     public static UserDTO toDTO(UserEntity entity, UserDTO dto) {
-        dto.setId(entity.getID());
-        dto.setUserName(entity.getUserName());
-        dto.setPassword(entity.getPassword());
+
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
+        dto.setEmail(entity.getEmail());
+        dto.setPhone(entity.getPhone());
+        dto.setAvatarUrl(entity.getAvatarUrl());
 
         return dto;
     }
-    public static UserEntity toEntity(UserDTO dto) {
-        UserEntity entity = new UserEntity();
+    public static UserEntity toEntity(UserDTO dto, UserEntity entity) {
 
-        entity.setUserName(dto.getUserName());
-        entity.setPassword(dto.getPassword());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setEmail(dto.getEmail());
+        entity.setPhone(dto.getPhone());
+        entity.setAvatarUrl(dto.getAvatarUrl());
 
         return entity;
     }

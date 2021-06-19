@@ -13,6 +13,21 @@ import java.util.Set;
 @Table(name = "USER_APP")
 @Entity
 public class UserEntity extends AbstractEntity{
+    @Column(name = "first_Name")
+    private String firstName;
+
+    @Column(name = "last_Name")
+    private String lastName;
+
+    @Column
+    private String email;
+
+    @Column
+    private String phone;
+
+    @Column(name = "avatar_URL")
+    private String avatarUrl;
+
     @Column(name = "user_Name")
     private String userName;
 
@@ -21,13 +36,6 @@ public class UserEntity extends AbstractEntity{
 
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
-
-
-    @OneToOne(
-            mappedBy = "user",
-            fetch = FetchType.LAZY
-    )
-    private ProfileEntity profile;
 
     @OneToMany(mappedBy="user")
     private Set<RateEntity> rates;

@@ -2,6 +2,7 @@ package com.smartdev.ufoss.dto;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import java.util.UUID;
 
 @Getter
@@ -10,7 +11,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 public class UserDTO {
-    private UUID id;
-    private String userName;
-    private String password;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String avatarUrl;
 }
