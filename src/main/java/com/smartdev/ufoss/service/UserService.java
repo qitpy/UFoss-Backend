@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -24,7 +25,6 @@ public class UserService {
         for (UserEntity user : usersEntities) {
             userDTOs.add(UserConverter.toDTO(user, new UserDTO()));
         }
-
         return userDTOs;
     }
 
