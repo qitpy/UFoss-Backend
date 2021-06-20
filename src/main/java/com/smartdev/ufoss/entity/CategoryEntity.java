@@ -14,7 +14,6 @@ import java.util.Set;
 @Entity
 @Table(name = "category")
 public class CategoryEntity extends AbstractEntity{
-
     @Column
     private String name;
 

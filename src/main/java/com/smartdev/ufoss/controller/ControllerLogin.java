@@ -10,7 +10,7 @@ public class ControllerLogin {
 
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
-    @GetMapping("login")
+    @GetMapping()
     public String getLogin() {
         return "login";
     }

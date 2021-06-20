@@ -15,13 +15,11 @@ public class UserConverter {
         return dto;
     }
     public static UserEntity toEntity(UserDTO dto, UserEntity entity) {
-
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
         entity.setPhone(dto.getPhone());
         entity.setAvatarUrl(dto.getAvatarUrl());
-
         return entity;
     }
 }
