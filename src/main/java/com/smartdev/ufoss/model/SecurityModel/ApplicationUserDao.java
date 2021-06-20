@@ -1,6 +1,6 @@
-package com.smartdev.ufoss.model;
+package com.smartdev.ufoss.model.SecurityModel;
 
-import com.smartdev.ufoss.dto.ApplicationUser;
+import com.smartdev.ufoss.dto.SecurityDTO.ApplicationUser;
 
 import java.util.Optional;
 

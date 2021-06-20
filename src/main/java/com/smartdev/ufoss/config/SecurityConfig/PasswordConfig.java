@@ -1,4 +1,4 @@
-package com.smartdev.ufoss.config;
+package com.smartdev.ufoss.config.SecurityConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

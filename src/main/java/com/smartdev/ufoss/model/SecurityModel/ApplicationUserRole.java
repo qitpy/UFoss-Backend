@@ -1,13 +1,13 @@
-package com.smartdev.ufoss.model;
+package com.smartdev.ufoss.model.SecurityModel;
 
 import com.google.common.collect.Sets;
+import com.smartdev.ufoss.model.SecurityModel.ApplicationUserPermission;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.smartdev.ufoss.model.ApplicationUserPermission.*;
-import static com.smartdev.ufoss.model.ApplicationUserPermission.COURSE_READ;
+import static com.smartdev.ufoss.model.SecurityModel.ApplicationUserPermission.COURSE_READ;
 
 public enum ApplicationUserRole {
 

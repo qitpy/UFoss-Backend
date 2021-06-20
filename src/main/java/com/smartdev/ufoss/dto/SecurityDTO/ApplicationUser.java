@@ -1,4 +1,4 @@
-package com.smartdev.ufoss.dto;
+package com.smartdev.ufoss.dto.SecurityDTO;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

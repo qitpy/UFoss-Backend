@@ -1,7 +1,7 @@
-package com.smartdev.ufoss.config;
+package com.smartdev.ufoss.config.SecurityConfig;
 
-import com.smartdev.ufoss.dto.JwtTokenVerifier;
-import com.smartdev.ufoss.dto.JwtUsernameAndPasswordAuthenticationFilter;
+import com.smartdev.ufoss.dto.SecurityDTO.JwtTokenVerifier;
+import com.smartdev.ufoss.dto.SecurityDTO.JwtUsernameAndPasswordAuthenticationFilter;
 import com.smartdev.ufoss.service.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

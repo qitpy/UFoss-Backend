@@ -1,6 +1,6 @@
-package com.smartdev.ufoss.dto;
+package com.smartdev.ufoss.dto.SecurityDTO;
 
-import com.smartdev.ufoss.config.JwtConfig;
+import com.smartdev.ufoss.config.SecurityConfig.JwtConfig;
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

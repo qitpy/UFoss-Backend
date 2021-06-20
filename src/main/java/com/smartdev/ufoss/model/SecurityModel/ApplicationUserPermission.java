@@ -1,4 +1,4 @@
-package com.smartdev.ufoss.model;
+package com.smartdev.ufoss.model.SecurityModel;
 
 public enum ApplicationUserPermission {
     COURSE_READ("course:read"),

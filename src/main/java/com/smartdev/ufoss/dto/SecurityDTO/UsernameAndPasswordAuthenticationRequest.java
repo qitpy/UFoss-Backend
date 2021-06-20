@@ -1,4 +1,4 @@
-package com.smartdev.ufoss.dto;
+package com.smartdev.ufoss.dto.SecurityDTO;
 
 public class UsernameAndPasswordAuthenticationRequest {
     private String username;

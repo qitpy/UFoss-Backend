@@ -1,6 +1,6 @@
-package com.smartdev.ufoss.dto;
+package com.smartdev.ufoss.dto.SecurityDTO;
 
-import com.smartdev.ufoss.config.JwtConfig;
+import com.smartdev.ufoss.config.SecurityConfig.JwtConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
