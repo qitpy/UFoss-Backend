@@ -42,4 +42,14 @@ public class UserEntity extends AbstractEntity{
 
     @OneToMany(mappedBy="user")
     private Set<PaymentEntity> payment;
+
+    public UserEntity(String firstName, String lastName, String email, String phone, String avatarUrl, String userName, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.avatarUrl = avatarUrl;
+        this.userName = userName;
+        this.password = password;
+    }
 }
