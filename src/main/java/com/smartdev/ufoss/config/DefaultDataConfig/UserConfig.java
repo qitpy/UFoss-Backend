@@ -12,7 +12,7 @@ import java.util.List;
 public class UserConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository) {
+    CommandLineRunner userCommandLineRunner(UserRepository userRepository) {
         return args -> {
             UserEntity bao = new UserEntity(
                     "Quoc",

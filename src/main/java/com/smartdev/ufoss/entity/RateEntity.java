@@ -16,10 +16,14 @@ public class RateEntity extends AbstractEntity{
     private int score;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name="user_id"/*, nullable=false*/)
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="course_id", nullable=false)
+    @JoinColumn(name="course_id"/*, nullable=false*/)
     private CourseEntity course;
+
+    public RateEntity(int score) {
+        this.score = score;
+    }
 }

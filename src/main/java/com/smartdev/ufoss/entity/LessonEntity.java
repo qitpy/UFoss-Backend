@@ -23,8 +23,14 @@ public class LessonEntity extends AbstractEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name="course_id",
-            nullable=false
+            name="course_id"
+            //nullable=false
     )
     private CourseEntity course;
+
+    public LessonEntity(String videoURL, String title, String description) {
+        this.videoURL = videoURL;
+        this.title = title;
+        this.description = description;
+    }
 }
