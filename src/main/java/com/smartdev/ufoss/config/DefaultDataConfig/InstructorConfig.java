@@ -1,3 +1,4 @@
+/*
 package com.smartdev.ufoss.config.DefaultDataConfig;
 
 import com.smartdev.ufoss.entity.InstructorEntity;
@@ -166,3 +167,4 @@ public class InstructorConfig{
         };
     }
 }
+*/

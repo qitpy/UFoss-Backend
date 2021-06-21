@@ -1,3 +1,4 @@
+/*
 package com.smartdev.ufoss.config.DefaultDataConfig;
 
 import com.smartdev.ufoss.entity.UserEntity;
@@ -66,3 +67,4 @@ public class UserConfig {
         };
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.smartdev.ufoss.config.DefaultDataConfig;
 
 import com.smartdev.ufoss.entity.CourseEntity;
@@ -157,3 +158,4 @@ public class CourseConfig {
         };
     }
 }
+*/

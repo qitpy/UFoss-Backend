@@ -29,7 +29,6 @@ public class InstructorEntity extends AbstractEntity{
     @Column
     private String bio;
 
-
     @OneToMany(mappedBy="instructor")
     private Set<CourseEntity> courses;
 
