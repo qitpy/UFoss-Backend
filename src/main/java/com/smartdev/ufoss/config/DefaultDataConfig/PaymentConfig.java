@@ -1,3 +1,4 @@
+/*
 package com.smartdev.ufoss.config.DefaultDataConfig;
 
 import com.smartdev.ufoss.entity.PaymentEntity;
@@ -29,3 +30,4 @@ public class PaymentConfig {
         };
     }
 }
+*/

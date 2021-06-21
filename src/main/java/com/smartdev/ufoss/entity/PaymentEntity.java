@@ -17,19 +17,15 @@ public class PaymentEntity extends AbstractEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name="user_id"
-            //nullable=false
+            name="user_id",
+            nullable=false
     )
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name="course_id"
-            //nullable=false
+            name="course_id",
+            nullable=false
     )
     private CourseEntity course;
-
-    public PaymentEntity(String createAt) {
-        this.createAt = createAt;
-    }
 }

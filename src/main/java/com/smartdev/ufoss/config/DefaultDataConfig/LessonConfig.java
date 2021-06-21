@@ -1,3 +1,4 @@
+/*
 package com.smartdev.ufoss.config.DefaultDataConfig;
 
 import com.smartdev.ufoss.entity.LessonEntity;
@@ -145,7 +146,6 @@ public class LessonConfig {
                             "Nhạc Lofi  Chill 2021 - Mình Anh Nơi Này, Nàng Thơ" +
                             " ore about Em Ơi"
             );
-
             lessonRepository.saveAll(
                     List.of(
                             l1, l2, l3, l4, l5,
@@ -157,3 +157,4 @@ public class LessonConfig {
         };
     }
 }
+*/

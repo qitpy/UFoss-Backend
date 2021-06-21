@@ -1,3 +1,4 @@
+/*
 package com.smartdev.ufoss.config.DefaultDataConfig;
 
 import com.smartdev.ufoss.entity.RateEntity;
@@ -31,3 +32,4 @@ public class RateConfig {
         };
     }
 }
+*/
