@@ -10,25 +10,20 @@ public class ApplicationUser implements UserDetails {
 
     private final String username;
     private final String password;
+    private final String email;
     private final Set<? extends GrantedAuthority> grantedAuthorities;
-    private final boolean isAccountNonExpired;
-    private final boolean isAccountNonLocked;
-    private final boolean isCredentialsNonExpired;
+    private final boolean isAccountNonLocked = true;
     private final boolean isEnabled;
 
     public ApplicationUser(String username,
                            String password,
-                           Set<? extends GrantedAuthority> grantedAuthorities,
-                           boolean isAccountNonExpired,
-                           boolean isAccountNonLocked,
-                           boolean isCredentialsNonExpired,
-                           boolean isEnabled) {
+                           String email, Set<? extends GrantedAuthority> grantedAuthorities,
+                           boolean isEnabled
+    ) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.grantedAuthorities = grantedAuthorities;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
     }
 
@@ -49,7 +44,7 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
+        return true;
     }
 
     @Override
@@ -59,11 +54,15 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

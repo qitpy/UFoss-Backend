@@ -1,3 +1,4 @@
+/*
 package com.smartdev.ufoss.repository.SecurityRepository;
 
 import com.smartdev.ufoss.dto.SecurityDTO.ApplicationUser;
@@ -36,22 +37,17 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
                 new ApplicationUser(
                         "admin",
                         passwordEncoder.encode("admin"),
-                        ADMIN.getGrantedAuthorities(),
-                        true,
-                        true,
-                        true,
-                        true
+                        "code.maito@gmail.com",
+                        ADMIN.getGrantedAuthorities()
                 ),
                 new ApplicationUser(
                         "user",
                         passwordEncoder.encode("user"),
-                        USER.getGrantedAuthorities(),
-                        true,
-                        true,
-                        true,
-                        true
+                        "code.maito@outlook.com",
+                        USER.getGrantedAuthorities()
                 )
         );
         return applicationUsers;
     }
 }
+*/
