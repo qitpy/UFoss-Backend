@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Setter
@@ -48,4 +49,13 @@ public class CourseEntity extends AbstractEntity{
             nullable=false
     )
     private CategoryEntity category;
+
+    public CourseEntity(String title, String desciption, Double price, String imageURL, InstructorEntity instructor, CategoryEntity category) {
+        this.title = title;
+        this.desciption = desciption;
+        this.price = price;
+        this.imageURL = imageURL;
+        this.instructor = instructor;
+        this.category = category;
+    }
 }

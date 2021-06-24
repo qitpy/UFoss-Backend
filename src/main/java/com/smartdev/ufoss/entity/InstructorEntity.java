@@ -29,7 +29,15 @@ public class InstructorEntity extends AbstractEntity{
     @Column
     private String bio;
 
-
     @OneToMany(mappedBy="instructor")
     private Set<CourseEntity> courses;
+
+    /*this is for create default data*/
+    public InstructorEntity(String firstName, String lastName, String email, String phone, String bio) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.bio = bio;
+    }
 }

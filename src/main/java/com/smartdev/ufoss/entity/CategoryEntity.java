@@ -22,4 +22,13 @@ public class CategoryEntity extends AbstractEntity{
 
     @OneToMany(mappedBy="category")
     private Set<CourseEntity> lessons;
+
+    public CategoryEntity(String name, String parentID) {
+        this.name = name;
+        this.parentID = parentID;
+    }
+
+    public CategoryEntity(String name) {
+        this.name = name;
+    }
 }
