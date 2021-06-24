@@ -15,11 +15,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/get-all")
+    /*@GetMapping("/")
     public ResponseEntity<?> findAll(){
         List<UserDTO> result = userService.findAll();
         return ResponseEntity.ok(result);
-    }
+    }*/
 
     @PostMapping("/add-user")
     public UserDTO newUser(@RequestBody UserDTO model) {

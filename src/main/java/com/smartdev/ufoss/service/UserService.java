@@ -18,7 +18,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserDTO> findAll() {
+    public List<UserDTO> getUsers() {
         List<UserEntity> usersEntities = userRepository.findAll();
         List<UserDTO> userDTOs = new ArrayList<>();
 
