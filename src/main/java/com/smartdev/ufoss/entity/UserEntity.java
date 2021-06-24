@@ -41,6 +41,7 @@ public class UserEntity extends AbstractEntity{
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
+    /*properties of Account that account is Locked or Enabled.*/
     private Boolean isAccountNonLocked = true;
     private Boolean isEnabled = false;
 
@@ -50,16 +51,7 @@ public class UserEntity extends AbstractEntity{
     @OneToMany(mappedBy="user")
     private Set<PaymentEntity> payment;
 
-    public UserEntity(String firstName, String lastName, String email, String phone, String avatarUrl, String userName, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.avatarUrl = avatarUrl;
-        this.userName = userName;
-        this.password = password;
-    }
-
+    /*Constructor for create user from internet.*/
     public UserEntity(String firstName,
                       String lastName,
                       String email,
@@ -74,6 +66,18 @@ public class UserEntity extends AbstractEntity{
         this.userName = userName;
         this.password = password;
         this.applicationUserRole = applicationUserRole;
+    }
+
+    /*Constructor for create Default user & admin.*/
+    public UserEntity(String firstName, String lastName, String email, String phone, String userName, String password, ApplicationUserRole applicationUserRole, Boolean isEnabled) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.userName = userName;
+        this.password = password;
+        this.applicationUserRole = applicationUserRole;
+        this.isEnabled = isEnabled;
     }
 
     public String getFirstName() {
@@ -151,12 +155,5 @@ public class UserEntity extends AbstractEntity{
 
     public void setEnabled(Boolean enabled) {
         this.isEnabled = enabled;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "firstName='" + firstName + '\'' +
-                '}';
     }
 }

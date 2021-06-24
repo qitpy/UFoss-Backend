@@ -1,10 +1,12 @@
 package com.smartdev.ufoss.config.DefaultDataConfig;
 
 import com.smartdev.ufoss.entity.*;
+import com.smartdev.ufoss.model.SecurityModel.ApplicationUserRole;
 import com.smartdev.ufoss.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Calendar;
 import java.util.List;
@@ -19,7 +21,8 @@ public class DefaultConfigData {
             LessonRepository lessonRepository,
             PaymentRepository paymentRepository,
             RateRepository rateRepository,
-            UserRepository userRepository
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder
     ) {
         return args -> {
         // Create User
@@ -28,48 +31,63 @@ public class DefaultConfigData {
                     "Bao",
                     "quocbao@gmail.com",
                     "0888866668",
-                    null,
-                    "baobao",
-                    "baobao"
+                    "bao",
+                    passwordEncoder.encode("bao"),
+                    ApplicationUserRole.ADMIN,
+                    true
             );
             UserEntity quyet = new UserEntity(
                     "Quyet",
-                    "Bao",
+                    "Maito",
                     "maitocode@gmail.com",
                     "0888866668",
-                    null,
                     "quyet",
-                    "quyet"
+                    passwordEncoder.encode("quyet"),
+                    ApplicationUserRole.ADMIN,
+                    true
             );
             UserEntity hai = new UserEntity(
                     "hai",
                     "kis",
                     "taka@gmail.com",
                     "0888866668",
-                    null,
                     "hai",
-                    "hai"
+                    passwordEncoder.encode("hai"),
+                    ApplicationUserRole.ADMIN,
+                    true
             );
             UserEntity hoang = new UserEntity(
                     "nhat",
                     "hoang",
                     "hoang@gmail.com",
                     "0888866668",
-                    null,
                     "hoang",
-                    "hoang"
+                    passwordEncoder.encode("hoang"),
+                    ApplicationUserRole.ADMIN,
+                    true
             );
             UserEntity thiet = new UserEntity(
                     "thiet",
                     "truong",
                     "thiet@gmail.com",
                     "0888866668",
-                    null,
                     "thiet",
-                    "thiet"
+                    passwordEncoder.encode("thiet"),
+                    ApplicationUserRole.ADMIN,
+                    true
+            );
+            UserEntity user = new UserEntity(
+                    "User",
+                    "system",
+                    "user@gmail.com",
+                    "0124541212",
+                    "user",
+                    passwordEncoder.encode("user"),
+                    ApplicationUserRole.USER,
+                    true
             );
             userRepository.saveAll(
-                    List.of(quyet, bao, hai, thiet, hoang)
+                    List.of(quyet, bao, hai, thiet, hoang, user)
             );
 
         // Create Instructor
@@ -585,22 +603,22 @@ public class DefaultConfigData {
         // Create Payment
             PaymentEntity p1 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(quyet.getUserName()).get(),
+                    userRepository.findByUsername(user.getUserName()).get(),
                     courseRepository.findAll().stream().findFirst().get()
             );
             PaymentEntity p2 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(quyet.getUserName()).get(),
+                    userRepository.findByUsername(user.getUserName()).get(),
                     courseRepository.findAll().get(18)
             );
             PaymentEntity p3 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(quyet.getUserName()).get(),
+                    userRepository.findByUsername(user.getUserName()).get(),
                     courseRepository.findAll().get(10)
             );
             PaymentEntity p4 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(quyet.getUserName()).get(),
+                    userRepository.findByUsername(user.getUserName()).get(),
                     courseRepository.findAll().get(4)
             );
 
@@ -610,22 +628,22 @@ public class DefaultConfigData {
         // Create Rate
             RateEntity r1 = new RateEntity(
                     4,
-                    userRepository.findByUsername(quyet.getUserName()).get(),
+                    userRepository.findByUsername(user.getUserName()).get(),
                     courseRepository.findAll().stream().findFirst().get()
             );
             RateEntity r2 = new RateEntity(
                     5,
-                    userRepository.findByUsername(quyet.getUserName()).get(),
+                    userRepository.findByUsername(user.getUserName()).get(),
                     courseRepository.findAll().get(18)
             );
             RateEntity r3 = new RateEntity(
                     3,
-                    userRepository.findByUsername(quyet.getUserName()).get(),
+                    userRepository.findByUsername(user.getUserName()).get(),
                     courseRepository.findAll().get(10)
             );
             RateEntity r4 = new RateEntity(
                     5,
-                    userRepository.findByUsername(quyet.getUserName()).get(),
+                    userRepository.findByUsername(user.getUserName()).get(),
                     courseRepository.findAll().get(4)
             );
             rateRepository.saveAll(List.of(r1, r2, r3, r4));
