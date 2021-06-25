@@ -2,10 +2,10 @@ package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.component.springMail.EmailSender;
 import com.smartdev.ufoss.component.springMail.EmailValidator;
-import com.smartdev.ufoss.dto.SecurityDTO.RegistrationRequest;
+import com.smartdev.ufoss.model.RegistrationRequest;
 import com.smartdev.ufoss.entity.ConfirmationToken;
 import com.smartdev.ufoss.entity.UserEntity;
-import com.smartdev.ufoss.model.SecurityModel.ApplicationUserRole;
+import com.smartdev.ufoss.model.ApplicationUserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

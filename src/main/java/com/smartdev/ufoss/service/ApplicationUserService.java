@@ -1,14 +1,11 @@
 package com.smartdev.ufoss.service;
 
-import com.smartdev.ufoss.dto.SecurityDTO.ApplicationUser;
+import com.smartdev.ufoss.model.ApplicationUser;
 import com.smartdev.ufoss.entity.ConfirmationToken;
 import com.smartdev.ufoss.entity.UserEntity;
-import com.smartdev.ufoss.model.SecurityModel.ApplicationUserDao;
-import com.smartdev.ufoss.repository.SecurityRepository.ApplicationUserRepository;
-import com.smartdev.ufoss.repository.SecurityRepository.ConfirmationTokenRepository;
+import com.smartdev.ufoss.repository.ApplicationUserRepository;
+import com.smartdev.ufoss.repository.ConfirmationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

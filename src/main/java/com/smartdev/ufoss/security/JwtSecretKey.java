@@ -1,6 +1,6 @@
-package com.smartdev.ufoss.config.SecurityConfig;
+package com.smartdev.ufoss.security;
 
-import com.smartdev.ufoss.config.SecurityConfig.JwtConfig;
+import com.smartdev.ufoss.security.JwtConfig;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,7 @@
-package com.smartdev.ufoss.config.SecurityConfig;
+package com.smartdev.ufoss.config;
 
-import com.smartdev.ufoss.dto.SecurityDTO.JwtTokenVerifier;
+import com.smartdev.ufoss.security.JwtConfig;
+import com.smartdev.ufoss.security.JwtTokenVerifier;
 import com.smartdev.ufoss.service.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +42,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .cors().and().csrf().disable()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

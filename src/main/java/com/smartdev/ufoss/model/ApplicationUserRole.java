@@ -1,18 +1,19 @@
-package com.smartdev.ufoss.model.SecurityModel;
+package com.smartdev.ufoss.model;
 
 import com.google.common.collect.Sets;
-import com.smartdev.ufoss.model.SecurityModel.ApplicationUserPermission;
+import com.smartdev.ufoss.model.ApplicationUserPermission;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.smartdev.ufoss.model.SecurityModel.ApplicationUserPermission.COURSE_READ;
+import static com.smartdev.ufoss.model.ApplicationUserPermission.COURSE_READ;
+import static com.smartdev.ufoss.model.ApplicationUserPermission.COURSE_WRITE;
 
 public enum ApplicationUserRole {
 
     USER(Sets.newHashSet(COURSE_READ)),
-    ADMIN(Sets.newHashSet(COURSE_READ));
+    ADMIN(Sets.newHashSet(COURSE_READ, COURSE_WRITE));
 
     private final Set<ApplicationUserPermission> permission;
 
@@ -29,6 +30,4 @@ public enum ApplicationUserRole {
         permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return permissions;
     }
-
-
 }

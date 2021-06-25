@@ -1,7 +1,7 @@
 package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.entity.ConfirmationToken;
-import com.smartdev.ufoss.repository.SecurityRepository.ConfirmationTokenRepository;
+import com.smartdev.ufoss.repository.ConfirmationTokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

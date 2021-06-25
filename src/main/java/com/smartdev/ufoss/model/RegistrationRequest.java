@@ -1,6 +1,5 @@
-package com.smartdev.ufoss.dto.SecurityDTO;
+package com.smartdev.ufoss.model;
 
-import com.smartdev.ufoss.model.SecurityModel.ApplicationUserRole;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

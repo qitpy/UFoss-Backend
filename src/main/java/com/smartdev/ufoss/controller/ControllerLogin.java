@@ -1,15 +1,15 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.config.SecurityConfig.JwtConfig;
-import com.smartdev.ufoss.dto.SecurityDTO.UsernameAndPasswordAuthenticationRequest;
+import com.smartdev.ufoss.security.JwtConfig;
+import com.smartdev.ufoss.model.UsernameAndPasswordAuthenticationRequest;
+import com.smartdev.ufoss.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
-import lombok.AllArgsConstructor;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -19,18 +19,21 @@ import java.util.Date;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@Controller
 @RequestMapping(path = "/")
 public class ControllerLogin {
 
     AuthenticationManager authenticationManager;
     JwtConfig jwtConfig;
     SecretKey secretKey;
+    UserRepository userRepository;
 
     @Autowired
-    public ControllerLogin(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey) {
+    public ControllerLogin(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtConfig = jwtConfig;
         this.secretKey = secretKey;
+        this.userRepository = userRepository;
     }
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
@@ -40,17 +43,21 @@ public class ControllerLogin {
                 new UsernamePasswordAuthenticationToken(
                         usernameAndPasswordAuthenticationRequest.getUsername(),
                         usernameAndPasswordAuthenticationRequest.getPassword()));
+        String emailString = userRepository
+                .findByUsername(usernameAndPasswordAuthenticationRequest.getUsername())
+                .get().getEmail();
         String token = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("authorities", authentication.getAuthorities())
+                .claim("username", usernameAndPasswordAuthenticationRequest.getUsername())
+                .claim("email", emailString)
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey)
                 .compact();
-
         String accessToken = jwtConfig.getTokenPrefix() + token;
 
-        return ResponseEntity.ok().body(Collections.singletonMap("accessToken", token));
+        return ResponseEntity.ok().body(Collections.singletonMap("accessToken", accessToken));
     }
 
     @GetMapping("trywithtoken")

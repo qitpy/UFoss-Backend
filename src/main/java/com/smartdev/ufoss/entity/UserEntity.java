@@ -1,6 +1,6 @@
 package com.smartdev.ufoss.entity;
 
-import com.smartdev.ufoss.model.SecurityModel.ApplicationUserRole;
+import com.smartdev.ufoss.model.ApplicationUserRole;
 import lombok.*;
 
 import javax.persistence.*;

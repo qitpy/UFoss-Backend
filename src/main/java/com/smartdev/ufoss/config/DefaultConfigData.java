@@ -1,7 +1,7 @@
-package com.smartdev.ufoss.config.DefaultDataConfig;
+package com.smartdev.ufoss.config;
 
 import com.smartdev.ufoss.entity.*;
-import com.smartdev.ufoss.model.SecurityModel.ApplicationUserRole;
+import com.smartdev.ufoss.model.ApplicationUserRole;
 import com.smartdev.ufoss.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
