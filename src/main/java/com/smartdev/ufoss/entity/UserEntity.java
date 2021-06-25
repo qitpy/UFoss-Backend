@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartdev.ufoss.model.ApplicationUserRole;
 import lombok.*;
 
@@ -45,10 +46,10 @@ public class UserEntity extends AbstractEntity{
     private Boolean isAccountNonLocked = true;
     private Boolean isEnabled = false;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private Set<RateEntity> rates;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private Set<PaymentEntity> payment;
 
     /*Constructor for create user from internet.*/

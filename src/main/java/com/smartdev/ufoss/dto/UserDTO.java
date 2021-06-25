@@ -11,10 +11,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 public class UserDTO {
+    private UUID id;
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private String avatarUrl;
-    private String username;
+    private String userName;
+    private boolean isAccountNonLocked;
+    private boolean isEnabled;
 }

@@ -6,12 +6,15 @@ import com.smartdev.ufoss.entity.UserEntity;
 public class UserConverter {
     public static UserDTO toDTO(UserEntity entity, UserDTO dto) {
 
+        dto.setId(entity.getID());
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
         dto.setEmail(entity.getEmail());
         dto.setPhone(entity.getPhone());
         dto.setAvatarUrl(entity.getAvatarUrl());
-
+        dto.setUserName(entity.getUserName());
+        dto.setAccountNonLocked(entity.getIsAccountNonLocked());
+        dto.setEnabled(entity.getIsEnabled());
         return dto;
     }
     public static UserEntity toEntity(UserDTO dto, UserEntity entity) {

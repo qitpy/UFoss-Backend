@@ -20,8 +20,8 @@ import java.util.Date;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @Controller
-@RequestMapping(path = "/")
-public class ControllerLogin {
+@RequestMapping(path = "/login")
+public class LoginController {
 
     AuthenticationManager authenticationManager;
     JwtConfig jwtConfig;
@@ -29,7 +29,7 @@ public class ControllerLogin {
     UserRepository userRepository;
 
     @Autowired
-    public ControllerLogin(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
+    public LoginController(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtConfig = jwtConfig;
         this.secretKey = secretKey;
@@ -37,7 +37,7 @@ public class ControllerLogin {
     }
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
-    @PostMapping(path = "login")
+    @PostMapping()
     public ResponseEntity<?> authenticateUser(@RequestBody UsernameAndPasswordAuthenticationRequest usernameAndPasswordAuthenticationRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

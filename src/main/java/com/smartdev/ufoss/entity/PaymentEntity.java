@@ -1,5 +1,8 @@
 package com.smartdev.ufoss.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,6 +18,7 @@ public class PaymentEntity extends AbstractEntity{
     @Column
     private String createAt;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name="user_id",
@@ -22,6 +26,7 @@ public class PaymentEntity extends AbstractEntity{
     )
     private UserEntity user;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name="course_id",
