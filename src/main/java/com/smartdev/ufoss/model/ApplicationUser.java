@@ -17,7 +17,8 @@ public class ApplicationUser implements UserDetails {
 
     public ApplicationUser(String username,
                            String password,
-                           String email, Set<? extends GrantedAuthority> grantedAuthorities,
+                           String email,
+                           Set<? extends GrantedAuthority> grantedAuthorities,
                            boolean isEnabled
     ) {
         this.username = username;

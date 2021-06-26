@@ -1,11 +1,11 @@
 package com.smartdev.ufoss.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.smartdev.ufoss.model.ApplicationUserRole;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ import java.util.Set;
 @ToString
 @Table(name = "USER_APP")
 @Entity
-public class UserEntity extends AbstractEntity{
+public class UserEntity extends AbstractEntity implements UserDetails {
     @Column(name = "first_Name")
     private String firstName;
 
@@ -36,9 +36,6 @@ public class UserEntity extends AbstractEntity{
     @Column(name = "password")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private ApplicationUserRole applicationUserRole;
-
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
@@ -46,79 +43,50 @@ public class UserEntity extends AbstractEntity{
     private Boolean isAccountNonLocked = true;
     private Boolean isEnabled = false;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role"))
+    private Set<RoleEntity> roles = new HashSet<>();
+
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RateEntity> rates;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<PaymentEntity> payment;
 
     /*Constructor for create user from internet.*/
-    public UserEntity(String firstName,
-                      String lastName,
-                      String email,
-                      String phone,
-                      String userName,
-                      String password,
-                      ApplicationUserRole applicationUserRole) {
+    public UserEntity(String firstName, String lastName, String email, String phone, String userName, String password, Set<RoleEntity> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.userName = userName;
         this.password = password;
-        this.applicationUserRole = applicationUserRole;
+        this.roles = roles;
     }
 
     /*Constructor for create Default user & admin.*/
-    public UserEntity(String firstName, String lastName, String email, String phone, String userName, String password, ApplicationUserRole applicationUserRole, Boolean isEnabled) {
+    public UserEntity(String firstName, String lastName, String email, String phone, String userName, String password, Boolean isEnabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.userName = userName;
         this.password = password;
-        this.applicationUserRole = applicationUserRole;
         this.isEnabled = isEnabled;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void addRole(RoleEntity roleEntity) {
+        roles.add(roleEntity);
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public Boolean getEnabled() {
+        return isEnabled;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
     }
 
     public String getUserName() {
@@ -129,32 +97,33 @@ public class UserEntity extends AbstractEntity{
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return null;
     }
 
-    public ApplicationUserRole getApplicationUserRole() {
-        return applicationUserRole;
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
     }
 
-    public String getResetPasswordToken() {
-        return resetPasswordToken;
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
     }
 
-    public void setResetPasswordToken(String resetPasswordToken) {
-        this.resetPasswordToken = resetPasswordToken;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
     }
 
-
-    public Boolean getEnabled() {
-        return isEnabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.isEnabled = enabled;
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }

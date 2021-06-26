@@ -6,6 +6,7 @@ import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.repository.ApplicationUserRepository;
 import com.smartdev.ufoss.repository.ConfirmationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ApplicationUserService implements UserDetailsService {
@@ -37,11 +41,20 @@ public class ApplicationUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = applicationUserRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("can't find username: %s" + username));
+
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+
+        userEntity.getRoles().stream().forEach(role -> {
+           authorities.add(new SimpleGrantedAuthority(role.getRole()));
+           role.getPermissions().stream().forEach(
+                   permissionEntity -> authorities.add(new SimpleGrantedAuthority(permissionEntity.getName())));
+        });
+
         ApplicationUser applicationUser = new ApplicationUser(
                 userEntity.getUserName(),
                 userEntity.getPassword(),
                 userEntity.getEmail(),
-                userEntity.getApplicationUserRole().getGrantedAuthorities(),
+                authorities,
                 userEntity.getEnabled()
         );
         return applicationUser;

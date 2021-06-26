@@ -2,15 +2,18 @@ package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.component.springMail.EmailSender;
 import com.smartdev.ufoss.component.springMail.EmailValidator;
+import com.smartdev.ufoss.entity.RoleEntity;
 import com.smartdev.ufoss.model.RegistrationRequest;
 import com.smartdev.ufoss.entity.ConfirmationToken;
 import com.smartdev.ufoss.entity.UserEntity;
-import com.smartdev.ufoss.model.ApplicationUserRole;
+import com.smartdev.ufoss.repository.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +22,7 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+    private final RoleRepository roleRepository;
 
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
@@ -26,6 +30,9 @@ public class RegistrationService {
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
+
+        Set<RoleEntity> roles = new HashSet<>();
+        roles.add(roleRepository.findByName("USER").get());
 
         String token = applicationUserService.signUpUser(
                 new UserEntity(
@@ -35,7 +42,7 @@ public class RegistrationService {
                         request.getPhone(),
                         request.getUsername(),
                         request.getPassword(),
-                        ApplicationUserRole.USER
+                        roles
                 )
         );
 

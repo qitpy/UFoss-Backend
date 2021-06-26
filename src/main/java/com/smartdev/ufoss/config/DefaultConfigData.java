@@ -1,7 +1,8 @@
 package com.smartdev.ufoss.config;
 
+import com.google.common.collect.Sets;
 import com.smartdev.ufoss.entity.*;
-import com.smartdev.ufoss.model.ApplicationUserRole;
+
 import com.smartdev.ufoss.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +23,35 @@ public class DefaultConfigData {
             PaymentRepository paymentRepository,
             RateRepository rateRepository,
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            RoleRepository roleRepository,
+            PermissionRepository permissionRepository
     ) {
         return args -> {
+
+        // Create PERMISSION
+            PermissionEntity pCourseRead = new PermissionEntity("Course:read");
+            PermissionEntity pCourseWrite = new PermissionEntity("Course:write");
+            PermissionEntity pUserRead = new PermissionEntity("User:read");
+            PermissionEntity pUserWrite = new PermissionEntity("User:write");
+            permissionRepository.saveAll(List.of(pCourseRead, pCourseWrite, pUserRead, pUserWrite));
+
+        // Create ROLE
+            RoleEntity rUser = new RoleEntity("USER");
+            RoleEntity rAdmin = new RoleEntity("ADMIN");
+            RoleEntity rINSTRUCTOR = new RoleEntity("INSTRUCTOR");
+
+            rUser.addPermission(permissionRepository.findByName(pUserRead.getName()).get());
+            rUser.addPermission(permissionRepository.findByName(pUserWrite.getName()).get());
+            rUser.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pCourseWrite.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pUserRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pUserWrite.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pCourseWrite.getName()).get());
+            roleRepository.saveAll(List.of(rUser, rAdmin, rINSTRUCTOR));
+
         // Create User
             UserEntity bao = new UserEntity(
                     "Quoc",
@@ -33,7 +60,6 @@ public class DefaultConfigData {
                     "0888866668",
                     "bao",
                     passwordEncoder.encode("bao"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity quyet = new UserEntity(
@@ -43,7 +69,6 @@ public class DefaultConfigData {
                     "0888866668",
                     "quyet",
                     passwordEncoder.encode("quyet"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity hai = new UserEntity(
@@ -53,7 +78,6 @@ public class DefaultConfigData {
                     "0888866668",
                     "hai",
                     passwordEncoder.encode("hai"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity hoang = new UserEntity(
@@ -63,7 +87,6 @@ public class DefaultConfigData {
                     "0888866668",
                     "hoang",
                     passwordEncoder.encode("hoang"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity thiet = new UserEntity(
@@ -73,7 +96,6 @@ public class DefaultConfigData {
                     "0888866668",
                     "thiet",
                     passwordEncoder.encode("thiet"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity user = new UserEntity(
@@ -83,9 +105,14 @@ public class DefaultConfigData {
                     "0124541212",
                     "user",
                     passwordEncoder.encode("user"),
-                    ApplicationUserRole.USER,
                     true
             );
+            user.addRole(roleRepository.findByName(rUser.getName()).get());
+            hai.addRole(roleRepository.findByName(rUser.getName()).get());
+            thiet.addRole(roleRepository.findByName(rUser.getName()).get());
+            quyet.addRole(roleRepository.findByName(rINSTRUCTOR.getName()).get());
+            bao.addRole(roleRepository.findByName(rINSTRUCTOR.getName()).get());
+            hoang.addRole(roleRepository.findByName(rAdmin.getName()).get());
             userRepository.saveAll(
                     List.of(quyet, bao, hai, thiet, hoang, user)
             );
