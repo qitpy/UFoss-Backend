@@ -47,9 +47,9 @@ public class DefaultConfigData {
                     true
             );
             UserEntity hai = new UserEntity(
-                    "hai",
-                    "kis",
-                    "taka@gmail.com",
+                    "Tamaumi",
+                    "KIS",
+                    "ngochai20101998@gmail.com",
                     "0888866668",
                     "hai",
                     passwordEncoder.encode("hai"),

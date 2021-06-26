@@ -20,14 +20,14 @@ import java.util.Date;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(path = "/")
-public class ControllerLogin {
+public class LoginController {
 
     AuthenticationManager authenticationManager;
     JwtConfig jwtConfig;
     SecretKey secretKey;
 
     @Autowired
-    public ControllerLogin(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey) {
+    public LoginController(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey) {
         this.authenticationManager = authenticationManager;
         this.jwtConfig = jwtConfig;
         this.secretKey = secretKey;
