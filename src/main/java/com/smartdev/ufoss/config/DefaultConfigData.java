@@ -630,22 +630,22 @@ public class DefaultConfigData {
         // Create Payment
             PaymentEntity p1 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().stream().findFirst().get()
             );
             PaymentEntity p2 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(18)
             );
             PaymentEntity p3 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(10)
             );
             PaymentEntity p4 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(4)
             );
 
@@ -655,22 +655,22 @@ public class DefaultConfigData {
         // Create Rate
             RateEntity r1 = new RateEntity(
                     4,
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().stream().findFirst().get()
             );
             RateEntity r2 = new RateEntity(
                     5,
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(18)
             );
             RateEntity r3 = new RateEntity(
                     3,
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(10)
             );
             RateEntity r4 = new RateEntity(
                     5,
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(4)
             );
             rateRepository.saveAll(List.of(r1, r2, r3, r4));

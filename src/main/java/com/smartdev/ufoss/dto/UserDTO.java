@@ -17,7 +17,7 @@ public class UserDTO {
     private String email;
     private String phone;
     private String avatarUrl;
-    private String userName;
+    private String username;
     private boolean isAccountNonLocked;
     private boolean isEnabled;
 }

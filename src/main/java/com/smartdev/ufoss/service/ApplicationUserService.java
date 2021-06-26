@@ -51,7 +51,7 @@ public class ApplicationUserService implements UserDetailsService {
         });
 
         ApplicationUser applicationUser = new ApplicationUser(
-                userEntity.getUserName(),
+                userEntity.getUsername(),
                 userEntity.getPassword(),
                 userEntity.getEmail(),
                 authorities,
@@ -62,12 +62,12 @@ public class ApplicationUserService implements UserDetailsService {
 
     @Transactional
     public String signUpUser(UserEntity userEntity) {
-        boolean usernameExists = applicationUserRepository.findByUsername(userEntity.getUserName()).isPresent();
+        boolean usernameExists = applicationUserRepository.findByUsername(userEntity.getUsername()).isPresent();
         boolean emailExists = applicationUserRepository.findByEmail(userEntity.getEmail()).isPresent();
 
         if (usernameExists || emailExists) {
             UserEntity userFinding = usernameExists ? applicationUserRepository
-                    .findByUsername(userEntity.getUserName()).get()
+                    .findByUsername(userEntity.getUsername()).get()
                     : applicationUserRepository.findByEmail(userEntity.getEmail()).get();
             if (userFinding.getEnabled())
                 throw new IllegalStateException("email or username already taken!");

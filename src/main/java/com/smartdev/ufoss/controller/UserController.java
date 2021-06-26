@@ -36,7 +36,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // verify account to get information
+    // verify account to get information. Return information if the account is own.
     @GetMapping(path = "/{id}")
     public UserEntity getProfile(HttpServletRequest request,
                                  @PathVariable("id") UUID id)

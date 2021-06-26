@@ -49,8 +49,7 @@ public class UserService {
                 ()-> new UserNotFoundException("failed to get Profile, cause is id is not valid")
         );
 
-        if (userEntity.getUserName().equals(usernameFromToken)) {
-            userEntity.setPassword(null);
+        if (userEntity.getUsername().equals(usernameFromToken)) {
             return userEntity;
         }
         else throw new IllegalAccessException("You dont have permission to do it");

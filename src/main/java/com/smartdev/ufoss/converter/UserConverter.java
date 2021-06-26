@@ -12,7 +12,7 @@ public class UserConverter {
         dto.setEmail(entity.getEmail());
         dto.setPhone(entity.getPhone());
         dto.setAvatarUrl(entity.getAvatarUrl());
-        dto.setUserName(entity.getUserName());
+        dto.setUsername(entity.getUsername());
         dto.setAccountNonLocked(entity.getIsAccountNonLocked());
         dto.setEnabled(entity.getIsEnabled());
         return dto;

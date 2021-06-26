@@ -1,5 +1,7 @@
 package com.smartdev.ufoss.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,9 +32,10 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     @Column(name = "avatar_URL")
     private String avatarUrl;
 
-    @Column(name = "user_Name")
-    private String userName;
+    @Column(name = "username")
+    private String username;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -56,25 +59,35 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     private Set<PaymentEntity> payment;
 
     /*Constructor for create user from internet.*/
-    public UserEntity(String firstName, String lastName, String email, String phone, String userName, String password, Set<RoleEntity> roles) {
+    public UserEntity(String firstName, String lastName, String email, String phone, String username, String password, Set<RoleEntity> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.roles = roles;
     }
 
     /*Constructor for create Default user & admin.*/
-    public UserEntity(String firstName, String lastName, String email, String phone, String userName, String password, Boolean isEnabled) {
+    public UserEntity(String firstName, String lastName, String email, String phone, String username, String password, Boolean isEnabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.isEnabled = isEnabled;
+    }
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void addRole(RoleEntity roleEntity) {
@@ -89,12 +102,8 @@ public class UserEntity extends AbstractEntity implements UserDetails {
         isEnabled = enabled;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -104,7 +113,7 @@ public class UserEntity extends AbstractEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
