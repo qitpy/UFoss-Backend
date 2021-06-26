@@ -1,6 +1,5 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.service.UserService;
@@ -21,9 +20,9 @@ import java.util.UUID;
 @RequestMapping("/user")
 public class UserController {
 
-    UserService userService;
-    JwtConfig jwtConfig;
-    SecretKey secretKey;
+    private UserService userService;
+    private JwtConfig jwtConfig;
+    private SecretKey secretKey;
 
     @Autowired
     public UserController(UserService userService, JwtConfig jwtConfig, SecretKey secretKey) {

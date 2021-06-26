@@ -3,6 +3,7 @@ package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AdminController {
 
-    UserService userService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping(path = "/get-users")
     public List<UserDTO> getUsers() {

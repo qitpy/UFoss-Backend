@@ -1,6 +1,5 @@
 package com.smartdev.ufoss.config;
 
-import com.google.common.collect.Sets;
 import com.smartdev.ufoss.entity.*;
 
 import com.smartdev.ufoss.repository.*;
@@ -13,9 +12,9 @@ import java.util.Calendar;
 import java.util.List;
 
 @Configuration
-public class DefaultConfigData {
+public class DefaultDataConfig {
     @Bean
-    CommandLineRunner defaultDataConfig(
+    CommandLineRunner dataInitial(
             CategoryRepository categoryRepository,
             CourseRepository courseRepository,
             InstructorRepository instructorRepository,
@@ -74,7 +73,7 @@ public class DefaultConfigData {
             UserEntity hai = new UserEntity(
                     "hai",
                     "kis",
-                    "taka@gmail.com",
+                    "ngochai20101998@gmail.com",
                     "0888866668",
                     "hai",
                     passwordEncoder.encode("hai"),

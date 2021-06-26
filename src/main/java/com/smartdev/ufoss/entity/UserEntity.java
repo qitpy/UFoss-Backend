@@ -80,12 +80,10 @@ public class UserEntity extends AbstractEntity implements UserDetails {
         this.isEnabled = isEnabled;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
-    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }

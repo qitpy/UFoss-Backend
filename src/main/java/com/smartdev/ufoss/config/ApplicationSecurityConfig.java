@@ -2,7 +2,7 @@ package com.smartdev.ufoss.config;
 
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.security.JwtTokenVerifier;
-import com.smartdev.ufoss.service.ApplicationUserService;
+import com.smartdev.ufoss.service.impI.ApplicationUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,13 +24,13 @@ import javax.crypto.SecretKey;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
-    private final ApplicationUserService applicationUserService;
+    private final ApplicationUserServiceImpl applicationUserService;
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
 
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
-                                     ApplicationUserService applicationUserService,
+                                     ApplicationUserServiceImpl applicationUserService,
                                      SecretKey secretKey,
                                      JwtConfig jwtConfig) {
         this.passwordEncoder = passwordEncoder;
@@ -47,7 +47,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*", "/login", "/register/**").permitAll()
+                .antMatchers("/", "index", "/css/*", "/js/*", "/login", "/register/**", "/password/**").permitAll()
                 //.antMatchers("/admin/*").hasRole(ADMIN.name())
                 .anyRequest()
                 .authenticated();

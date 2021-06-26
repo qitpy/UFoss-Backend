@@ -1,25 +1,15 @@
 package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.entity.ConfirmationToken;
-import com.smartdev.ufoss.repository.ConfirmationTokenRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Service
-@AllArgsConstructor
-public class ConfirmationTokenService {
-    private final ConfirmationTokenRepository confirmationTokenRepository;
+public interface ConfirmationTokenService {
+    public void saveConfirmationToken(ConfirmationToken token) ;
 
-    public void saveConfirmationToken(ConfirmationToken token) { confirmationTokenRepository.save(token); }
+    public Optional<ConfirmationToken> getToken(String token) ;
 
-    public Optional<ConfirmationToken> getToken(String token) { return confirmationTokenRepository.findByToken(token); }
+    public int setConfirmedAt(String token) ;
 
-    public int setConfirmedAt(String token) {
-        return confirmationTokenRepository.updateConfirmedAt(
-                token, LocalDateTime.now()
-        );
-    }
 }

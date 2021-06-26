@@ -1,12 +1,9 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.service.UserService;
+import com.smartdev.ufoss.service.impI.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -16,7 +13,7 @@ public class HomeController {
     private UserService userService;
 
     @Autowired
-    public HomeController(UserService userService) {
+    public HomeController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
