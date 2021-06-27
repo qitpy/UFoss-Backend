@@ -64,6 +64,6 @@ public class ForgotPasswordController {
             return ResponseEntity.ok("Successfully");
         }
 
-        return ResponseEntity.ok("user");
+        return ResponseEntity.ok("Password update failed");
     }
 }
