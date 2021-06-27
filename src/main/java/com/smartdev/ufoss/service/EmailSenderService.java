@@ -1,18 +1,20 @@
 package com.smartdev.ufoss.service;
 
+import com.smartdev.ufoss.entity.UserEntity;
+
 public interface EmailSenderService {
-    //method send to rename the email
-    public void email(
+
+    void email(
             String to,
             String subject,
             String email
     );
 
-    public void emailResetPassword(
+    void emailResetPassword(
             String emailRecipient,
             String subject,
             String nameRecipient,
             String link,
             String titleLink
-    );
+    ) ;
 }

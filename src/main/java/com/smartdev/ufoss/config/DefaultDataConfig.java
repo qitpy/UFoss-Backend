@@ -71,8 +71,9 @@ public class DefaultDataConfig {
                     true
             );
             UserEntity hai = new UserEntity(
-                    "hai",
-                    "kis",
+
+                    "Tamaumi",
+                    "KIS",
                     "ngochai20101998@gmail.com",
                     "0888866668",
                     "hai",

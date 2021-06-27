@@ -16,7 +16,6 @@ public interface ApplicationUserRepository extends JpaRepository<UserEntity, UUI
 
     Optional<UserEntity> findByEmail(String email);
 
-    @Query("SELECT u FROM UserEntity u WHERE u.username = ?1")
     Optional<UserEntity> findByUsername(String username);
 
     @Transactional

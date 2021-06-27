@@ -5,9 +5,9 @@ import com.smartdev.ufoss.entity.ConfirmationToken;
 import java.util.Optional;
 
 public interface ConfirmationTokenService {
-    public void saveConfirmationToken(ConfirmationToken token);
+    void saveConfirmationToken(ConfirmationToken token);
 
-    public Optional<ConfirmationToken> getToken(String token);
+    Optional<ConfirmationToken> getToken(String token);
 
-    public int setConfirmedAt(String token);
+    int setConfirmedAt(String token);
 }

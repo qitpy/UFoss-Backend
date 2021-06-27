@@ -11,6 +11,5 @@ import java.util.UUID;
 @Repository
 public interface PermissionRepository extends JpaRepository<PermissionEntity, UUID> {
 
-    @Query("SELECT p FROM PermissionEntity p WHERE p.name = ?1")
     Optional<PermissionEntity> findByName(String name);
 }

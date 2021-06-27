@@ -1,6 +1,7 @@
 package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.entity.UserEntity;
+import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -35,7 +36,7 @@ public class UserController {
     @GetMapping(path = "/{id}")
     public UserEntity getProfile(HttpServletRequest request,
                                  @PathVariable("id") UUID id)
-            throws IllegalAccessException {
+            throws IllegalAccessException, UserNotFoundException {
 
         String authorizationHeader = request
                 .getHeader(jwtConfig.getAuthorizationHeader());

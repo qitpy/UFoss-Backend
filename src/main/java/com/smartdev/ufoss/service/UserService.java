@@ -8,17 +8,18 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    public List<UserDTO> getUsers();
+    List<UserDTO> getUsers();
 
-    public void deleteUser(UUID id);
+    void deleteUser(UUID id);
 
-    public UserDTO newUser(UserDTO model) ;
+    UserDTO newUser(UserDTO model);
 
-    public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException ;
+    UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, UserNotFoundException;
 
-    public UserEntity updateResetPassword(String token, String email) throws UserNotFoundException;
+    UserEntity updateResetPassword(String token, String email) throws UserNotFoundException;
 
-    public UserEntity getUserWithToken(String resetPasswordToken);
+    UserEntity getUserWithToken(String resetPasswordToken);
 
-    public void updatePassword(UserEntity model);
+    void updatePassword(UserEntity model);
 }
+

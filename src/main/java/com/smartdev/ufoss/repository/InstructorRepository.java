@@ -8,6 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface InstructorRepository extends JpaRepository<InstructorEntity, UUID> {
-    @Query("SELECT i FROM InstructorEntity i WHERE i.email = ?1")
     Optional<InstructorEntity> findByEmail(String email);
 }

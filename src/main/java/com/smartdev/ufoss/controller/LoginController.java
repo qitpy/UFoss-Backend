@@ -4,6 +4,8 @@ import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.model.UsernameAndPasswordAuthenticationRequest;
 import com.smartdev.ufoss.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,8 +21,9 @@ import java.util.Date;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@Controller
-@RequestMapping(path = "/login")
+@AllArgsConstructor
+@NoArgsConstructor
+@RequestMapping(path = "/")
 public class LoginController {
 
     @Autowired

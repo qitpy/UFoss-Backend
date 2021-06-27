@@ -4,7 +4,7 @@ import com.smartdev.ufoss.entity.UserEntity;
 
 public interface ApplicationUserService {
 
-    public String signUpUser(UserEntity userEntity);
+    String signUpUser(UserEntity userEntity);
 
-    public int enableApplicationUser(String email);
+    int enableApplicationUser(String email);
 }
