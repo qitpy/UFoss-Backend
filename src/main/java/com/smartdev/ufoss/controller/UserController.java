@@ -18,16 +18,14 @@ import java.util.UUID;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
     private UserService userService;
-    private JwtConfig jwtConfig;
-    private SecretKey secretKey;
 
     @Autowired
-    public UserController(UserService userService, JwtConfig jwtConfig, SecretKey secretKey) {
-        this.userService = userService;
-        this.jwtConfig = jwtConfig;
-        this.secretKey = secretKey;
-    }
+    private JwtConfig jwtConfig;
+
+    @Autowired
+    private SecretKey secretKey;
 
     public UserController(UserService userService) {
         this.userService = userService;

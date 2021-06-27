@@ -23,18 +23,17 @@ import java.util.Date;
 @RequestMapping(path = "/login")
 public class LoginController {
 
-    AuthenticationManager authenticationManager;
-    JwtConfig jwtConfig;
-    SecretKey secretKey;
-    UserRepository userRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    public LoginController(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
-        this.authenticationManager = authenticationManager;
-        this.jwtConfig = jwtConfig;
-        this.secretKey = secretKey;
-        this.userRepository = userRepository;
-    }
+    private JwtConfig jwtConfig;
+
+    @Autowired
+    private SecretKey secretKey;
+
+    @Autowired
+    private UserRepository userRepository;
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
     @PostMapping()

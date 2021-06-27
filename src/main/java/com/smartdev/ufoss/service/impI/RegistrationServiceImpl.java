@@ -10,6 +10,7 @@ import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.RegistrationService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,18 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
-    private final ApplicationUserServiceImpl applicationUserService;
-    private final ConfirmationTokenServiceImpl confirmationTokenService;
-    private final EmailSenderService emailSenderService;
-    private final RoleRepository roleRepository;
+
+    @Autowired
+    private ApplicationUserServiceImpl applicationUserService;
+
+    @Autowired
+    private ConfirmationTokenServiceImpl confirmationTokenService;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public String register(RegistrationRequest request) {

@@ -20,21 +20,21 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+
 @Service
 public class ApplicationUserServiceImpl implements UserDetailsService, ApplicationUserService {
 
-    private final ApplicationUserRepository applicationUserRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final ConfirmationTokenServiceImpl confirmationTokenService;
-    private final ConfirmationTokenRepository confirmationTokenRepository;
+    @Autowired
+    private ApplicationUserRepository applicationUserRepository;
 
     @Autowired
-    public ApplicationUserServiceImpl(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder, ConfirmationTokenServiceImpl confirmationTokenService, ConfirmationTokenRepository confirmationTokenRepository) {
-        this.applicationUserRepository = applicationUserRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.confirmationTokenService = confirmationTokenService;
-        this.confirmationTokenRepository = confirmationTokenRepository;
-    }
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ConfirmationTokenServiceImpl confirmationTokenService;
+
+    @Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
 
     @Override
     @Transactional

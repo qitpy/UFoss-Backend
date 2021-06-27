@@ -18,15 +18,11 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private UserRepository userRepository;
 
-    private PasswordConfig passwordConfig;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordConfig passwordConfig) {
-        this.userRepository = userRepository;
-        this.passwordConfig = passwordConfig;
-    }
+    private PasswordConfig passwordConfig;
 
     @Override
     public List<UserDTO> getUsers() {
