@@ -48,7 +48,7 @@ public class ForgotPasswordController {
             );
 
         } catch (UserNotFoundException e) {
-            return ResponseEntity.ok(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
 
         return ResponseEntity.ok("check your email");
@@ -66,6 +66,6 @@ public class ForgotPasswordController {
             return ResponseEntity.ok("Successfully");
         }
 
-        return ResponseEntity.ok("Password update faild!");
+        return ResponseEntity.badRequest().body("Password update faild!");
     }
 }

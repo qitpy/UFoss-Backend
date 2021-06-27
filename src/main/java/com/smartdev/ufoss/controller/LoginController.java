@@ -23,7 +23,7 @@ import java.util.Date;
 @RestController
 @AllArgsConstructor
 @NoArgsConstructor
-@RequestMapping(path = "/")
+@RequestMapping(path = "/login")
 public class LoginController {
 
     @Autowired
