@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "COURSE")
-public class CourseEntity extends AbstractEntity{
+public class CourseEntity extends AbstractEntity {
     @Column
     private String title;
 
@@ -27,26 +28,26 @@ public class CourseEntity extends AbstractEntity{
     @Column(name = "image_URL")
     private String imageURL;
 
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy = "course")
     private Set<RateEntity> rates;
 
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy = "course")
     private Set<PaymentEntity> payments;
 
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy = "course")
     private Set<LessonEntity> lessons;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name="instructor_id",
-            nullable=false
+            name = "instructor_id",
+            nullable = false
     )
     private InstructorEntity instructor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name="category_id",
-            nullable=false
+            name = "category_id",
+            nullable = false
     )
     private CategoryEntity category;
 

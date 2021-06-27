@@ -1,5 +1,7 @@
-package com.smartdev.ufoss.dto.SecurityDTO;
+package com.smartdev.ufoss.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,7 +10,7 @@ import java.util.Set;
 
 public class ApplicationUser implements UserDetails {
 
-    private final String username;
+    private String username;
     private final String password;
     private final String email;
     private final Set<? extends GrantedAuthority> grantedAuthorities;
@@ -17,7 +19,8 @@ public class ApplicationUser implements UserDetails {
 
     public ApplicationUser(String username,
                            String password,
-                           String email, Set<? extends GrantedAuthority> grantedAuthorities,
+                           String email,
+                           Set<? extends GrantedAuthority> grantedAuthorities,
                            boolean isEnabled
     ) {
         this.username = username;

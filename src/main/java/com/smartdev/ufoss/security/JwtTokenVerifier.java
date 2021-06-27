@@ -1,11 +1,13 @@
-package com.smartdev.ufoss.dto.SecurityDTO;
+package com.smartdev.ufoss.security;
 
-import com.smartdev.ufoss.config.SecurityConfig.JwtConfig;
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,15 +25,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
-    private final SecretKey secretKey;
-    private final JwtConfig jwtConfig;
+    @Autowired
+    private SecretKey secretKey;
 
-    public JwtTokenVerifier(SecretKey secretKey, JwtConfig jwtConfig) {
-        this.secretKey = secretKey;
-        this.jwtConfig = jwtConfig;
-    }
+    @Autowired
+    private JwtConfig jwtConfig;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

@@ -1,4 +1,4 @@
-package com.smartdev.ufoss.repository.SecurityRepository;
+package com.smartdev.ufoss.repository;
 
 import com.smartdev.ufoss.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +16,6 @@ public interface ApplicationUserRepository extends JpaRepository<UserEntity, UUI
 
     Optional<UserEntity> findByEmail(String email);
 
-    @Query("SELECT u FROM UserEntity u WHERE u.userName = ?1")
     Optional<UserEntity> findByUsername(String username);
 
     @Transactional

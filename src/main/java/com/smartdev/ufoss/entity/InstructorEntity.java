@@ -13,7 +13,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "INSTRUCTOR")
-public class InstructorEntity extends AbstractEntity{
+public class InstructorEntity extends AbstractEntity {
     @Column(name = "first_Name")
     private String firstName;
 
@@ -29,7 +29,7 @@ public class InstructorEntity extends AbstractEntity{
     @Column
     private String bio;
 
-    @OneToMany(mappedBy="instructor")
+    @OneToMany(mappedBy = "instructor")
     private Set<CourseEntity> courses;
 
     /*this is for create default data*/

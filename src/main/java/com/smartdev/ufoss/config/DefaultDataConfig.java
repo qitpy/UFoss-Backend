@@ -1,7 +1,7 @@
-package com.smartdev.ufoss.config.DefaultDataConfig;
+package com.smartdev.ufoss.config;
 
 import com.smartdev.ufoss.entity.*;
-import com.smartdev.ufoss.model.SecurityModel.ApplicationUserRole;
+
 import com.smartdev.ufoss.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +12,9 @@ import java.util.Calendar;
 import java.util.List;
 
 @Configuration
-public class DefaultConfigData {
+public class DefaultDataConfig {
     @Bean
-    CommandLineRunner defaultDataConfig(
+    CommandLineRunner dataInitial(
             CategoryRepository categoryRepository,
             CourseRepository courseRepository,
             InstructorRepository instructorRepository,
@@ -22,10 +22,36 @@ public class DefaultConfigData {
             PaymentRepository paymentRepository,
             RateRepository rateRepository,
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            RoleRepository roleRepository,
+            PermissionRepository permissionRepository
     ) {
         return args -> {
-        // Create User
+
+            // Create PERMISSION
+            PermissionEntity pCourseRead = new PermissionEntity("Course:read");
+            PermissionEntity pCourseWrite = new PermissionEntity("Course:write");
+            PermissionEntity pUserRead = new PermissionEntity("User:read");
+            PermissionEntity pUserWrite = new PermissionEntity("User:write");
+            permissionRepository.saveAll(List.of(pCourseRead, pCourseWrite, pUserRead, pUserWrite));
+
+            // Create ROLE
+            RoleEntity rUser = new RoleEntity("USER");
+            RoleEntity rAdmin = new RoleEntity("ADMIN");
+            RoleEntity rINSTRUCTOR = new RoleEntity("INSTRUCTOR");
+
+            rUser.addPermission(permissionRepository.findByName(pUserRead.getName()).get());
+            rUser.addPermission(permissionRepository.findByName(pUserWrite.getName()).get());
+            rUser.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pCourseWrite.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pUserRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pUserWrite.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pCourseWrite.getName()).get());
+            roleRepository.saveAll(List.of(rUser, rAdmin, rINSTRUCTOR));
+
+            // Create User
             UserEntity bao = new UserEntity(
                     "Quoc",
                     "Bao",
@@ -33,7 +59,6 @@ public class DefaultConfigData {
                     "0888866668",
                     "bao",
                     passwordEncoder.encode("bao"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity quyet = new UserEntity(
@@ -43,17 +68,16 @@ public class DefaultConfigData {
                     "0888866668",
                     "quyet",
                     passwordEncoder.encode("quyet"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity hai = new UserEntity(
+
                     "Tamaumi",
                     "KIS",
                     "ngochai20101998@gmail.com",
                     "0888866668",
                     "hai",
                     passwordEncoder.encode("hai"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity hoang = new UserEntity(
@@ -63,7 +87,6 @@ public class DefaultConfigData {
                     "0888866668",
                     "hoang",
                     passwordEncoder.encode("hoang"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity thiet = new UserEntity(
@@ -73,7 +96,6 @@ public class DefaultConfigData {
                     "0888866668",
                     "thiet",
                     passwordEncoder.encode("thiet"),
-                    ApplicationUserRole.ADMIN,
                     true
             );
             UserEntity user = new UserEntity(
@@ -83,14 +105,19 @@ public class DefaultConfigData {
                     "0124541212",
                     "user",
                     passwordEncoder.encode("user"),
-                    ApplicationUserRole.USER,
                     true
             );
+            user.addRole(roleRepository.findByName(rUser.getName()).get());
+            hai.addRole(roleRepository.findByName(rUser.getName()).get());
+            thiet.addRole(roleRepository.findByName(rUser.getName()).get());
+            quyet.addRole(roleRepository.findByName(rINSTRUCTOR.getName()).get());
+            bao.addRole(roleRepository.findByName(rINSTRUCTOR.getName()).get());
+            hoang.addRole(roleRepository.findByName(rAdmin.getName()).get());
             userRepository.saveAll(
                     List.of(quyet, bao, hai, thiet, hoang, user)
             );
 
-        // Create Instructor
+            // Create Instructor
             InstructorEntity instruc1 = new InstructorEntity(
                     "Yasuo",
                     "Damaged",
@@ -241,7 +268,7 @@ public class DefaultConfigData {
                     )
             );
 
-        // Create Category
+            // Create Category
             CategoryEntity cateMusic = new CategoryEntity(
                     "music"
             );
@@ -263,7 +290,7 @@ public class DefaultConfigData {
                     )
             );
 
-        // Create Course
+            // Create Course
             // IT category
             CourseEntity c1 = new CourseEntity(
                     "C++ Full Course",
@@ -438,8 +465,8 @@ public class DefaultConfigData {
                             c16, c17, c18, c19, c20
                     )
             );
-            
-        // Create Lesson
+
+            // Create Lesson
             LessonEntity l1 = new LessonEntity(
                     "https://www.youtube.com/watch?v=C7dPqrmDWxs&list=PLGYPpIsdZKnLRU3hBKDmUBRdzVdM0rS0z",
                     "Pharrell Williams - Happy (Official Video)",
@@ -600,50 +627,50 @@ public class DefaultConfigData {
                     )
             );
 
-        // Create Payment
+            // Create Payment
             PaymentEntity p1 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().stream().findFirst().get()
             );
             PaymentEntity p2 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(18)
             );
             PaymentEntity p3 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(10)
             );
             PaymentEntity p4 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(4)
             );
 
             paymentRepository.saveAll(List.of(p1, p2, p3, p4));
 
 
-        // Create Rate
+            // Create Rate
             RateEntity r1 = new RateEntity(
                     4,
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().stream().findFirst().get()
             );
             RateEntity r2 = new RateEntity(
                     5,
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(18)
             );
             RateEntity r3 = new RateEntity(
                     3,
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(10)
             );
             RateEntity r4 = new RateEntity(
                     5,
-                    userRepository.findByUsername(user.getUserName()).get(),
+                    userRepository.findByUsername(user.getUsername()).get(),
                     courseRepository.findAll().get(4)
             );
             rateRepository.saveAll(List.of(r1, r2, r3, r4));

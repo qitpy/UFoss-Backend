@@ -1,6 +1,5 @@
-package com.smartdev.ufoss.service.impl;
+package com.smartdev.ufoss.service.impI;
 
-import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.service.EmailSenderService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -12,31 +11,17 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class EmailSenderServiceServiceImpl implements EmailSenderService {
-
+public class EmailSenderServiceImpl implements EmailSenderService {
     private final static Logger LOGGER = (Logger) LoggerFactory
-            .getLogger(EmailSenderServiceServiceImpl.class);
+            .getLogger(EmailSenderService.class);
     private final JavaMailSender mailSender;
-
-    public void emailResetPassword(
-            String emailRecipient,
-            String subject,
-            String nameRecipient,
-            String link,
-            String titleLink
-    ) {
-
-        email(emailRecipient, subject, buildEmail(nameRecipient, link, titleLink));
-
-    }
 
     @Override
     @Async
-    public void email(String emailRecipient,String subject, String emailContent) {
+    public void email(String emailRecipient, String subject, String emailContent) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
@@ -45,13 +30,28 @@ public class EmailSenderServiceServiceImpl implements EmailSenderService {
             helper.setSubject(subject);
             helper.setFrom("FossDev with ♥ <Fossdev@hotmail.com>");
             mailSender.send(mimeMessage);
-        } catch(MessagingException e) {
+        } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);
             throw new IllegalStateException("failed to send email");
         }
     }
 
-    public static String buildEmail(
+    //email reset pasword
+    @Override
+    public void emailResetPassword(
+            String emailRecipient,
+            String subject,
+            String nameRecipient,
+            String link,
+            String titleLink
+    ) {
+
+        email(emailRecipient, subject, buildEmailResetPassword(nameRecipient, link, titleLink));
+
+    }
+
+    //build email sent to user
+    public static String buildEmailResetPassword(
             String nameRecipient,
             String link,
             String titleLink

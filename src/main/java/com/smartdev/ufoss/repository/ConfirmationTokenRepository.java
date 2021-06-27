@@ -1,4 +1,4 @@
-package com.smartdev.ufoss.repository.SecurityRepository;
+package com.smartdev.ufoss.repository;
 
 import com.smartdev.ufoss.entity.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;

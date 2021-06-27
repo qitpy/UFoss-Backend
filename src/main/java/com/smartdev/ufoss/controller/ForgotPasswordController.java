@@ -1,7 +1,7 @@
 package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.component.Validator;
-import com.smartdev.ufoss.dto.ResetPassworDTO;
+import com.smartdev.ufoss.dto.ResetPasswordDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.service.EmailSenderService;
@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("")
+@RequestMapping("/password")
 @AllArgsConstructor
 public class ForgotPasswordController {
 
@@ -23,8 +24,8 @@ public class ForgotPasswordController {
     @Autowired
     private EmailSenderService emailSenderService;
 
-    @PostMapping("/forgot_password")
-    public ResponseEntity<?> processForgotPasswordForm(@RequestBody ResetPassworDTO model) {
+    @PostMapping("/reset")
+    public ResponseEntity<?> processForgotPasswordForm(@RequestBody ResetPasswordDTO model) {
 
         if (!Validator.emailValidate(model.getEmail())) {
             return ResponseEntity.ok("Email not validate!");
@@ -53,8 +54,9 @@ public class ForgotPasswordController {
         return ResponseEntity.ok("check your email");
     }
 
-    @PostMapping("/update_password")
-    public ResponseEntity<?> processResetPassword(@RequestBody ResetPassworDTO model) {
+    @PostMapping("/update")
+    public ResponseEntity<?> processResetPassword(@RequestBody ResetPasswordDTO model) {
+        System.out.println(model.getPassword());
         UserEntity user = userService.getUserWithToken(model.getResetPasswordToken());
 
         if (user != null) {
@@ -64,6 +66,6 @@ public class ForgotPasswordController {
             return ResponseEntity.ok("Successfully");
         }
 
-        return ResponseEntity.ok("Password update failed");
+        return ResponseEntity.ok("Password update faild!");
     }
 }

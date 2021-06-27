@@ -1,23 +1,25 @@
 package com.smartdev.ufoss.service;
 
-import com.smartdev.ufoss.converter.UserConverter;
-import com.smartdev.ufoss.dto.ResetPassworDTO;
 import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
-    public List<UserDTO> getUsers();
+    List<UserDTO> getUsers();
 
-    public UserDTO newUser(UserDTO model);
+    void deleteUser(UUID id);
 
-    public UserEntity updateResetPassword(String token, String email) throws UserNotFoundException;
+    UserDTO newUser(UserDTO model);
 
-    public UserEntity getUserWithToken(String resetPasswordToken);
+    UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, UserNotFoundException;
 
-    public void updatePassword(UserEntity model);
+    UserEntity updateResetPassword(String token, String email) throws UserNotFoundException;
 
+    UserEntity getUserWithToken(String resetPasswordToken);
+
+    void updatePassword(UserEntity model);
 }
+

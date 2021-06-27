@@ -1,21 +1,19 @@
-package com.smartdev.ufoss.service.impl;
+package com.smartdev.ufoss.service.impI;
 
-import com.smartdev.ufoss.config.SecurityConfig.PasswordConfig;
+import com.smartdev.ufoss.config.PasswordConfig;
 import com.smartdev.ufoss.converter.UserConverter;
-import com.smartdev.ufoss.dto.ResetPassworDTO;
 import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,12 +34,30 @@ public class UserServiceImpl implements UserService {
         }
         return userDTOs;
     }
+
+    @Override
+    public void deleteUser(UUID id) {
+        userRepository.deleteById(id);
+    }
+
     @Override
     public UserDTO newUser(UserDTO model) {
         UserEntity entity = new UserEntity();
         userRepository.save(UserConverter.toEntity(model, entity));
         return model;
     }
+
+    @Override
+    public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, UserNotFoundException {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException("failed to get Profile, cause is id is not valid")
+        );
+
+        if (userEntity.getUsername().equals(usernameFromToken)) {
+            return userEntity;
+        } else throw new IllegalAccessException("You dont have permission to do it");
+    }
+
     @Override
     public UserEntity updateResetPassword(String token, String email) throws UserNotFoundException {
         UserEntity user = userRepository.findByEmail(email);

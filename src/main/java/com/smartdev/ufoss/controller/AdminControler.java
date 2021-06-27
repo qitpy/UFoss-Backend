@@ -1,7 +1,6 @@
 package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.service.UserService;
-import com.smartdev.ufoss.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

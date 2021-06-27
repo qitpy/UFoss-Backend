@@ -11,10 +11,9 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 
-    public UserEntity findByEmail(String email);
+    UserEntity findByEmail(String email);
 
-    @Query("SELECT u FROM UserEntity u WHERE u.userName = ?1")
-    public Optional<UserEntity> findByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 
-    public UserEntity findByResetPasswordToken(String token);
+    UserEntity findByResetPasswordToken(String token);
 }
