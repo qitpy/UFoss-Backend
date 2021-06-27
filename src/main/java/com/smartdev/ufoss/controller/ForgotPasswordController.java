@@ -1,6 +1,6 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.component.springMail.Validator;
+import com.smartdev.ufoss.component.Validator;
 import com.smartdev.ufoss.dto.ResetPasswordDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;

@@ -1,6 +1,6 @@
 package com.smartdev.ufoss.service.impI;
 
-import com.smartdev.ufoss.component.springMail.Validator;
+import com.smartdev.ufoss.component.Validator;
 import com.smartdev.ufoss.entity.RoleEntity;
 import com.smartdev.ufoss.model.RegistrationRequest;
 import com.smartdev.ufoss.entity.ConfirmationToken;

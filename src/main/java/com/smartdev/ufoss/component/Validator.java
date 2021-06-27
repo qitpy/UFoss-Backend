@@ -1,4 +1,4 @@
-package com.smartdev.ufoss.component.springMail;
+package com.smartdev.ufoss.component;
 
 import org.springframework.stereotype.Service;
 
