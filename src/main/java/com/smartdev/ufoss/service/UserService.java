@@ -1,11 +1,9 @@
 package com.smartdev.ufoss.service;
 
-import com.smartdev.ufoss.converter.UserConverter;
 import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name ="ROLE")
+@Table(name = "ROLE")
 public class RoleEntity extends AbstractEntity implements GrantedAuthority {
 
     @Column(unique = true, name = "role")
@@ -23,8 +23,8 @@ public class RoleEntity extends AbstractEntity implements GrantedAuthority {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "role_permission",
-        joinColumns = @JoinColumn(name = "role"),
-        inverseJoinColumns = @JoinColumn(name = "permission"))
+            joinColumns = @JoinColumn(name = "role"),
+            inverseJoinColumns = @JoinColumn(name = "permission"))
     private Set<PermissionEntity> permissions = new HashSet<PermissionEntity>();
 
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.REMOVE)

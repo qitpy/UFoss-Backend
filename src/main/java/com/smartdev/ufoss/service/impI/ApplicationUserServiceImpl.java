@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class ApplicationUserServiceImpl implements UserDetailsService , ApplicationUserService {
+public class ApplicationUserServiceImpl implements UserDetailsService, ApplicationUserService {
 
     private final ApplicationUserRepository applicationUserRepository;
     private final PasswordEncoder passwordEncoder;
@@ -40,14 +40,14 @@ public class ApplicationUserServiceImpl implements UserDetailsService , Applicat
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = applicationUserRepository.findByUsername(username)
-                .orElseThrow(()-> new UsernameNotFoundException("can't find username: %s" + username));
+                .orElseThrow(() -> new UsernameNotFoundException("can't find username: %s" + username));
 
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
         userEntity.getRoles().stream().forEach(role -> {
-           authorities.add(new SimpleGrantedAuthority(role.getRole()));
-           role.getPermissions().stream().forEach(
-                   permissionEntity -> authorities.add(new SimpleGrantedAuthority(permissionEntity.getName())));
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+            role.getPermissions().stream().forEach(
+                    permissionEntity -> authorities.add(new SimpleGrantedAuthority(permissionEntity.getName())));
         });
 
         ApplicationUser applicationUser = new ApplicationUser(
@@ -55,7 +55,7 @@ public class ApplicationUserServiceImpl implements UserDetailsService , Applicat
                 userEntity.getPassword(),
                 userEntity.getEmail(),
                 authorities,
-                userEntity.getEnabled()
+                userEntity.getIsEnabled()
         );
         return applicationUser;
     }
@@ -70,7 +70,7 @@ public class ApplicationUserServiceImpl implements UserDetailsService , Applicat
             UserEntity userFinding = usernameExists ? applicationUserRepository
                     .findByUsername(userEntity.getUsername()).get()
                     : applicationUserRepository.findByEmail(userEntity.getEmail()).get();
-            if (userFinding.getEnabled())
+            if (userFinding.getIsEnabled())
                 throw new IllegalStateException("email or username already taken!");
             else {
                 ConfirmationToken confirmationToken = confirmationTokenRepository
@@ -79,16 +79,14 @@ public class ApplicationUserServiceImpl implements UserDetailsService , Applicat
                 LocalDateTime now = LocalDateTime.now();
                 LocalDateTime createAtTime = confirmationToken.getCreateAt();
 
-                if (now.isAfter(createAtTime.plusMinutes(1))){
+                if (now.isAfter(createAtTime.plusMinutes(1))) {
                     confirmationTokenRepository.delete(confirmationToken);
                     userEntity = userFinding;
-                }
-                else throw new IllegalStateException(
+                } else throw new IllegalStateException(
                         "Please wait for 1 minute before get another verify again!"
                 );
             }
-        }
-        else {
+        } else {
             String encodedPassword = passwordEncoder.encode(userEntity.getPassword());
             userEntity.setPassword(encodedPassword);
             applicationUserRepository.save(userEntity);

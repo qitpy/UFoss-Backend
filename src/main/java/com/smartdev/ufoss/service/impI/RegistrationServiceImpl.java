@@ -8,8 +8,7 @@ import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.repository.RoleRepository;
 import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.RegistrationService;
-import com.smartdev.ufoss.service.impI.ApplicationUserServiceImpl;
-import com.smartdev.ufoss.service.impI.ConfirmationTokenServiceImpl;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ import java.util.Set;
 
 @Service
 @AllArgsConstructor
-public class RegistrationServiceImpl  implements RegistrationService {
+public class RegistrationServiceImpl implements RegistrationService {
     private final ApplicationUserServiceImpl applicationUserService;
     private final ConfirmationTokenServiceImpl confirmationTokenService;
     private final EmailSenderService emailSenderService;
@@ -64,7 +63,7 @@ public class RegistrationServiceImpl  implements RegistrationService {
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
-                .orElseThrow(()->
+                .orElseThrow(() ->
                         new IllegalStateException("token not found"));
 
         if (confirmationToken.getConfirmedAt() != null) {

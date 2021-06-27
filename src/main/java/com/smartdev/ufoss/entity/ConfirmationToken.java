@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Table(name = "Confirmation_Token")
-public class ConfirmationToken extends AbstractEntity{
+public class ConfirmationToken extends AbstractEntity {
     @Column(nullable = false)
     private String token;
     @Column(nullable = false)

@@ -13,14 +13,14 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "category")
-public class CategoryEntity extends AbstractEntity{
+public class CategoryEntity extends AbstractEntity {
     @Column
     private String name;
 
     @Column(name = "parent_ID")
     private String parentID;
 
-    @OneToMany(mappedBy="category")
+    @OneToMany(mappedBy = "category")
     private Set<CourseEntity> lessons;
 
     public CategoryEntity(String name, String parentID) {

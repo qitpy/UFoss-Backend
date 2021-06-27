@@ -7,11 +7,9 @@ import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.UserService;
-import org.checkerframework.checker.units.qual.A;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +18,14 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private PasswordConfig passwordConfig;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordConfig passwordConfig) {
         this.userRepository = userRepository;
+        this.passwordConfig = passwordConfig;
     }
 
     @Override
@@ -57,13 +54,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(
-                ()-> new UserNotFoundException("failed to get Profile, cause is id is not valid")
+                () -> new UserNotFoundException("failed to get Profile, cause is id is not valid")
         );
 
         if (userEntity.getUsername().equals(usernameFromToken)) {
             return userEntity;
-        }
-        else throw new IllegalAccessException("You dont have permission to do it");
+        } else throw new IllegalAccessException("You dont have permission to do it");
     }
 
     @Override

@@ -28,14 +28,14 @@ public class DefaultDataConfig {
     ) {
         return args -> {
 
-        // Create PERMISSION
+            // Create PERMISSION
             PermissionEntity pCourseRead = new PermissionEntity("Course:read");
             PermissionEntity pCourseWrite = new PermissionEntity("Course:write");
             PermissionEntity pUserRead = new PermissionEntity("User:read");
             PermissionEntity pUserWrite = new PermissionEntity("User:write");
             permissionRepository.saveAll(List.of(pCourseRead, pCourseWrite, pUserRead, pUserWrite));
 
-        // Create ROLE
+            // Create ROLE
             RoleEntity rUser = new RoleEntity("USER");
             RoleEntity rAdmin = new RoleEntity("ADMIN");
             RoleEntity rINSTRUCTOR = new RoleEntity("INSTRUCTOR");
@@ -51,7 +51,7 @@ public class DefaultDataConfig {
             rINSTRUCTOR.addPermission(permissionRepository.findByName(pCourseWrite.getName()).get());
             roleRepository.saveAll(List.of(rUser, rAdmin, rINSTRUCTOR));
 
-        // Create User
+            // Create User
             UserEntity bao = new UserEntity(
                     "Quoc",
                     "Bao",
@@ -116,7 +116,7 @@ public class DefaultDataConfig {
                     List.of(quyet, bao, hai, thiet, hoang, user)
             );
 
-        // Create Instructor
+            // Create Instructor
             InstructorEntity instruc1 = new InstructorEntity(
                     "Yasuo",
                     "Damaged",
@@ -267,7 +267,7 @@ public class DefaultDataConfig {
                     )
             );
 
-        // Create Category
+            // Create Category
             CategoryEntity cateMusic = new CategoryEntity(
                     "music"
             );
@@ -289,7 +289,7 @@ public class DefaultDataConfig {
                     )
             );
 
-        // Create Course
+            // Create Course
             // IT category
             CourseEntity c1 = new CourseEntity(
                     "C++ Full Course",
@@ -464,8 +464,8 @@ public class DefaultDataConfig {
                             c16, c17, c18, c19, c20
                     )
             );
-            
-        // Create Lesson
+
+            // Create Lesson
             LessonEntity l1 = new LessonEntity(
                     "https://www.youtube.com/watch?v=C7dPqrmDWxs&list=PLGYPpIsdZKnLRU3hBKDmUBRdzVdM0rS0z",
                     "Pharrell Williams - Happy (Official Video)",
@@ -626,7 +626,7 @@ public class DefaultDataConfig {
                     )
             );
 
-        // Create Payment
+            // Create Payment
             PaymentEntity p1 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
                     userRepository.findByUsername(user.getUsername()).get(),
@@ -651,7 +651,7 @@ public class DefaultDataConfig {
             paymentRepository.saveAll(List.of(p1, p2, p3, p4));
 
 
-        // Create Rate
+            // Create Rate
             RateEntity r1 = new RateEntity(
                     4,
                     userRepository.findByUsername(user.getUsername()).get(),

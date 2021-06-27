@@ -17,6 +17,7 @@ public class UserConverter {
         dto.setEnabled(entity.getIsEnabled());
         return dto;
     }
+
     public static UserEntity toEntity(UserDTO dto, UserEntity entity) {
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());

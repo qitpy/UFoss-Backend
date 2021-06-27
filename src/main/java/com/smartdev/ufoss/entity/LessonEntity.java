@@ -11,7 +11,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "LESSON")
-public class LessonEntity extends AbstractEntity{
+public class LessonEntity extends AbstractEntity {
     @Column(name = "video_URL")
     private String videoURL;
 
@@ -23,8 +23,8 @@ public class LessonEntity extends AbstractEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name="course_id",
-            nullable=false
+            name = "course_id",
+            nullable = false
     )
     private CourseEntity course;
 }

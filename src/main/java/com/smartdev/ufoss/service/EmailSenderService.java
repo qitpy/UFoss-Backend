@@ -1,7 +1,7 @@
 package com.smartdev.ufoss.service;
 
 public interface EmailSenderService {
-    //method send be rename to email
+    //method send to rename the email
     public void email(
             String to,
             String subject,

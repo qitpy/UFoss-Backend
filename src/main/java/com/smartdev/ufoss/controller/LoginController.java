@@ -61,5 +61,7 @@ public class LoginController {
     }
 
     @GetMapping("trywithtoken")
-    public String tryWithToken() { return "trywithtoken"; }
+    public String tryWithToken() {
+        return "trywithtoken";
+    }
 }
