@@ -10,6 +10,7 @@ import com.smartdev.ufoss.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
             user.setResetPasswordToken(token);
             userRepository.save(user);
         } else {
-            throw new UserNotFoundException("Cound not find any user with email " + email);
+            throw new UserNotFoundException("Could not find any user with email " + email);
         }
         return user;
     }
@@ -85,5 +86,16 @@ public class UserServiceImpl implements UserService {
         user.setResetPasswordToken(null);
 
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(String firstName, String lastName, String phone, UUID id) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(()-> new IllegalStateException("ID Not Found!"));
+        if (firstName != null) userEntity.setFirstName(firstName);
+        if (lastName != null) userEntity.setLastName(lastName);
+        if (phone != null) userEntity.setPhone(phone);
+
+        userRepository.save(userEntity);
     }
 }
