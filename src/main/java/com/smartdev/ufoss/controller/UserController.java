@@ -49,4 +49,15 @@ public class UserController {
 
         return userService.getProfile(usernameFromToken, id);
     }
+
+    @PutMapping(path = "/update/{id}")
+    public void updateUser(
+            @PathVariable("id") UUID id,
+            @RequestParam(name = "firstName", required = false) String firstName,
+            @RequestParam(name = "lastName", required = false) String lastName,
+            @RequestParam(name = "phone", required = false) String phone
+    ) {
+        if (firstName != null || lastName != null || phone != null)
+            userService.updateUser(firstName, lastName, phone, id);
+    }
 }
