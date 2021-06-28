@@ -13,15 +13,6 @@ import java.time.ZonedDateTime;
 @ControllerAdvice
 public class AdviseController {
 
-    /*HttpStatus httpStatus = HttpStatus.;
-    ApiExceptionHandler apiException = new ApiExceptionHandler(
-            .getMessage(),
-            httpStatus,
-                ZonedDateTime.now(ZoneId.of("Z"))
-                        );
-
-        return new ResponseEntity<>(apiException, httpStatus);*/
-
     @ExceptionHandler(value = UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFound(UserNotFoundException userNotFoundException) {
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
