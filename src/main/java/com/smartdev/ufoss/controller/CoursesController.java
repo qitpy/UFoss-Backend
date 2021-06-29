@@ -4,10 +4,10 @@ package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.converter.CourseConverter;
 import com.smartdev.ufoss.dto.CourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
-import com.smartdev.ufoss.service.impI.CoursesServiceImpl;
+import com.smartdev.ufoss.service.CourseService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 import java.util.UUID;
@@ -17,12 +17,8 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class CoursesController {
 
-    private final CoursesServiceImpl coursesService;
-
     @Autowired
-    public CoursesController(CoursesServiceImpl coursesService) {
-        this.coursesService = coursesService;
-    }
+    private CourseService coursesService;
 
     @GetMapping("/courses")
     public List<CourseEntity> getAllCourses() {

@@ -2,6 +2,7 @@ package com.smartdev.ufoss.service.impI;
 
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.repository.CoursesRepository;
+import com.smartdev.ufoss.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CoursesServiceImpl {
-
-    private final CoursesRepository coursesRepository;
+public class CoursesServiceImpl implements CourseService {
 
     @Autowired
-    public CoursesServiceImpl(CoursesRepository coursesRepository) {
-        this.coursesRepository = coursesRepository;
-    }
+    private CoursesRepository coursesRepository;
 
     public List<CourseEntity> getAllCourses() {
         return coursesRepository.findAll(Sort.by("createAt"));
