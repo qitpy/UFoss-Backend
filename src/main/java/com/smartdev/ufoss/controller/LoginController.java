@@ -61,9 +61,4 @@ public class LoginController {
 
         return ResponseEntity.ok().body(Collections.singletonMap("accessToken", accessToken));
     }
-
-    @GetMapping("trywithtoken")
-    public String tryWithToken() {
-        return "trywithtoken";
-    }
 }

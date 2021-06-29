@@ -15,7 +15,6 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, UUID> {
 
-
     Optional<ConfirmationToken> findByToken(String token);
 
     @Transactional

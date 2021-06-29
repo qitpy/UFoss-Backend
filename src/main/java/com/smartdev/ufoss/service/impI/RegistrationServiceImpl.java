@@ -37,9 +37,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public String register(RegistrationRequest request) {
 
-        if (!Validator.emailValidate(request.getEmail())) {
+        /*if (!Validator.emailValidate(request.getEmail())) {
             throw new IllegalStateException("email not valid");
-        }
+        }*/
 
         Set<RoleEntity> roles = new HashSet<>();
         roles.add(roleRepository.findByName("USER").get());
