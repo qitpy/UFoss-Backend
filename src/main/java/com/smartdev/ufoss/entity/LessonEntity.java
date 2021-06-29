@@ -27,4 +27,10 @@ public class LessonEntity extends AbstractEntity {
             nullable = false
     )
     private CourseEntity course;
+
+    public LessonEntity(String videoURL, String title, String description) {
+        this.videoURL = videoURL;
+        this.title = title;
+        this.description = description;
+    }
 }
