@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,5 +27,6 @@ public class LessonEntity extends AbstractEntity {
             name = "course_id",
             nullable = false
     )
+    @JsonIgnore
     private CourseEntity course;
 }
