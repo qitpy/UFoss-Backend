@@ -112,6 +112,7 @@ public class DefaultDataConfig {
             thiet.addRole(roleRepository.findByName(rUser.getName()).get());
             quyet.addRole(roleRepository.findByName(rINSTRUCTOR.getName()).get());
             bao.addRole(roleRepository.findByName(rINSTRUCTOR.getName()).get());
+            bao.addRole(roleRepository.findByName(rAdmin.getName()).get());
             hoang.addRole(roleRepository.findByName(rAdmin.getName()).get());
             userRepository.saveAll(
                     List.of(quyet, bao, hai, thiet, hoang, user)

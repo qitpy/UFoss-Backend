@@ -21,5 +21,7 @@ public interface UserService {
     UserEntity getUserWithToken(String resetPasswordToken);
 
     void updatePassword(UserEntity model);
+
+    void updateUser(String firstName, String lastName, String phone, UUID id);
 }
 
