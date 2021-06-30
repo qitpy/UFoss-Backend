@@ -13,7 +13,7 @@ import java.util.UUID;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/lessons")
-public class LessonControler {
+public class LessonsController {
 
     @Autowired
     LessonsServiceImpl lessonsService;
@@ -25,8 +25,8 @@ public class LessonControler {
 
     @GetMapping("/{id}")
     public LessonEntity getLessonById(@PathVariable UUID id) {
-    return lessonsService.getLessonById(id);
-}
+        return lessonsService.getLessonById(id);
+    }
     @PostMapping("/add")
     public LessonEntity createLesson(@RequestBody LessonDTO newLesson ){
         return lessonsService.addNewLesson(newLesson);
@@ -41,6 +41,4 @@ public class LessonControler {
                                      @RequestBody LessonDTO lesson) {
         return lessonsService.updateLesson(id, lesson);
     }
-
-
 }

@@ -1,6 +1,6 @@
 package com.smartdev.ufoss.service.impI;
 
-import com.smartdev.ufoss.converter.LessonConverter;
+import com.smartdev.ufoss.converter.LessonsConverter;
 import com.smartdev.ufoss.dto.LessonDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.entity.LessonEntity;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
-
 @Service
 public class LessonsServiceImpl {
     @Autowired
@@ -21,7 +20,7 @@ public class LessonsServiceImpl {
     private CourseRepository courseRepository;
 
     @Autowired
-    private LessonConverter lessonConverter;
+    private LessonsConverter lessonsConverter;
 
     public List<LessonEntity> getAllLessons(){return lessonRepository.findAll();}
 
@@ -34,7 +33,7 @@ public class LessonsServiceImpl {
 
     public LessonEntity addNewLesson(LessonDTO newLesson) {
 
-        LessonEntity lessonEntity = lessonConverter.toEntity(newLesson);
+        LessonEntity lessonEntity = lessonsConverter.toEntity(newLesson);
         lessonRepository.save(lessonEntity);
         return lessonEntity;
     }
@@ -55,7 +54,7 @@ public class LessonsServiceImpl {
                 .orElseThrow(() -> new IllegalStateException(
                         "The course with id " + id + "does not exist!"
                 ));
-        LessonEntity lessonEntity = lessonConverter.toEntity(lesson);
+        LessonEntity lessonEntity = lessonsConverter.toEntity(lesson);
         if (lessonEntity.getTitle() != null
                 && lessonEntity.getTitle().length() > 0) {
             lessonFound.setTitle(lessonEntity.getTitle());
@@ -75,3 +74,4 @@ public class LessonsServiceImpl {
         return lessonRepository.save(lessonFound);
     }
 }
+
