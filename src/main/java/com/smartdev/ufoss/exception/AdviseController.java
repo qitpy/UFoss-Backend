@@ -6,6 +6,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.server.ServerErrorException;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -62,6 +64,17 @@ public class AdviseController {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ApiException apiException = new ApiException(
                 badCredentialsException.getMessage(),
+                httpStatus,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+        return new ResponseEntity<>(apiException, httpStatus);
+    }
+
+    @ExceptionHandler(value = HttpServerErrorException.class)
+    public ResponseEntity<Object> handleServerErrorException(ServerErrorException serverErrorException) {
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        ApiException apiException = new ApiException(
+                serverErrorException.getMessage(),
                 httpStatus,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );
