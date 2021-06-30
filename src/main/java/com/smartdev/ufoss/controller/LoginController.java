@@ -6,12 +6,10 @@ import com.smartdev.ufoss.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -26,16 +24,12 @@ import java.util.Date;
 @RequestMapping(path = "/login")
 public class LoginController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private JwtConfig jwtConfig;
 
-    @Autowired
     private SecretKey secretKey;
 
-    @Autowired
     private UserRepository userRepository;
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")

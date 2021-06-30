@@ -8,21 +8,19 @@ import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.UserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private PasswordConfig passwordConfig;
 
     @Override

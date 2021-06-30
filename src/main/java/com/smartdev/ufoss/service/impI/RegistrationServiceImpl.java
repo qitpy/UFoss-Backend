@@ -1,6 +1,5 @@
 package com.smartdev.ufoss.service.impI;
 
-import com.smartdev.ufoss.component.Validator;
 import com.smartdev.ufoss.entity.RoleEntity;
 import com.smartdev.ufoss.model.RegistrationRequest;
 import com.smartdev.ufoss.entity.ConfirmationToken;
@@ -10,7 +9,6 @@ import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.RegistrationService;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,16 +20,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
-    @Autowired
     private ApplicationUserServiceImpl applicationUserService;
 
-    @Autowired
     private ConfirmationTokenServiceImpl confirmationTokenService;
 
-    @Autowired
     private EmailSenderService emailSenderService;
 
-    @Autowired
     private RoleRepository roleRepository;
 
     @Override

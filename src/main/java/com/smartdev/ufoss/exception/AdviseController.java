@@ -70,11 +70,11 @@ public class AdviseController {
         return new ResponseEntity<>(apiException, httpStatus);
     }
 
-    @ExceptionHandler(value = HttpServerErrorException.class)
-    public ResponseEntity<Object> handleServerErrorException(ServerErrorException serverErrorException) {
+    @ExceptionHandler(value = IllegalAccessException.class)
+    public ResponseEntity<Object> handleIllegalAccessException(IllegalAccessException illegalAccessException) {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ApiException apiException = new ApiException(
-                serverErrorException.getMessage(),
+                illegalAccessException.getMessage(),
                 httpStatus,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );

@@ -6,7 +6,7 @@ import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.repository.ApplicationUserRepository;
 import com.smartdev.ufoss.repository.ConfirmationTokenRepository;
 import com.smartdev.ufoss.service.ApplicationUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,20 +20,16 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-
+@AllArgsConstructor
 @Service
 public class ApplicationUserServiceImpl implements UserDetailsService, ApplicationUserService {
 
-    @Autowired
     private ApplicationUserRepository applicationUserRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     private ConfirmationTokenServiceImpl confirmationTokenService;
 
-    @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
 
     @Override
