@@ -6,19 +6,20 @@ import com.smartdev.ufoss.dto.CourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.CourseService;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@AllArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class CoursesController {
 
-    @Autowired
-    private CourseService coursesService;
+    private final CourseService coursesService;
 
     @GetMapping("/courses")
     public List<CourseEntity> getAllCourses() {

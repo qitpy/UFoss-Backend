@@ -3,7 +3,7 @@ package com.smartdev.ufoss.service.impI;
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.service.CourseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@AllArgsConstructor
 @Service
 public class CoursesServiceImpl implements CourseService {
 
-    @Autowired
-    private CoursesRepository coursesRepository;
+    private final CoursesRepository coursesRepository;
 
     public List<CourseEntity> getAllCourses() {
         return coursesRepository.findAll(Sort.by("createAt"));

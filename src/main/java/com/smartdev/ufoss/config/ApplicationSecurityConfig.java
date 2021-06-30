@@ -28,16 +28,12 @@ import javax.crypto.SecretKey;
 @NoArgsConstructor
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     private ApplicationUserServiceImpl applicationUserService;
 
-    @Autowired
     private SecretKey secretKey;
 
-    @Autowired
     private JwtConfig jwtConfig;
 
     @Override
