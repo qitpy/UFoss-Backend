@@ -21,22 +21,25 @@ import java.util.Date;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@AllArgsConstructor
 @NoArgsConstructor
 @RequestMapping(path = "/login")
 public class LoginController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private JwtConfig jwtConfig;
 
-    @Autowired
     private SecretKey secretKey;
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public LoginController(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
+        this.userRepository = userRepository;
+    }
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
     @PostMapping()
