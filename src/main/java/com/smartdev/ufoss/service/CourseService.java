@@ -1,15 +1,19 @@
 package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.entity.CourseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface CourseService {
-    public List<CourseEntity> getAllCourses();
 
-    public CourseEntity getCourseById(UUID id);
+    public Page<CourseEntity> findCourses(Pageable pageable);
+
+    public Page<CourseEntity> findByTitleAndDescriptionContaining(String title, String des, Pageable pageable);
+
+    public CourseEntity findCourseById(UUID id);
 
     public CourseEntity addNewCourse(CourseEntity newCourse);
 

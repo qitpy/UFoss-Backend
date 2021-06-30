@@ -4,6 +4,8 @@ import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.service.CourseService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +20,18 @@ public class CoursesServiceImpl implements CourseService {
 
     private final CoursesRepository coursesRepository;
 
-    public List<CourseEntity> getAllCourses() {
-        return coursesRepository.findAll(Sort.by("createAt"));
+    @Override
+    public Page<CourseEntity> findCourses(Pageable pageable) {
+        return coursesRepository.findAll(pageable);
     }
 
-    public CourseEntity getCourseById(UUID id) {
+    @Override
+    public Page<CourseEntity> findByTitleAndDescriptionContaining(String title, String desc, Pageable pageable) {
+        return coursesRepository.findByTitleAndDescriptionContaining(title, desc, pageable);
+    }
+
+    @Override
+    public CourseEntity findCourseById(UUID id) {
         return coursesRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(
                         "The course with id " + id + "does not exist!"

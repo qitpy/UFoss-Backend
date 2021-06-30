@@ -7,11 +7,16 @@ import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.CourseService;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @AllArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -22,13 +27,39 @@ public class CoursesController {
     private final CourseService coursesService;
 
     @GetMapping("/courses")
-    public List<CourseEntity> getAllCourses() {
-        return coursesService.getAllCourses();
+    public ResponseEntity<Map<String, Object>> getAllCourses(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String desc,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        try {
+            List<CourseEntity> courses = new ArrayList<CourseEntity>();
+            Pageable paging = PageRequest.of(page, size, Sort.by("createAt"));
+
+            Page<CourseEntity> pageCourses;
+            if (title == null || desc == null)
+                pageCourses = coursesService.findCourses(paging);
+            else
+                pageCourses = coursesService.findByTitleAndDescriptionContaining(title, desc, paging);
+
+            courses = pageCourses.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", courses);
+            response.put("currentPage", pageCourses.getNumber());
+            response.put("totalItems", pageCourses.getTotalElements());
+            response.put("totalPages", pageCourses.getTotalPages());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/courses/{courseId}")
     public CourseEntity getCourseById(@PathVariable("courseId") UUID id) {
-        return coursesService.getCourseById(id);
+        return coursesService.findCourseById(id);
     }
 
     @PostMapping("/courses")

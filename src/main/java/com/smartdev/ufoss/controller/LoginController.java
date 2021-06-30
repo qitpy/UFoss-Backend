@@ -26,16 +26,12 @@ import java.util.Date;
 @RequestMapping(path = "/login")
 public class LoginController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private JwtConfig jwtConfig;
 
-    @Autowired
     private SecretKey secretKey;
 
-    @Autowired
     private UserRepository userRepository;
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
