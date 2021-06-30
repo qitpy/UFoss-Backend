@@ -8,6 +8,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -17,7 +18,6 @@ import java.util.UUID;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/user")
-@AllArgsConstructor
 public class UserController {
 
     private UserService userService;
@@ -25,6 +25,13 @@ public class UserController {
     private JwtConfig jwtConfig;
 
     private SecretKey secretKey;
+
+    @Autowired
+    public UserController(UserService userService, JwtConfig jwtConfig, SecretKey secretKey) {
+        this.userService = userService;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
+    }
 
     // verify account to get information. Return information if the account is own.
     @GetMapping(path = "/{id}")

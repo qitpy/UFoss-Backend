@@ -9,19 +9,25 @@ import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.UserService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
     private PasswordConfig passwordConfig;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, PasswordConfig passwordConfig) {
+        this.userRepository = userRepository;
+        this.passwordConfig = passwordConfig;
+    }
 
     @Override
     public List<UserDTO> getUsers() {

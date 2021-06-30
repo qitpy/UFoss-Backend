@@ -6,6 +6,7 @@ import com.smartdev.ufoss.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +20,6 @@ import java.util.Date;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@AllArgsConstructor
 @NoArgsConstructor
 @RequestMapping(path = "/login")
 public class LoginController {
@@ -31,6 +31,14 @@ public class LoginController {
     private SecretKey secretKey;
 
     private UserRepository userRepository;
+
+    @Autowired
+    public LoginController(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
+        this.userRepository = userRepository;
+    }
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
     @PostMapping()

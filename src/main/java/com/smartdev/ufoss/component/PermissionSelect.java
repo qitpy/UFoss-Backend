@@ -3,14 +3,18 @@ package com.smartdev.ufoss.component;
 public enum PermissionSelect {
     COURSE_READ("course:read"),
     COURSE_WRITE("course:write"),
-    COURSE_CREATE("course:create"),
-    COURSE_UPDATE("course:update"),
-    COURSE_DELETE("course:delete"),
+
     USER_READ("user:read"),
     USER_WRITE("user:write"),
-    USER_CREATE("user:create"),
-    USER_UPDATE("user:update"),
-    USER_DELETE("user:delete");
+
+    RATE_READ("rate:read"),
+    RATE_WRITE("rate:write"),
+
+    INSTRUCTOR_READ("instructor:read"),
+    INSTRUCTOR_WRITE("instructor:write"),
+
+    LESSON_READ("lesson:read"),
+    LESSON_WRITE("lesson:write");
 
     private String permission;
 

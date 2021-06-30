@@ -5,6 +5,7 @@ import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.PermissionEntity;
 import com.smartdev.ufoss.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AdminController {
 
+    @Autowired
     private UserService userService;
-    private PermissionSelect permissionSelect;
 
-    @PreAuthorize("hasAuthority(PermissionSelect.COURSE_WRITE.toString())")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "/get-users")
     public List<UserDTO> getUsers() {
         return userService.getUsers();

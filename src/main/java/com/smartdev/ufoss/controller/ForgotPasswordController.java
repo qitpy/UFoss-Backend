@@ -8,6 +8,7 @@ import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.UserService;
 import lombok.AllArgsConstructor;
 import net.bytebuddy.utility.RandomString;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class ForgotPasswordController {
 
+    @Autowired
     private UserService userService;
 
+    @Autowired
     private EmailSenderService emailSenderService;
 
     @PostMapping("/reset")

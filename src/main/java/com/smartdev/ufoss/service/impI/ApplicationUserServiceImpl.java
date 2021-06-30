@@ -7,6 +7,7 @@ import com.smartdev.ufoss.repository.ApplicationUserRepository;
 import com.smartdev.ufoss.repository.ConfirmationTokenRepository;
 import com.smartdev.ufoss.service.ApplicationUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +21,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Service
 public class ApplicationUserServiceImpl implements UserDetailsService, ApplicationUserService {
 
@@ -31,6 +31,14 @@ public class ApplicationUserServiceImpl implements UserDetailsService, Applicati
     private ConfirmationTokenServiceImpl confirmationTokenService;
 
     private ConfirmationTokenRepository confirmationTokenRepository;
+
+    @Autowired
+    public ApplicationUserServiceImpl(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder, ConfirmationTokenServiceImpl confirmationTokenService, ConfirmationTokenRepository confirmationTokenRepository) {
+        this.applicationUserRepository = applicationUserRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.confirmationTokenService = confirmationTokenService;
+        this.confirmationTokenRepository = confirmationTokenRepository;
+    }
 
     @Override
     @Transactional
