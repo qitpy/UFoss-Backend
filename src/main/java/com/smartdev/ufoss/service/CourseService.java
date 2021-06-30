@@ -11,7 +11,10 @@ public interface CourseService {
 
     public Page<CourseEntity> findCourses(Pageable pageable);
 
-    public Page<CourseEntity> findByTitleAndDescriptionContaining(String title, String des, Pageable pageable);
+    public Page<CourseEntity> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+            String title,
+            String desc,
+            Pageable pageable);
 
     public CourseEntity findCourseById(UUID id);
 

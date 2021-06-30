@@ -16,5 +16,8 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
     @Query("SELECT c FROM CourseEntity c WHERE c.title = ?1")
     Optional<CourseEntity> findCourseByTitle(String title);
 
-    Page<CourseEntity> findByTitleAndDescriptionContaining(String title, String desc, Pageable pageable);
+    Page<CourseEntity> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+            String title,
+            String desc,
+            Pageable pageable);
 }

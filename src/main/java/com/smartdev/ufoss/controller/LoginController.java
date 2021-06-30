@@ -21,7 +21,6 @@ import java.util.Date;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@AllArgsConstructor
 @NoArgsConstructor
 @RequestMapping(path = "/login")
 public class LoginController {
@@ -33,6 +32,14 @@ public class LoginController {
     private SecretKey secretKey;
 
     private UserRepository userRepository;
+
+    @Autowired
+    public LoginController(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
+        this.userRepository = userRepository;
+    }
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
     @PostMapping()

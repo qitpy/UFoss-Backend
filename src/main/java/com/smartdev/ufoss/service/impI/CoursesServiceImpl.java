@@ -26,8 +26,8 @@ public class CoursesServiceImpl implements CourseService {
     }
 
     @Override
-    public Page<CourseEntity> findByTitleAndDescriptionContaining(String title, String desc, Pageable pageable) {
-        return coursesRepository.findByTitleAndDescriptionContaining(title, desc, pageable);
+    public Page<CourseEntity> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String title, String desc, Pageable pageable) {
+        return coursesRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(title, desc, pageable);
     }
 
     @Override

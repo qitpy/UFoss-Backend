@@ -38,10 +38,10 @@ public class CoursesController {
             Pageable paging = PageRequest.of(page, size, Sort.by("createAt"));
 
             Page<CourseEntity> pageCourses;
-            if (title == null || desc == null)
+            if (title == null && desc == null)
                 pageCourses = coursesService.findCourses(paging);
             else
-                pageCourses = coursesService.findByTitleAndDescriptionContaining(title, desc, paging);
+                pageCourses = coursesService.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(title, desc, paging);
 
             courses = pageCourses.getContent();
 
