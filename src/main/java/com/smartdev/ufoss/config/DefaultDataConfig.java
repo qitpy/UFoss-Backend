@@ -1,18 +1,25 @@
 package com.smartdev.ufoss.config;
 
+import com.smartdev.ufoss.dto.CategoryDTO;
 import com.smartdev.ufoss.entity.*;
 
 import com.smartdev.ufoss.repository.*;
+import com.smartdev.ufoss.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 @Configuration
 public class DefaultDataConfig {
+    @Autowired
+    CategoryService categoryService;
+
     @Bean
     CommandLineRunner dataInitial(
             CategoryRepository categoryRepository,
@@ -305,28 +312,56 @@ public class DefaultDataConfig {
                             instruc17, instruc18, instruc19, instruc20
                     )
             );
-
+            
+            List<CategoryDTO> listCateDTO = new ArrayList<>();
             // Create Category
-            CategoryEntity cateMusic = new CategoryEntity(
-                    "music"
-            );
             CategoryEntity cateIT = new CategoryEntity(
-                    "IT-Programing"
+                    "IT & Software"
             );
             CategoryEntity cateDesign = new CategoryEntity(
                     "Design"
             );
-            CategoryEntity cateOffice = new CategoryEntity(
-                    "Office Productivity"
+            CategoryEntity cateMusic = new CategoryEntity(
+                    "Music"
             );
-            CategoryEntity cateHealthyAndFitness = new CategoryEntity(
-                    "Healthy and Fitness"
+            CategoryDTO cateITCertification = new CategoryDTO(
+                    "IT - Certification","IT & Software"
             );
+            listCateDTO.add(cateITCertification);
+            CategoryDTO cateNetwork = new CategoryDTO(
+                    "Network & Security", "IT & Software"
+            );
+            listCateDTO.add(cateNetwork);
+            CategoryDTO cateAWS = new CategoryDTO(
+                    "AWS Certification", "IT - Certification"
+            );
+            listCateDTO.add(cateAWS);
+            CategoryDTO cateMicrosoft = new CategoryDTO(
+                    "Microsoft Certification", "IT - Certification"
+            );
+            listCateDTO.add(cateMicrosoft);
+            CategoryDTO cateJava = new CategoryDTO(
+                    "Java", "IT & Software"
+            );
+            listCateDTO.add(cateJava);
+            CategoryDTO cateSpringBoot = new CategoryDTO(
+                    "Spring Boot", "Java"
+            );
+            listCateDTO.add(cateSpringBoot);
+            CategoryDTO catePS = new CategoryDTO(
+                    "Adobe Photoshop", "Design"
+            );
+            listCateDTO.add(catePS);
             categoryRepository.saveAll(
                     List.of(
-                            cateMusic, cateIT, cateDesign, cateOffice, cateHealthyAndFitness
+                            cateIT, cateDesign, cateMusic
                     )
             );
+
+            for (CategoryDTO i : listCateDTO) {
+                categoryService.newCategory(i, i.getParent());
+            }
+
 
             // Create Course
             // IT category
@@ -386,7 +421,7 @@ public class DefaultDataConfig {
                     11.99,
                     "https://i.pinimg.com/originals/6c/4c/90/6c4c901210dff9d6faf47be022092a42.jpg",
                     instructorRepository.findByEmail(instruc7.getEmail()).get(),
-                    categoryRepository.findByName(cateMusic.getName()).get()
+                    categoryRepository.findByName(cateDesign.getName()).get()
             );
             CourseEntity c8 = new CourseEntity(
                     "Complete Guitar Lessons System - Beginner to Advanced",
@@ -394,7 +429,7 @@ public class DefaultDataConfig {
                     12.99,
                     "https://coursemarks.com/wp-content/uploads/2020/11/667186_6d70_5.jpg",
                     instructorRepository.findByEmail(instruc8.getEmail()).get(),
-                    categoryRepository.findByName(cateMusic.getName()).get()
+                    categoryRepository.findByName(cateSpringBoot.getName()).get()
             );
             CourseEntity c9 = new CourseEntity(
                     "The Professional Guitar Masterclass",
@@ -402,7 +437,7 @@ public class DefaultDataConfig {
                     16.99,
                     "https://cdnp3.stackassets.com/4f8d1831ae91827213409280ba0d283c7822ff7f/store/opt/596/298/397bb6dde3fc5ed87faa569eaf651d2672ad7ceca6f15555bb4a4952ab2c/product_39814_product_shot_wide.jpg",
                     instructorRepository.findByEmail(instruc9.getEmail()).get(),
-                    categoryRepository.findByName(cateMusic.getName()).get()
+                    categoryRepository.findByName(cateJava.getName()).get()
             );
             // Office Productivity
             CourseEntity c10 = new CourseEntity(
@@ -411,7 +446,7 @@ public class DefaultDataConfig {
                     11.99,
                     "https://static.wixstatic.com/media/8ff445_dbec5fe234434d8ba1ef9a2d5a676213~mv2.jpg/v1/fill/w_1000,h_500,al_c,q_85/8ff445_dbec5fe234434d8ba1ef9a2d5a676213~mv2.jpg",
                     instructorRepository.findByEmail(instruc10.getEmail()).get(),
-                    categoryRepository.findByName(cateOffice.getName()).get()
+                    categoryRepository.findByName(catePS.getName()).get()
             );
             CourseEntity c11 = new CourseEntity(
                     "Microsoft Excel - Advanced Excel Formulas & Functions",
@@ -419,7 +454,7 @@ public class DefaultDataConfig {
                     11.99,
                     "https://1.bp.blogspot.com/-6Vc_lfemBmQ/X2LoFwtHBhI/AAAAAAAAI8w/HbaUA36e6cwAlN5hbO5U7RIWTw_G4pOLQCLcBGAsYHQ/w1200-h630-p-k-no-nu/Microsoft-Excel-Advanced-Excel-Formulas-Functions.jpg",
                     instructorRepository.findByEmail(instruc11.getEmail()).get(),
-                    categoryRepository.findByName(cateOffice.getName()).get()
+                    categoryRepository.findByName(catePS.getName()).get()
             );
             CourseEntity c12 = new CourseEntity(
                     "Visually Effective Excel Dashboards",
@@ -427,7 +462,7 @@ public class DefaultDataConfig {
                     11.99,
                     "https://1.bp.blogspot.com/-SmNiYjTNbss/YL5rFSGSx4I/AAAAAAAAI0E/fERrKh3PkGkYgHV5EFAZ6fpoRVWjJ2MXgCNcBGAsYHQ/s750/photo_2021-06-08_00-22-54.jpg",
                     instructorRepository.findByEmail(instruc12.getEmail()).get(),
-                    categoryRepository.findByName(cateOffice.getName()).get()
+                    categoryRepository.findByName(cateJava.getName()).get()
             );
             // Healthy and Fitness Category
             CourseEntity c13 = new CourseEntity(
@@ -436,7 +471,7 @@ public class DefaultDataConfig {
                     15.99,
                     "https://blog.vilmatech.com/wp-content/uploads/2020/03/cbt.jpg",
                     instructorRepository.findByEmail(instruc13.getEmail()).get(),
-                    categoryRepository.findByName(cateHealthyAndFitness.getName()).get()
+                    categoryRepository.findByName(cateJava.getName()).get()
             );
             CourseEntity c14 = new CourseEntity(
                     "Herbalism :: Introduction & Medicine Making Certificate",
@@ -444,7 +479,7 @@ public class DefaultDataConfig {
                     20.99,
                     "https://downloadfreecourse.com/uploads/images/2020/webp/image_750x_5eca56e4ed8d9.webp",
                     instructorRepository.findByEmail(instruc14.getEmail()).get(),
-                    categoryRepository.findByName(cateHealthyAndFitness.getName()).get()
+                    categoryRepository.findByName(catePS.getName()).get()
             );
             CourseEntity c15 = new CourseEntity(
                     "Become a SuperHuman: Naturally & Safely Boost Testosterone",
@@ -452,7 +487,7 @@ public class DefaultDataConfig {
                     18.99,
                     "https://downloadfreecourse.com/uploads/images/2020/webp/image_750x_5eca04dd86b03.webp",
                     instructorRepository.findByEmail(instruc15.getEmail()).get(),
-                    categoryRepository.findByName(cateHealthyAndFitness.getName()).get()
+                    categoryRepository.findByName(catePS.getName()).get()
             );
             CourseEntity c16 = new CourseEntity(
                     "Learn Military Close Combat Training | Captain Chris Pizzo",
@@ -460,7 +495,7 @@ public class DefaultDataConfig {
                     11.99,
                     "https://coursemarks.com/wp-content/uploads/2020/11/225172_977f_4.jpg",
                     instructorRepository.findByEmail(instruc16.getEmail()).get(),
-                    categoryRepository.findByName(cateHealthyAndFitness.getName()).get()
+                    categoryRepository.findByName(cateIT.getName()).get()
             );
             CourseEntity c17 = new CourseEntity(
                     "CBT for Depression, Anxiety, Phobias and Panic Attacks",
@@ -468,7 +503,7 @@ public class DefaultDataConfig {
                     21.99,
                     "https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image/4f96e56a8caf.jpg",
                     instructorRepository.findByEmail(instruc17.getEmail()).get(),
-                    categoryRepository.findByName(cateHealthyAndFitness.getName()).get()
+                    categoryRepository.findByName(cateIT.getName()).get()
             );
             // Music Category
             CourseEntity c18 = new CourseEntity(
@@ -477,7 +512,7 @@ public class DefaultDataConfig {
                     11.99,
                     "https://i.ytimg.com/vi/xzh0YzL0oqg/maxresdefault.jpg",
                     instructorRepository.findByEmail(instruc18.getEmail()).get(),
-                    categoryRepository.findByName(cateMusic.getName()).get()
+                    categoryRepository.findByName(cateSpringBoot.getName()).get()
             );
             CourseEntity c19 = new CourseEntity(
                     "Music Theory for Electronic Producers - The Complete Course!",
@@ -485,7 +520,7 @@ public class DefaultDataConfig {
                     12.99,
                     "https://i.ytimg.com/vi/lZAazL2pYBI/maxresdefault.jpg",
                     instructorRepository.findByEmail(instruc19.getEmail()).get(),
-                    categoryRepository.findByName(cateMusic.getName()).get()
+                    categoryRepository.findByName(cateSpringBoot.getName()).get()
             );
             CourseEntity c20 = new CourseEntity(
                     "Play Modern Blues Now",
@@ -493,7 +528,7 @@ public class DefaultDataConfig {
                     12.99,
                     "https://coursemarks.com/wp-content/uploads/2020/11/561718_4ed9.jpg",
                     instructorRepository.findByEmail(instruc20.getEmail()).get(),
-                    categoryRepository.findByName(cateMusic.getName()).get()
+                    categoryRepository.findByName(catePS.getName()).get()
             );
             courseRepository.saveAll(
                     List.of(
