@@ -359,7 +359,7 @@ public class DefaultDataConfig {
             );
 
             for (CategoryDTO i : listCateDTO) {
-                categoryService.newCategory(i);
+                categoryService.newCategory(i, i.getParent());
             }
 
 

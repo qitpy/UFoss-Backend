@@ -26,19 +26,31 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO newCategory(CategoryDTO model) throws MessageErrorException{
+    public List<CategoryEntity> getSubCategory(String name) {
+        List<CategoryEntity> subCategory = categoryRepository.getSubCategory(name);
+
+        return subCategory;
+    }
+
+    @Override
+    public String newCategory(CategoryDTO model, String parentName) throws MessageErrorException{
 
         Optional<CategoryEntity> category = categoryRepository.findByName(model.getName());
-        Optional<CategoryEntity> categoryParent = categoryRepository.findByName(model.getParent());
+        Optional<CategoryEntity> categoryParent = categoryRepository.findByName(parentName);
 
-        if (!category.isPresent() && categoryParent.isPresent()) {
-            categoryRepository.newCategory(model.getName(),categoryParent.get().getId());
-            System.out.println(categoryParent.get().getId());
+        if (!category.isPresent() ) {
+
+            if(categoryParent.isPresent()){
+                categoryRepository.newCategory(model.getName(),categoryParent.get().getId());
+            } else {
+                categoryRepository.newCategory(model.getName(),Long.valueOf(null));
+            }
+
         } else {
             throw new MessageErrorException("Failed!");
         }
 
-        return model;
+        return "Successfully";
     }
 
     @Override

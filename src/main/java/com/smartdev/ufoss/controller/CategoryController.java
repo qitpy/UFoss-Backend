@@ -13,46 +13,51 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/menu")
+    @GetMapping("/categories")
     public ResponseEntity<?> getMenu() {
-        List<CategoryEntity> menu = categoryService.getMenu();
-        for (CategoryEntity i : menu) {
-            System.out.println(i.getName());
-        }
-        return ResponseEntity.ok(menu);
+        List<CategoryEntity> result = categoryService.getMenu();
+
+        return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/update-parent/{name}/{parent}")
-    public ResponseEntity<?> updateParentID(
-            @PathVariable("name") String name,
-            @PathVariable("parent") String parentName
-    ) {
-        String message;
+    @GetMapping("/categories/{name}")
+    public ResponseEntity<?> getSubCategory(@PathVariable("name") String name) {
+        List<CategoryEntity> result = categoryService.getSubCategory(name);
 
-        try {
-            message = categoryService.updateParentID(name, parentName);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> newCategory(@RequestBody CategoryDTO model) {
+//    @PutMapping("/update/{name}/{parent}")
+//    public ResponseEntity<?> updateParentID(
+//            @PathVariable("name") String name,
+//            @PathVariable("parent") String parentName
+//    ) {
+//        String message;
+//
+//        try {
+//            message = categoryService.updateParentID(name, parentName);
+//        } catch (UserNotFoundException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//        return ResponseEntity.ok(message);
+//    }
 
-        CategoryDTO result = null;
+    @PostMapping("/categories/{category}")
+    public ResponseEntity<?> newCategory(@RequestBody CategoryDTO model,@PathVariable("category") String parentName) {
+
+        String message = "";
         try {
-            result = categoryService.newCategory(model);
+            message = categoryService.newCategory(model, parentName);
         } catch (MessageErrorException e) {
             ResponseEntity.badRequest().body(e.getMessage());
         }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(message);
     }
 }

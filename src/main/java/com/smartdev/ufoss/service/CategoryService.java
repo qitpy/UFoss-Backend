@@ -12,7 +12,9 @@ public interface CategoryService {
 
     List<CategoryEntity> getMenu();
 
-    CategoryDTO newCategory(CategoryDTO model) throws MessageErrorException;
+    String newCategory(CategoryDTO model, String parentName) throws MessageErrorException;
 
     String updateParentID (String name, String parent) throws UserNotFoundException;
+
+    List<CategoryEntity> getSubCategory(String name);
 }
