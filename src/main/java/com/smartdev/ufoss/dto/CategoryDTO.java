@@ -13,4 +13,8 @@ public class CategoryDTO {
     private Long parentID;
     private String parent;
 
+    public CategoryDTO (String name, String parent){
+        this.name = name;
+        this.parent = parent;
+    }
 }

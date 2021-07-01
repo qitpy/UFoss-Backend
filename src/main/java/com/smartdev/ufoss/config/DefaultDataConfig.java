@@ -1,18 +1,25 @@
 package com.smartdev.ufoss.config;
 
+import com.smartdev.ufoss.dto.CategoryDTO;
 import com.smartdev.ufoss.entity.*;
 
 import com.smartdev.ufoss.repository.*;
+import com.smartdev.ufoss.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 @Configuration
 public class DefaultDataConfig {
+    @Autowired
+    CategoryService categoryService;
+
     @Bean
     CommandLineRunner dataInitial(
             CategoryRepository categoryRepository,
@@ -305,28 +312,56 @@ public class DefaultDataConfig {
                             instruc17, instruc18, instruc19, instruc20
                     )
             );
-
+            
+            List<CategoryDTO> listCateDTO = new ArrayList<>();
             // Create Category
             CategoryEntity cateIT = new CategoryEntity(
-                    "IT"
+                    "IT & Software"
             );
             CategoryEntity cateDesign = new CategoryEntity(
                     "Design"
             );
-            CategoryEntity cateJava = new CategoryEntity(
-                    "Java"
+            CategoryEntity cateMusic = new CategoryEntity(
+                    "Music"
             );
-            CategoryEntity cateSpringBoot = new CategoryEntity(
-                    "Spring Boot"
+            CategoryDTO cateITCertification = new CategoryDTO(
+                    "IT - Certification","IT & Software"
             );
-            CategoryEntity catePS = new CategoryEntity(
-                    "Adobe Photoshop"
+            listCateDTO.add(cateITCertification);
+            CategoryDTO cateNetwork = new CategoryDTO(
+                    "Network & Security", "IT & Software"
             );
+            listCateDTO.add(cateNetwork);
+            CategoryDTO cateAWS = new CategoryDTO(
+                    "AWS Certification", "IT - Certification"
+            );
+            listCateDTO.add(cateAWS);
+            CategoryDTO cateMicrosoft = new CategoryDTO(
+                    "Microsoft Certification", "IT - Certification"
+            );
+            listCateDTO.add(cateMicrosoft);
+            CategoryDTO cateJava = new CategoryDTO(
+                    "Java", "IT & Software"
+            );
+            listCateDTO.add(cateJava);
+            CategoryDTO cateSpringBoot = new CategoryDTO(
+                    "Spring Boot", "Java"
+            );
+            listCateDTO.add(cateSpringBoot);
+            CategoryDTO catePS = new CategoryDTO(
+                    "Adobe Photoshop", "Design"
+            );
+            listCateDTO.add(catePS);
             categoryRepository.saveAll(
                     List.of(
-                            cateIT, cateDesign, cateJava, cateSpringBoot, catePS
+                            cateIT, cateDesign, cateMusic
                     )
             );
+
+            for (CategoryDTO i : listCateDTO) {
+                categoryService.newCategory(i);
+            }
+
 
             // Create Course
             // IT category

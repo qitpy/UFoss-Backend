@@ -43,6 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public String updateParentID(String name, String parent) throws UserNotFoundException {
+
         Optional<CategoryEntity> category = categoryRepository.findByName(name);
         Optional<CategoryEntity> categoryParent = categoryRepository.findByName(parent);
 
