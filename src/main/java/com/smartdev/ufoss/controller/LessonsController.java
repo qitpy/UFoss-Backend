@@ -36,8 +36,8 @@ public class LessonsController {
     public void deleteCourseById(@PathVariable UUID id) {
         lessonsService.deleteLessonById(id);
     }
-    @PutMapping("/{courseId}")
-    public LessonEntity updateCourse(@PathVariable("courseId") UUID id,
+    @PutMapping("/{lessonId}")
+    public LessonEntity updateCourse(@PathVariable("lessonId") UUID id,
                                      @RequestBody LessonDTO lesson) {
         return lessonsService.updateLesson(id, lesson);
     }
