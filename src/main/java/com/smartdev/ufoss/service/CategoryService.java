@@ -5,7 +5,6 @@ import com.smartdev.ufoss.dto.CategoryDTO;
 import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.exception.MessageErrorException;
 import com.smartdev.ufoss.exception.NotFoundException;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 

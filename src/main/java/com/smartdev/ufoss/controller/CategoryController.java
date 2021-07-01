@@ -1,6 +1,5 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.converter.CategoryConverter;
 import com.smartdev.ufoss.dto.CategoryDTO;
 import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.exception.MessageErrorException;
