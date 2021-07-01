@@ -1,7 +1,12 @@
 package com.smartdev.ufoss.controller;
 
+import com.smartdev.ufoss.config.PasswordConfig;
 import com.smartdev.ufoss.dto.JwtResponseDTO;
+import com.smartdev.ufoss.dto.TokenRefreshResponseDTO;
 import com.smartdev.ufoss.entity.RefreshTokenEntity;
+import com.smartdev.ufoss.entity.UserEntity;
+import com.smartdev.ufoss.exception.HandleException;
+import com.smartdev.ufoss.model.TokenRefreshRequest;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.model.UsernameAndPasswordAuthenticationRequest;
 import com.smartdev.ufoss.repository.UserRepository;
@@ -15,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -34,6 +40,9 @@ public class AuthController {
     @Autowired
     private RefreshTokenService refreshTokenService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @PostMapping(path = "/login")
     public JwtResponseDTO authenticateUser(@RequestBody UsernameAndPasswordAuthenticationRequest usernameAndPasswordAuthenticationRequest) {
         String username = usernameAndPasswordAuthenticationRequest.getUsername();
@@ -51,5 +60,15 @@ public class AuthController {
                 );
     }
 
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
 
+        RefreshTokenEntity refreshTokenEntity = refreshTokenService.findByToken(requestRefreshToken)
+                .orElseThrow(() -> new HandleException("refresh token is not in database"));
+        UserEntity user = refreshTokenEntity.getUser();
+
+        String token = loginService.createNewToken(user.getUsername());
+        return ResponseEntity.ok(new TokenRefreshResponseDTO(token, requestRefreshToken));
+    }
 }

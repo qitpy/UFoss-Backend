@@ -8,6 +8,7 @@ import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +35,14 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public RefreshTokenEntity createRefreshToken(String username) {
+        UserEntity userEntity = userRepository.findByUsername(username).get();
+
+        if (refreshTokenRepository.findByUsername(username).isPresent()) {
+            refreshTokenRepository.delete(refreshTokenRepository.findByUsername(username).get());
+        }
+
         RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity(
-                userRepository.findByUsername(username).get(),
+                userEntity,
                 UUID.randomUUID().toString(),
                 LocalDateTime.now().plusDays(jwtConfig.getRefreshTokenExpirationAfterDays())
         );
@@ -46,7 +53,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public RefreshTokenEntity verifyExpiration(RefreshTokenEntity refreshTokenEntity) {
-        if (refreshTokenEntity.getExpiryDate().isAfter(LocalDateTime.now())) {
+        if (refreshTokenEntity.getExpiryDate().isBefore(LocalDateTime.now())) {
             refreshTokenRepository.delete(refreshTokenEntity);
             throw new HandleException("Refresh token was expired, please make a new login request");
         }

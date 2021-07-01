@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.service.impI;
 
+import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.service.LoginService;
@@ -47,6 +48,25 @@ public class LoginServiceImpl implements LoginService {
                 .claim("authorities", authentication.getAuthorities())
                 .claim("username", username)
                 .claim("email", emailString)
+                .setIssuedAt(new Date())
+                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
+                .signWith(secretKey)
+                .compact();
+        String accessToken = jwtConfig.getTokenPrefix() + token;
+        return accessToken;
+    }
+
+    @Override
+    public String createNewToken(String username) {
+        UserEntity userEntity = userRepository
+                .findByUsername(username)
+                .get();
+
+        String token = Jwts.builder()
+                .setSubject(username)
+                .claim("authorities", userEntity.getAuthorities())
+                .claim("username", username)
+                .claim("email", userEntity.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey)

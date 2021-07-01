@@ -46,13 +46,7 @@ public class ApplicationUserServiceImpl implements UserDetailsService, Applicati
         UserEntity userEntity = applicationUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("can't find username: %s" + username));
 
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-
-        userEntity.getRoles().stream().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getRole()));
-            role.getPermissions().stream().forEach(
-                    permissionEntity -> authorities.add(new SimpleGrantedAuthority(permissionEntity.getName())));
-        });
+        Set<SimpleGrantedAuthority> authorities = (Set<SimpleGrantedAuthority>) userEntity.getAuthorities();
 
         ApplicationUser applicationUser = new ApplicationUser(
                 userEntity.getUsername(),

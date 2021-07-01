@@ -3,6 +3,7 @@ package com.smartdev.ufoss.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -88,7 +89,14 @@ public class UserEntity extends AbstractEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<SimpleGrantedAuthority> authorities = new HashSet<>();
+
+        roles.stream().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+            role.getPermissions().stream().forEach(
+                    permissionEntity -> authorities.add(new SimpleGrantedAuthority(permissionEntity.getName())));
+        });
+        return authorities;
     }
 
     @Override
