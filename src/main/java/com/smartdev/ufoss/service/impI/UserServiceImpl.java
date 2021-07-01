@@ -4,7 +4,7 @@ import com.smartdev.ufoss.config.PasswordConfig;
 import com.smartdev.ufoss.converter.UserConverter;
 import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.UserEntity;
-import com.smartdev.ufoss.exception.UserNotFoundException;
+import com.smartdev.ufoss.exception.NotFoundException;
 import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.UserService;
 
@@ -48,9 +48,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, UserNotFoundException {
+    public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, NotFoundException {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(
-                () -> new UserNotFoundException("failed to get Profile, cause is id is not valid")
+                () -> new NotFoundException("failed to get Profile, cause is id is not valid")
         );
 
         if (userEntity.getUsername().equals(usernameFromToken)) {
@@ -59,14 +59,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateResetPassword(String token, String email) throws UserNotFoundException {
+    public UserEntity updateResetPassword(String token, String email) throws NotFoundException {
         UserEntity user = userRepository.findByEmail(email);
 
         if (user != null) {
             user.setResetPasswordToken(token);
             userRepository.save(user);
         } else {
-            throw new UserNotFoundException("Cound not find any user with email " + email);
+            throw new NotFoundException("Cound not find any user with email " + email);
         }
         return user;
     }

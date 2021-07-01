@@ -48,7 +48,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*", "/login", "/register/**", "/password/**").permitAll()
+                .antMatchers(
+                        "/",
+                        "index",
+                        "/css/*",
+                        "/js/*",
+                        "/login",
+                        "/register/**",
+                        "/password/**",
+                        "/category/**").permitAll()
                 //.antMatchers("/admin/*").hasRole(ADMIN.name())
                 .anyRequest()
                 .authenticated();

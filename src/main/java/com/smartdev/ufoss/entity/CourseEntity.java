@@ -28,15 +28,19 @@ public class CourseEntity extends AbstractEntity {
     @Column(name = "image_URL")
     private String imageURL;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<RateEntity> rates;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<PaymentEntity> payments;
 
-    @OneToMany(mappedBy = "course")
+    @JsonIgnore
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<LessonEntity> lessons;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "instructor_id",
@@ -44,7 +48,8 @@ public class CourseEntity extends AbstractEntity {
     )
     private InstructorEntity instructor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "category_id",
             nullable = false
