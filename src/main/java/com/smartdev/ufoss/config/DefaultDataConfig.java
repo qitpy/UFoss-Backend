@@ -29,11 +29,29 @@ public class DefaultDataConfig {
         return args -> {
 
             // Create PERMISSION
-            PermissionEntity pCourseRead = new PermissionEntity("Course:read");
-            PermissionEntity pCourseWrite = new PermissionEntity("Course:write");
-            PermissionEntity pUserRead = new PermissionEntity("User:read");
-            PermissionEntity pUserWrite = new PermissionEntity("User:write");
-            permissionRepository.saveAll(List.of(pCourseRead, pCourseWrite, pUserRead, pUserWrite));
+            PermissionEntity pCourseRead = new PermissionEntity("course:read");
+            PermissionEntity pCourseWrite = new PermissionEntity("course:write");
+            /*PermissionEntity pCourseCreate = new PermissionEntity("course:create");
+            PermissionEntity pCourseUpdate = new PermissionEntity("course:update");
+            PermissionEntity pCourseDelete = new PermissionEntity("course:delete");*/
+            PermissionEntity pUserRead = new PermissionEntity("user:read");
+            PermissionEntity pUserWrite = new PermissionEntity("user:write");
+            /*PermissionEntity pUserCreate = new PermissionEntity("user:create");
+            PermissionEntity pUserUpdate = new PermissionEntity("user:update");
+            PermissionEntity pUserDelete = new PermissionEntity("user:delete");*/
+            PermissionEntity pLessonRead = new PermissionEntity("lesson:read");
+            PermissionEntity pLessonWrite = new PermissionEntity("lesson:write");
+            PermissionEntity pInstructorRead = new PermissionEntity("instructor:read");
+            PermissionEntity pInstructorWrite = new PermissionEntity("instructor:write");
+            PermissionEntity pRateRead = new PermissionEntity("rate:read");
+            PermissionEntity pRateWrite = new PermissionEntity("rate:write");
+
+            permissionRepository.saveAll(List.of(
+                    pCourseRead, pCourseWrite, pUserRead,
+                    pUserWrite, pLessonRead, pLessonWrite,
+                    pInstructorRead, pInstructorWrite, pRateRead,
+                    pRateWrite
+            ));
 
             // Create ROLE
             RoleEntity rUser = new RoleEntity("USER");
@@ -43,12 +61,31 @@ public class DefaultDataConfig {
             rUser.addPermission(permissionRepository.findByName(pUserRead.getName()).get());
             rUser.addPermission(permissionRepository.findByName(pUserWrite.getName()).get());
             rUser.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
+            rUser.addPermission(permissionRepository.findByName(pLessonRead.getName()).get());
+            rUser.addPermission(permissionRepository.findByName(pInstructorRead.getName()).get());
+            rUser.addPermission(permissionRepository.findByName(pRateRead.getName()).get());
+            rUser.addPermission(permissionRepository.findByName(pRateWrite.getName()).get());
+
             rAdmin.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
             rAdmin.addPermission(permissionRepository.findByName(pCourseWrite.getName()).get());
             rAdmin.addPermission(permissionRepository.findByName(pUserRead.getName()).get());
             rAdmin.addPermission(permissionRepository.findByName(pUserWrite.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pLessonRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pLessonWrite.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pInstructorRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pInstructorWrite.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pRateRead.getName()).get());
+            rAdmin.addPermission(permissionRepository.findByName(pRateWrite.getName()).get());
+
             rINSTRUCTOR.addPermission(permissionRepository.findByName(pCourseRead.getName()).get());
             rINSTRUCTOR.addPermission(permissionRepository.findByName(pCourseWrite.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pLessonRead.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pLessonWrite.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pInstructorRead.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pInstructorWrite.getName()).get());
+            rINSTRUCTOR.addPermission(permissionRepository.findByName(pRateRead.getName()).get());
+
+
             roleRepository.saveAll(List.of(rUser, rAdmin, rINSTRUCTOR));
 
             // Create User
