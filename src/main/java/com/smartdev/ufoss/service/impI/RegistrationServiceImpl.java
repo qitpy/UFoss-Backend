@@ -1,6 +1,5 @@
 package com.smartdev.ufoss.service.impI;
 
-import com.smartdev.ufoss.component.Validator;
 import com.smartdev.ufoss.entity.RoleEntity;
 import com.smartdev.ufoss.model.RegistrationRequest;
 import com.smartdev.ufoss.entity.ConfirmationToken;
@@ -19,27 +18,30 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
-    @Autowired
     private ApplicationUserServiceImpl applicationUserService;
 
-    @Autowired
     private ConfirmationTokenServiceImpl confirmationTokenService;
 
-    @Autowired
     private EmailSenderService emailSenderService;
 
-    @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    public RegistrationServiceImpl(ApplicationUserServiceImpl applicationUserService, ConfirmationTokenServiceImpl confirmationTokenService, EmailSenderService emailSenderService, RoleRepository roleRepository) {
+        this.applicationUserService = applicationUserService;
+        this.confirmationTokenService = confirmationTokenService;
+        this.emailSenderService = emailSenderService;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public String register(RegistrationRequest request) {
 
-        if (!Validator.emailValidate(request.getEmail())) {
+        /*if (!Validator.emailValidate(request.getEmail())) {
             throw new IllegalStateException("email not valid");
-        }
+        }*/
 
         Set<RoleEntity> roles = new HashSet<>();
         roles.add(roleRepository.findByName("USER").get());

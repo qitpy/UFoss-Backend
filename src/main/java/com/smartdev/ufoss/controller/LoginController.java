@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -21,22 +20,25 @@ import java.util.Date;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@AllArgsConstructor
 @NoArgsConstructor
 @RequestMapping(path = "/login")
 public class LoginController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private JwtConfig jwtConfig;
 
-    @Autowired
     private SecretKey secretKey;
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public LoginController(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
+        this.userRepository = userRepository;
+    }
 
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
     @PostMapping()
@@ -60,10 +62,5 @@ public class LoginController {
         String accessToken = jwtConfig.getTokenPrefix() + token;
 
         return ResponseEntity.ok().body(Collections.singletonMap("accessToken", accessToken));
-    }
-
-    @GetMapping("trywithtoken")
-    public String tryWithToken() {
-        return "trywithtoken";
     }
 }

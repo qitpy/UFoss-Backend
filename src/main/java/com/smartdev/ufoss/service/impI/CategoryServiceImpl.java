@@ -3,7 +3,7 @@ package com.smartdev.ufoss.service.impI;
 import com.smartdev.ufoss.dto.CategoryDTO;
 import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.exception.MessageErrorException;
-import com.smartdev.ufoss.exception.NotFoundException;
+import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String updateParentID(String name, String parent) throws NotFoundException {
+    public String updateParentID(String name, String parent) throws UserNotFoundException {
         Optional<CategoryEntity> category = categoryRepository.findByName(name);
         Optional<CategoryEntity> categoryParent = categoryRepository.findByName(parent);
 
@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
             );
 
         } else {
-            throw new NotFoundException("Category not exists!");
+            throw new UserNotFoundException("Category not exists!");
         }
 
         return "Successfully";

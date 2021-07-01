@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface RoleRepository extends JpaRepository<RoleEntity, UUID> {
     @Query("SELECT r FROM RoleEntity r WHERE r.name = ?1")
     Optional<RoleEntity> findByName(String name);
+
+    Optional<RoleEntity> findById(UUID id);
 }

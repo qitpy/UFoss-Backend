@@ -3,7 +3,7 @@ package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.dto.CategoryDTO;
 import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.exception.MessageErrorException;
-import com.smartdev.ufoss.exception.NotFoundException;
+import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ public class CategoryController {
 
         try {
             message = categoryService.updateParentID(name, parentName);
-        } catch (NotFoundException e) {
+        } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok(message);

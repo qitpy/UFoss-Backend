@@ -3,7 +3,7 @@ package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.component.Validator;
 import com.smartdev.ufoss.dto.ResetPasswordDTO;
 import com.smartdev.ufoss.entity.UserEntity;
-import com.smartdev.ufoss.exception.NotFoundException;
+import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.UserService;
 import lombok.AllArgsConstructor;
@@ -47,7 +47,7 @@ public class ForgotPasswordController {
                     "Click to Reset Password!"
             );
 
-        } catch (NotFoundException e) {
+        } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 

@@ -4,7 +4,7 @@ import com.smartdev.ufoss.config.PasswordConfig;
 import com.smartdev.ufoss.converter.UserConverter;
 import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.UserEntity;
-import com.smartdev.ufoss.exception.NotFoundException;
+import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.UserService;
 
@@ -18,11 +18,15 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private PasswordConfig passwordConfig;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, PasswordConfig passwordConfig) {
+        this.userRepository = userRepository;
+        this.passwordConfig = passwordConfig;
+    }
 
     @Override
     public List<UserDTO> getUsers() {
@@ -48,9 +52,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, NotFoundException {
+    public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, UserNotFoundException {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("failed to get Profile, cause is id is not valid")
+                () -> new UserNotFoundException("failed to get Profile, cause is id is not valid")
         );
 
         if (userEntity.getUsername().equals(usernameFromToken)) {
@@ -59,14 +63,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateResetPassword(String token, String email) throws NotFoundException {
+    public UserEntity updateResetPassword(String token, String email) throws UserNotFoundException {
         UserEntity user = userRepository.findByEmail(email);
 
         if (user != null) {
             user.setResetPasswordToken(token);
             userRepository.save(user);
         } else {
-            throw new NotFoundException("Cound not find any user with email " + email);
+            throw new UserNotFoundException("Could not find any user with email " + email);
         }
         return user;
     }
@@ -85,5 +89,16 @@ public class UserServiceImpl implements UserService {
         user.setResetPasswordToken(null);
 
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(String firstName, String lastName, String phone, UUID id) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(()-> new IllegalStateException("ID Not Found!"));
+        if (firstName != null) userEntity.setFirstName(firstName);
+        if (lastName != null) userEntity.setLastName(lastName);
+        if (phone != null) userEntity.setPhone(phone);
+
+        userRepository.save(userEntity);
     }
 }
