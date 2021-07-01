@@ -31,5 +31,5 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
     void newCategory(String name, Long id);
 
     @Query(value = "select * from category where name = ?1" , nativeQuery = true)
-    List<CategoryEntity> getSubCategory(String name);
+    List<CategoryEntity> getSubCategory(String category);
 }

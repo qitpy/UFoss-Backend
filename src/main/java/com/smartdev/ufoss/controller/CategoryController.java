@@ -26,30 +26,33 @@ public class CategoryController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/categories/{name}")
-    public ResponseEntity<?> getSubCategory(@PathVariable("name") String name) {
-        List<CategoryEntity> result = categoryService.getSubCategory(name);
+    @GetMapping("/categories/{category}")
+    public ResponseEntity<?> getSubCategory(@PathVariable("category") String category) {
+        List<CategoryEntity> result = categoryService.getSubCategory(category);
 
         return ResponseEntity.ok(result);
     }
 
-//    @PutMapping("/update/{name}/{parent}")
-//    public ResponseEntity<?> updateParentID(
-//            @PathVariable("name") String name,
-//            @PathVariable("parent") String parentName
-//    ) {
-//        String message;
-//
-//        try {
-//            message = categoryService.updateParentID(name, parentName);
-//        } catch (UserNotFoundException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//        return ResponseEntity.ok(message);
-//    }
+    @PutMapping("/categories/{category}/{subcategory}")
+    public ResponseEntity<?> updateParentID(
+            @PathVariable("category") String category,
+            @PathVariable("subcategory") String subCategory
+    ) {
+        String message;
+
+        try {
+            message = categoryService.updateParentID(subCategory, category);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok(message);
+    }
 
     @PostMapping("/categories/{category}")
-    public ResponseEntity<?> newCategory(@RequestBody CategoryDTO model,@PathVariable("category") String parentName) {
+    public ResponseEntity<?> newCategory(
+            @RequestBody CategoryDTO model,
+            @PathVariable("category") String parentName
+    ) {
 
         String message = "";
         try {

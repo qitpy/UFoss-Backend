@@ -14,7 +14,7 @@ public interface CategoryService {
 
     String newCategory(CategoryDTO model, String parentName) throws MessageErrorException;
 
-    String updateParentID (String name, String parent) throws UserNotFoundException;
+    String updateParentID (String subcategory, String category) throws UserNotFoundException;
 
-    List<CategoryEntity> getSubCategory(String name);
+    List<CategoryEntity> getSubCategory(String category);
 }

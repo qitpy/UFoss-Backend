@@ -26,8 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryEntity> getSubCategory(String name) {
-        List<CategoryEntity> subCategory = categoryRepository.getSubCategory(name);
+    public List<CategoryEntity> getSubCategory(String category) {
+        List<CategoryEntity> subCategory = categoryRepository.getSubCategory(category);
 
         return subCategory;
     }
@@ -54,20 +54,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String updateParentID(String name, String parent) throws UserNotFoundException {
+    public String updateParentID(String subcategory, String category) throws UserNotFoundException {
 
-        Optional<CategoryEntity> category = categoryRepository.findByName(name);
-        Optional<CategoryEntity> categoryParent = categoryRepository.findByName(parent);
+        Optional<CategoryEntity> checkSubCategory = categoryRepository.findByName(subcategory);
+        Optional<CategoryEntity> checkCategory = categoryRepository.findByName(category);
 
-        if (category.isPresent() && categoryParent.isPresent()) {
+
+        System.out.println(checkSubCategory.get().getName() + "is sub");
+        System.out.println(checkCategory.get().getName() + "is category");
+
+        if (checkSubCategory.isPresent() && checkCategory.isPresent()) {
             categoryRepository.updateParentID(
-                    name,
-                    categoryParent.get().getId(),
-                    category.get().getId()
+                    subcategory,
+                    checkCategory.get().getId(),
+                    checkSubCategory.get().getId()
             );
 
         } else {
-            throw new UserNotFoundException("Category not exists!");
+            throw new UserNotFoundException("Category does not exists!");
         }
 
         return "Successfully";
