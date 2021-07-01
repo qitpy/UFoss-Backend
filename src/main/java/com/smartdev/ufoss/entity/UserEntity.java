@@ -51,6 +51,9 @@ public class UserEntity extends AbstractEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role"))
     private Set<RoleEntity> roles = new HashSet<>();
 
+    @OneToOne(mappedBy = "user")
+    private RefreshTokenEntity refreshToken;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RateEntity> rates;
 
