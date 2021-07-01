@@ -7,6 +7,7 @@ import com.smartdev.ufoss.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +20,17 @@ import java.util.UUID;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private JwtConfig jwtConfig;
 
-    @Autowired
     private SecretKey secretKey;
 
-    public UserController(UserService userService) {
+    @Autowired
+    public UserController(UserService userService, JwtConfig jwtConfig, SecretKey secretKey) {
         this.userService = userService;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
     }
 
     // verify account to get information. Return information if the account is own.
