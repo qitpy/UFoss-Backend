@@ -8,10 +8,8 @@ import com.smartdev.ufoss.entity.LessonEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 @Component
 public class LessonsConverter {
-    @Autowired
-    private CoursesRepository coursesRepository;
 
-    public LessonEntity toEntity(LessonDTO dto) {
+    public static LessonEntity toEntity(LessonDTO dto) {
         return new LessonEntity(
                 dto.getVideoURL(),
                 dto.getTitle(),

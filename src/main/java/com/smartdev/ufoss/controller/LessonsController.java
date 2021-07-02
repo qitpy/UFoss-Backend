@@ -18,7 +18,6 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class LessonsController {
 
-    LessonRepository lessonRepository;
     private final LessonsService lessonsService;
 
 
