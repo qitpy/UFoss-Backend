@@ -1,6 +1,6 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.repository.CourseRepository;
+import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.repository.LessonRepository;
 import com.smartdev.ufoss.service.UserService;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class AdminControler {
     private LessonRepository lessonRepository;
 
     @Autowired
-    private CourseRepository courseRepository;
+    private CoursesRepository coursesRepository;
 
 
 
