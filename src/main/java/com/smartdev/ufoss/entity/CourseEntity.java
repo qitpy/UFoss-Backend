@@ -4,59 +4,61 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity
 @Table(name = "COURSE")
 public class CourseEntity extends AbstractEntity {
-    @Column
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column
-    private String desciption;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-    @Column
+    @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "image_URL")
+    @Column(name = "image_URL", nullable = false)
     private String imageURL;
 
+    @Column(name = "create_at", updatable = false)
+    private LocalDateTime createAt;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<RateEntity> rates;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<PaymentEntity> payments;
 
-    @OneToMany(mappedBy = "course")
+    @JsonIgnore
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<LessonEntity> lessons;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "instructor_id",
-            nullable = false
+            name = "instructor_id"
     )
     private InstructorEntity instructor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
-            name = "category_id",
-            nullable = false
+            name = "category_id"
     )
     private CategoryEntity category;
 
-    public CourseEntity(String title, String desciption, Double price, String imageURL, InstructorEntity instructor, CategoryEntity category) {
+    public CourseEntity(String title, String description, Double price, String imageURL) {
         this.title = title;
-        this.desciption = desciption;
+        this.description = description;
         this.price = price;
         this.imageURL = imageURL;
-        this.instructor = instructor;
-        this.category = category;
+        this.createAt = LocalDateTime.now();
     }
 }
