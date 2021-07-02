@@ -41,7 +41,6 @@ public class CourseEntity extends AbstractEntity {
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<LessonEntity> lessons;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "instructor_id"

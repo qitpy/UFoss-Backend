@@ -21,7 +21,6 @@ public class ConfirmationToken extends AbstractEntity {
     private LocalDateTime expiresAt;
     private LocalDateTime confirmedAt;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             nullable = false,

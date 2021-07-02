@@ -96,7 +96,7 @@ public class CoursesServiceImpl implements CourseService {
 
         CourseEntity courseFound = coursesRepository.findByIDAndCategory(id, categoryOptional.get())
                 .orElseThrow(() -> new IllegalStateException(
-                        "The course with id " + id + " in " + category+ " does not exist!"
+                        "The course with id " + id + " in " + category + " does not exist!"
                 ));
 
         if (course.getTitle() != null

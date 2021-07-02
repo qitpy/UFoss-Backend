@@ -23,7 +23,7 @@ public class DefaultDataConfig {
     @Bean
     CommandLineRunner dataInitial(
             CategoryRepository categoryRepository,
-            CoursesRepository courseRepository,
+            CoursesRepository coursesRepository,
             InstructorRepository instructorRepository,
             LessonRepository lessonRepository,
             PaymentRepository paymentRepository,
@@ -91,7 +91,6 @@ public class DefaultDataConfig {
             rINSTRUCTOR.addPermission(permissionRepository.findByName(pInstructorRead.getName()).get());
             rINSTRUCTOR.addPermission(permissionRepository.findByName(pInstructorWrite.getName()).get());
             rINSTRUCTOR.addPermission(permissionRepository.findByName(pRateRead.getName()).get());
-
 
             roleRepository.saveAll(List.of(rUser, rAdmin, rINSTRUCTOR));
 
@@ -343,7 +342,7 @@ public class DefaultDataConfig {
                     "Java Basic",
                     "learning Basic of Java",
                     99.0,
-                    "https://lh3.googleusercontent.com/proxy/e4Jc1V4Okc_Xvs2S_rOjg2FPjwEd9mRjy85THmdpyJMcPcMTGIHCRqyH5XhSp9b_mPDmyAr5TvQVkGIJI9yaOUmzwH2-vIqO31FTx3aIBha6"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG6X8Lvc4P0tOpzliQfswFP0RB9R-sJh9HmQ&usqp=CAU"
             );
             CourseEntity c3 = new CourseEntity(
                     "Python BeautifulSoup",
@@ -458,7 +457,29 @@ public class DefaultDataConfig {
                     12.99,
                     "https://coursemarks.com/wp-content/uploads/2020/11/561718_4ed9.jpg"
             );
-            courseRepository.saveAll(
+
+            c1.setCategory(cateWeb);
+            c2.setCategory(cateWeb);
+            c3.setCategory(cateWeb);
+            c4.setCategory(cateWeb);
+            c5.setCategory(cateWeb);
+            c6.setCategory(cateWeb);
+            c7.setCategory(cateWeb);
+            c8.setCategory(cateWeb);
+            c9.setCategory(cateWeb);
+            c10.setCategory(cateWeb);
+            c11.setCategory(cateBusiness);
+            c12.setCategory(cateBusiness);
+            c13.setCategory(cateBusiness);
+            c14.setCategory(cateBusiness);
+            c15.setCategory(cateBusiness);
+            c16.setCategory(cateDesign);
+            c17.setCategory(cateDesign);
+            c18.setCategory(cateDesign);
+            c19.setCategory(cateDesign);
+            c20.setCategory(cateDesign);
+
+            coursesRepository.saveAll(
                     List.of(
                             c1, c2, c3, c4, c5,
                             c6, c7, c8, c9, c10,
@@ -472,20 +493,20 @@ public class DefaultDataConfig {
                     "https://www.youtube.com/watch?v=C7dPqrmDWxs&list=PLGYPpIsdZKnLRU3hBKDmUBRdzVdM0rS0z",
                     "Pharrell Williams - Happy (Official Video)",
                     "Pharrell Williams  Dear  G  I  R  L  Tour Dates",
-                    courseRepository.findAll().get(0)
+                    coursesRepository.findAll().get(0)
             );
             LessonEntity l2 = new LessonEntity(
                     "https://www.youtube.com/watch?v=9bZkp7q19f0",
                     "PSY - GANGNAM STYLE(강남스타일) M/V",
                     "YG Entertainment Inc. (Music)",
-                    courseRepository.findAll().get(1)
+                    coursesRepository.findAll().get(1)
             );
             LessonEntity l3 = new LessonEntity(
                     "https://www.youtube.com/watch?v=fWNaR-rxAic",
                     "Carly Rae Jepsen - Call Me Maybe",
                     "Get E•MO•TION on iTunes now:Sign up for Carly Rae Jepsen news here: Music video by Carly Rae Jepsen performing Call Me Maybe. (C) 2011 604 Records Inc.\n" +
                             "#VEVOCertified on June 8, 2012.",
-                    courseRepository.findAll().get(2)
+                    coursesRepository.findAll().get(2)
             );
             LessonEntity l4 = new LessonEntity(
                     "https://www.youtube.com/watch?v=I-QfPUz1es8",
@@ -494,14 +515,14 @@ public class DefaultDataConfig {
                             "\n" +
                             "Directed By: Ryan Reichenfeld\n" +
                             "Dancer: Autumn Miller",
-                    courseRepository.findAll().get(3)
+                    coursesRepository.findAll().get(3)
             );
             LessonEntity l5 = new LessonEntity(
                     "https://www.youtube.com/watch?v=gH476CxJxfg",
                     "Daniel Powter - Bad Day (Official Music Video) | Warner Vault",
                     "Bad Day by Daniel Powter from the album Daniel Powter © 2005\n" +
                             "\uD83D\uDD14  Subscribe & Turn on notifications to stay updated with new uploads!",
-                    courseRepository.findAll().get(4)
+                    coursesRepository.findAll().get(4)
             );
             LessonEntity l6 = new LessonEntity(
                     "https://www.youtube.com/watch?v=dbK5bC9tmwM",
@@ -510,7 +531,7 @@ public class DefaultDataConfig {
                             "Life is a maze and love is a riddle\n" +
                             "I don't know where to go, can't do it alone\n" +
                             "I've tried and I don't know why",
-                    courseRepository.findAll().get(5)
+                    coursesRepository.findAll().get(5)
             );
             LessonEntity l7 = new LessonEntity(
                     "https://www.youtube.com/watch?v=gBmPZjOUppI",
@@ -521,7 +542,7 @@ public class DefaultDataConfig {
                             "Hold me up, hol me tight, lift me up to touch the sky\n" +
                             "Teaching me to love with heart, helping me open my mind\n" +
                             "I can fly, i'm proud that I can fly",
-                    courseRepository.findAll().get(6)
+                    coursesRepository.findAll().get(6)
             );
             LessonEntity l8 = new LessonEntity(
                     "https://www.youtube.com/watch?v=3gK_2XdjOdY",
@@ -529,7 +550,7 @@ public class DefaultDataConfig {
                     "Every night in my dreams\n" +
                             "I see you, I feel you\n" +
                             "That is how I know you go on",
-                    courseRepository.findAll().get(7)
+                    coursesRepository.findAll().get(7)
             );
             LessonEntity l9 = new LessonEntity(
                     "https://www.youtube.com/watch?v=ulOb9gIGGd0",
@@ -537,19 +558,19 @@ public class DefaultDataConfig {
                     "An empty street, an empty house\n" +
                             "A hole inside my heart\n" +
                             "I'm all alone, the rooms are getting smaller.",
-                    courseRepository.findAll().get(8)
+                    coursesRepository.findAll().get(8)
             );
             LessonEntity l10 = new LessonEntity(
                     "https://www.youtube.com/watch?v=64VZUNTmGQM",
                     "PARK BOM - YOU AND I M/V",
                     "That was the most played song on the radio in Korea’s HISTORY for a good time! Truly a masterpiece as Park Bom herself described",
-                    courseRepository.findAll().get(9)
+                    coursesRepository.findAll().get(9)
             );
             LessonEntity l11 = new LessonEntity(
                     "https://www.youtube.com/watch?v=-Plg9lj6YwQ",
                     "The way to kick Love",
                     "DuoQuyenTinhYeu",
-                    courseRepository.findAll().get(10)
+                    coursesRepository.findAll().get(10)
             );
             LessonEntity l12 = new LessonEntity(
                     "https://www.youtube.com/watch?v=tLtxoa1RAyE",
@@ -558,7 +579,7 @@ public class DefaultDataConfig {
                             "We promise our love with glasses of wine\n" +
                             "I will always be here to protect and hold you tight\n" +
                             "Cause you’re the only one who trusts me",
-                    courseRepository.findAll().get(11)
+                    coursesRepository.findAll().get(11)
             );
             LessonEntity l13 = new LessonEntity(
                     "https://www.youtube.com/watch?v=pBTp2RWxq-s",
@@ -569,39 +590,39 @@ public class DefaultDataConfig {
                             "From the moment I heard your name\n" +
                             "Everything was perfect, I knew this love is worth it\n" +
                             "Our own miracle in the makin",
-                    courseRepository.findAll().get(12)
+                    coursesRepository.findAll().get(12)
             );
             LessonEntity l14 = new LessonEntity(
                     "https://www.youtube.com/watch?v=nQY4dIxY1H4",
                     "Chris Medina - What Are Words (Official Video)",
                     "Music video by Chris Medina performing What Are Words. (C) 2011 19 Recordings, Inc.",
-                    courseRepository.findAll().get(13)
+                    coursesRepository.findAll().get(13)
             );
             LessonEntity l15 = new LessonEntity(
                     "https://www.youtube.com/watch?v=btDd9rOlc2k",
                     "BIGBANG - MONSTER M/V",
                     "bukan monster. hanya seseorang yang diam-diam patah hati tanpa dia tau, aku pernah jatuh cinta.",
-                    courseRepository.findAll().get(14)
+                    coursesRepository.findAll().get(14)
             );
             LessonEntity l16 = new LessonEntity(
                     "https://www.youtube.com/watch?v=amOSaNX7KJg",
                     "숀 (SHAUN) - 웨이백홈 (Way Back Home) [Lyric Video]",
                     "For those who think English ver made this song popular.\n" +
                             "This song got popular before English version was released, incase you don't know in korean music shows and charts this song topped Bts and Blackpink. ",
-                    courseRepository.findAll().get(15)
+                    coursesRepository.findAll().get(15)
             );
             LessonEntity l17 = new LessonEntity(
                     "https://www.youtube.com/watch?v=h0UUqTCczHQ",
                     "lofi hip hop radio \uD83C\uDF31 beats to relax/study to",
                     "All pictures are collected by me or sent by fans, I just create more. So if there is any problem related to copyright, email me first and I will take care of it immediately!\n" +
                             "Thank you very much!!!",
-                    courseRepository.findAll().get(16)
+                    coursesRepository.findAll().get(16)
             );
             LessonEntity l18 = new LessonEntity(
                     "https://www.youtube.com/watch?v=63nQdUoo388",
                     "Why so sad ? Lofi hip hop mix~ Stress Relief, Aesthetic Music",
                     "All pictures are collected by me or sent by fans, I just create more. So if there is any problem related to copyright, email me first and I will take care of it immediately!",
-                    courseRepository.findAll().get(17)
+                    coursesRepository.findAll().get(17)
             );
             LessonEntity l19 = new LessonEntity(
                     "https://www.youtube.com/watch?v=Id6ARZyuxaw",
@@ -609,7 +630,7 @@ public class DefaultDataConfig {
                     " Xe Đạp x Anh Yêu Em Nhiều Lắm\n" +
                             "Nhạc Lofi Cực Chill Nhẹ Nhàng Thư Giãn 2021\n" +
                             "More about Em Ơi",
-                    courseRepository.findAll().get(18)
+                    coursesRepository.findAll().get(18)
             );
             LessonEntity l20 = new LessonEntity(
                     "https://www.youtube.com/watch?v=ArQHATe9zk0",
@@ -617,7 +638,7 @@ public class DefaultDataConfig {
                     "Em Đi Xa Nơi Phương Trời Chỉ Có Mỗi Anh Nơi Này" +
                             "Nhạc Lofi  Chill 2021 - Mình Anh Nơi Này, Nàng Thơ" +
                             " ore about Em Ơi",
-                    courseRepository.findAll().get(19)
+                    coursesRepository.findAll().get(19)
             );
             lessonRepository.saveAll(
                     List.of(
@@ -632,22 +653,22 @@ public class DefaultDataConfig {
             PaymentEntity p1 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
                     userRepository.findByUsername(user.getUsername()).get(),
-                    courseRepository.findAll().stream().findFirst().get()
+                    coursesRepository.findAll().stream().findFirst().get()
             );
             PaymentEntity p2 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
                     userRepository.findByUsername(user.getUsername()).get(),
-                    courseRepository.findAll().get(18)
+                    coursesRepository.findAll().get(18)
             );
             PaymentEntity p3 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
                     userRepository.findByUsername(user.getUsername()).get(),
-                    courseRepository.findAll().get(10)
+                    coursesRepository.findAll().get(10)
             );
             PaymentEntity p4 = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
                     userRepository.findByUsername(user.getUsername()).get(),
-                    courseRepository.findAll().get(4)
+                    coursesRepository.findAll().get(4)
             );
 
             paymentRepository.saveAll(List.of(p1, p2, p3, p4));
@@ -657,22 +678,22 @@ public class DefaultDataConfig {
             RateEntity r1 = new RateEntity(
                     4,
                     userRepository.findByUsername(user.getUsername()).get(),
-                    courseRepository.findAll().stream().findFirst().get()
+                    coursesRepository.findAll().stream().findFirst().get()
             );
             RateEntity r2 = new RateEntity(
                     5,
                     userRepository.findByUsername(user.getUsername()).get(),
-                    courseRepository.findAll().get(18)
+                    coursesRepository.findAll().get(18)
             );
             RateEntity r3 = new RateEntity(
                     3,
                     userRepository.findByUsername(user.getUsername()).get(),
-                    courseRepository.findAll().get(10)
+                    coursesRepository.findAll().get(10)
             );
             RateEntity r4 = new RateEntity(
                     5,
                     userRepository.findByUsername(user.getUsername()).get(),
-                    courseRepository.findAll().get(4)
+                    coursesRepository.findAll().get(4)
             );
             rateRepository.saveAll(List.of(r1, r2, r3, r4));
         };

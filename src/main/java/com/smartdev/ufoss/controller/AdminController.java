@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 @AllArgsConstructor
 public class AdminController {
 

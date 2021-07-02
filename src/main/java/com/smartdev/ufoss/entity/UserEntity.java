@@ -3,6 +3,7 @@ package com.smartdev.ufoss.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -34,7 +35,6 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     @Column(name = "username")
     private String username;
 
-    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -45,18 +45,18 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     private Boolean isAccountNonLocked = true;
     private Boolean isEnabled = false;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role"))
     private Set<RoleEntity> roles = new HashSet<>();
 
-    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private RefreshTokenEntity refreshToken;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RateEntity> rates;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<PaymentEntity> payment;
 
@@ -88,7 +88,14 @@ public class UserEntity extends AbstractEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<SimpleGrantedAuthority> authorities = new HashSet<>();
+
+        roles.stream().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+            role.getPermissions().stream().forEach(
+                    permissionEntity -> authorities.add(new SimpleGrantedAuthority(permissionEntity.getName())));
+        });
+        return authorities;
     }
 
     @Override
