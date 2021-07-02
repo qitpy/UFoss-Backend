@@ -1,5 +1,7 @@
 package com.smartdev.ufoss.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +24,14 @@ public class RoleEntity extends AbstractEntity implements GrantedAuthority {
     @Column(unique = true, name = "role")
     private String name;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "role_permission",
             joinColumns = @JoinColumn(name = "role"),
             inverseJoinColumns = @JoinColumn(name = "permission"))
     private Set<PermissionEntity> permissions = new HashSet<PermissionEntity>();
 
+    @JsonIgnore
     @JsonBackReference
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.REMOVE)
     private Set<UserEntity> users;

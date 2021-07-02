@@ -22,11 +22,11 @@ public class LessonEntity extends AbstractEntity {
     @Column
     private String description;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "course_id",
             nullable = false
     )
-    @JsonIgnore
     private CourseEntity course;
 }

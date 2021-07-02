@@ -61,6 +61,6 @@ public class LoginController {
                 .compact();
         String accessToken = jwtConfig.getTokenPrefix() + token;
 
-        return ResponseEntity.ok().body(Collections.singletonMap("accessToken", accessToken));
+        return ResponseEntity.ok().body(Collections.singletonMap("tokenAccess", accessToken));
     }
 }

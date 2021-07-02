@@ -1,18 +1,25 @@
 package com.smartdev.ufoss.config;
 
+import com.smartdev.ufoss.dto.CategoryDTO;
 import com.smartdev.ufoss.entity.*;
 
 import com.smartdev.ufoss.repository.*;
+import com.smartdev.ufoss.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 @Configuration
 public class DefaultDataConfig {
+    @Autowired
+    CategoryService categoryService;
+
     @Bean
     CommandLineRunner dataInitial(
             CategoryRepository categoryRepository,
@@ -305,26 +312,22 @@ public class DefaultDataConfig {
                             instruc17, instruc18, instruc19, instruc20
                     )
             );
-
+            
+            List<CategoryDTO> listCateDTO = new ArrayList<>();
             // Create Category
-            CategoryEntity cateMusic = new CategoryEntity(
-                    "music"
-            );
-            CategoryEntity cateIT = new CategoryEntity(
-                    "IT-Programing"
+            CategoryEntity cateWeb = new CategoryEntity(
+                    "Web Development"
             );
             CategoryEntity cateDesign = new CategoryEntity(
                     "Design"
             );
-            CategoryEntity cateOffice = new CategoryEntity(
-                    "Office Productivity"
+            CategoryEntity cateBusiness = new CategoryEntity(
+                    "Business"
             );
-            CategoryEntity cateHealthyAndFitness = new CategoryEntity(
-                    "Healthy and Fitness"
-            );
+
             categoryRepository.saveAll(
                     List.of(
-                            cateMusic, cateIT, cateDesign, cateOffice, cateHealthyAndFitness
+                            cateWeb, cateDesign, cateBusiness
                     )
             );
 

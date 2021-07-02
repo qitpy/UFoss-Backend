@@ -1,6 +1,8 @@
 package com.smartdev.ufoss.service.impI;
 
+import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.entity.CourseEntity;
+import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.service.CourseService;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,44 +20,83 @@ import java.util.UUID;
 public class CoursesServiceImpl implements CourseService {
 
     private final CoursesRepository coursesRepository;
+    private final CategoryRepository categoryRepository;
 
-    public List<CourseEntity> getAllCourses() {
-        return coursesRepository.findAll(Sort.by("createAt"));
+    public List<CourseEntity> findByCategory(String category) {
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
+        if (categoryOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The category " + category + " does not exists."
+            );
+        }
+        return coursesRepository.findByCategory(categoryOptional.get());
     }
 
-    public CourseEntity getCourseById(UUID id) {
-        return coursesRepository.findById(id)
+    public CourseEntity findByIDAndCategory(UUID id, String category) {
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
+        if (categoryOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The category " + category + " does not exists."
+            );
+        }
+
+        return coursesRepository.findByIDAndCategory(id, categoryOptional.get())
                 .orElseThrow(() -> new IllegalStateException(
-                        "The course with id " + id + "does not exist!"
+                        "The course with id " + id + " does not exist!"
                 ));
     }
 
-    public CourseEntity addNewCourse(CourseEntity newCourse) {
-        Optional<CourseEntity> courseOptional = coursesRepository.findCourseByTitle(newCourse.getTitle());
-        if (courseOptional.isPresent()) {
+    public CourseEntity addByCategory(CourseEntity newCourse, String category) {
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
+        if (categoryOptional.isEmpty()) {
             throw new IllegalStateException(
-                    "The course with title " + newCourse.getTitle() + "does exists!"
+                    "The category " + category + " does not exists."
             );
         }
+
+        Optional<CourseEntity> courseOptional = coursesRepository.findByTitleAndCategory(
+                newCourse.getTitle(),
+                categoryOptional.get());
+        if (courseOptional.isPresent()) {
+            throw new IllegalStateException(
+                    "The course with title " + newCourse.getTitle() + " in " + category + " does exists!"
+            );
+        }
+
+        newCourse.setCategory(categoryOptional.get());
         return coursesRepository.save(newCourse);
     }
 
-    public void deleteCourseById(UUID id) {
+    @Transactional
+    public void deleteByIdAndCategory(UUID id, String category) {
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
+        if (categoryOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The category " + category + " does not exists."
+            );
+        }
+
         boolean exists = coursesRepository.existsById(id);
         if (!exists) {
             throw new IllegalStateException(
-                    "The course with id " + id + "does not exist!"
+                    "The course with id " + id + " in " + category+ "does not exist!"
             );
         }
-        coursesRepository.deleteById(id);
+        coursesRepository.deleteByIDAndCategory(id, categoryOptional.get());
     }
 
     @Transactional
-    public CourseEntity updateCourse(UUID id, CourseEntity course) {
+    public CourseEntity updateByIdAndCategory(UUID id, CourseEntity course, String category) {
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
+        if (categoryOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The category " + category + " does not exists."
+            );
+        }
 
-        CourseEntity courseFound = coursesRepository.findById(id)
+        CourseEntity courseFound = coursesRepository.findByIDAndCategory(id, categoryOptional.get())
                 .orElseThrow(() -> new IllegalStateException(
-                        "The course with id " + id + "does not exist!"
+                        "The course with id " + id + " in " + category+ " does not exist!"
                 ));
 
         if (course.getTitle() != null

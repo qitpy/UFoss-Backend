@@ -7,15 +7,14 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CourseService {
-    public List<CourseEntity> getAllCourses();
+    List<CourseEntity> findByCategory(String category);
 
-    public CourseEntity getCourseById(UUID id);
+    CourseEntity findByIDAndCategory(UUID id, String category);
 
-    public CourseEntity addNewCourse(CourseEntity newCourse);
+    CourseEntity addByCategory(CourseEntity newCourse, String category);
 
-    public void deleteCourseById(UUID id);
+    void deleteByIdAndCategory(UUID id, String category);
 
     @Transactional
-    public CourseEntity updateCourse(UUID id, CourseEntity course);
-
+    CourseEntity updateByIdAndCategory(UUID id, CourseEntity course, String category);
 }
