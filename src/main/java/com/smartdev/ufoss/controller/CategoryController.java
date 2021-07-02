@@ -49,14 +49,29 @@ public class CategoryController {
     }
 
     @PostMapping("/categories/{category}")
-    public ResponseEntity<?> newCategory(
+    public ResponseEntity<?> newSubCategory(
             @RequestBody CategoryDTO model,
             @PathVariable("category") String parentName
     ) {
 
         String message = "";
         try {
-            message = categoryService.newCategory(model, parentName);
+            message = categoryService.newSubCategory(model, parentName);
+        } catch (MessageErrorException e) {
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok(message);
+    }
+
+    @PostMapping("/categories")
+    public ResponseEntity<?> newCategory(
+            @RequestBody CategoryDTO model
+    ) {
+
+        String message = "";
+        try {
+            message = categoryService.newCategory(model);
         } catch (MessageErrorException e) {
             ResponseEntity.badRequest().body(e.getMessage());
         }

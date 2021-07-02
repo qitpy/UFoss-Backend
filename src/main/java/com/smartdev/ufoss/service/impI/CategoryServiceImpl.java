@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String newCategory(CategoryDTO model, String parentName) throws MessageErrorException{
+    public String newSubCategory(CategoryDTO model, String parentName) throws MessageErrorException{
 
         Optional<CategoryEntity> category = categoryRepository.findByName(model.getName());
         Optional<CategoryEntity> categoryParent = categoryRepository.findByName(parentName);
@@ -51,6 +51,22 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return "Successfully";
+    }
+
+    @Override
+    public String newCategory(CategoryDTO model) throws MessageErrorException {
+        Optional<CategoryEntity> checkExists = categoryRepository.findByName(model.getName());
+
+        if (checkExists.isEmpty()) {
+            CategoryEntity entity = new CategoryEntity();
+
+            entity.setName(model.getName());
+            categoryRepository.save(entity);
+
+            return "Successfully";
+        }
+
+        throw new IllegalStateException("Failed");
     }
 
     @Override

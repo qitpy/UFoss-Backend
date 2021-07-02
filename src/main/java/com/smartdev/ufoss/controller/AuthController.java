@@ -31,7 +31,7 @@ import java.util.Date;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @NoArgsConstructor
-@RequestMapping(path = "/auth")
+@RequestMapping(path = "/api/auth")
 public class AuthController {
 
     @Autowired
@@ -60,7 +60,7 @@ public class AuthController {
                 );
     }
 
-    @PostMapping("/refreshtoken")
+    @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
 
