@@ -30,7 +30,6 @@ public class InstructorEntity extends AbstractEntity {
     @Column
     private String bio;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "instructor")
     private Set<CourseEntity> courses;
 
