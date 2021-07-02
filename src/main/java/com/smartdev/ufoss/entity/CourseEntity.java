@@ -34,7 +34,7 @@ public class CourseEntity extends AbstractEntity {
     @OneToMany(mappedBy = "course")
     private Set<PaymentEntity> payments;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<LessonEntity> lessons;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,7 +44,8 @@ public class CourseEntity extends AbstractEntity {
     )
     private InstructorEntity instructor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "category_id",
             nullable = false

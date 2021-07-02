@@ -8,7 +8,6 @@ import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.UserService;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
