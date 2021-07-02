@@ -34,7 +34,6 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     @Column(name = "username")
     private String username;
 
-    @JsonIgnore
     @Column(name = "password")
     private String password;
 
