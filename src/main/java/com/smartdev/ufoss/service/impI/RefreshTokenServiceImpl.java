@@ -19,14 +19,18 @@ import java.util.UUID;
 @Service
 public class RefreshTokenServiceImpl implements RefreshTokenService {
 
-    @Autowired
     private JwtConfig jwtConfig;
 
-    @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public RefreshTokenServiceImpl(JwtConfig jwtConfig, RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
+        this.jwtConfig = jwtConfig;
+        this.refreshTokenRepository = refreshTokenRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Optional<RefreshTokenEntity> findByToken(String token) {
