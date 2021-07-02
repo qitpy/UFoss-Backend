@@ -6,55 +6,95 @@ import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.entity.LessonEntity;
 import com.smartdev.ufoss.repository.CourseRepository;
 import com.smartdev.ufoss.repository.LessonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.smartdev.ufoss.service.LessonsService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 @Service
-public class LessonsServiceImpl {
-    @Autowired
-    private LessonRepository lessonRepository;
-    @Autowired
-    private CourseRepository courseRepository;
+public class LessonsServiceImpl implements LessonsService {
 
-    @Autowired
-    private LessonsConverter lessonsConverter;
+    private final LessonRepository lessonRepository;
+    private final CourseRepository courseRepository;
+    private final LessonsConverter lessonConverter;
 
-    public List<LessonEntity> getAllLessons(){return lessonRepository.findAll();}
-
-    public LessonEntity getLessonById(UUID id) {
-        return lessonRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(
-                        "The course with id " + id + "does not exist!"
-                ));
+    public LessonsServiceImpl(LessonRepository lessonRepository, CourseRepository courseRepository, LessonsConverter lessonConverter) {
+        this.lessonRepository = lessonRepository;
+        this.courseRepository = courseRepository;
+        this.lessonConverter = lessonConverter;
     }
 
-    public LessonEntity addNewLesson(LessonDTO newLesson) {
 
-        LessonEntity lessonEntity = lessonsConverter.toEntity(newLesson);
+    public List<LessonEntity> findByCourseId(UUID courseId){
+        Optional<CourseEntity> courseOptional = courseRepository.findById(courseId);
+        if (courseOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The course with id " + courseId + " does not exists"
+            );
+        }
+        return lessonRepository.findAllByCourse(courseOptional.get());
+    }
+
+    public LessonEntity getLessonByIdAndCourse(UUID courseId, UUID id) {
+        Optional<CourseEntity> courseOptional = courseRepository.findById(courseId);
+        if (courseOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The course with id " + courseId + " does not exists"
+            );
+        }
+        return lessonRepository.findByIDAndCourse(id,courseOptional.get())
+                .orElseThrow(() ->
+                    new IllegalStateException(
+                            "The lessons does not exists"
+                    )
+                );
+    }
+
+    public LessonEntity addNewLesson(UUID courseId,LessonDTO newLesson) {
+        Optional<CourseEntity> courseOptional = courseRepository.findById(courseId);
+        if (courseOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The course with id " + courseId + " does not exists"
+            );
+        }
+        LessonEntity lessonEntity = lessonConverter.toEntity(newLesson);
+        lessonEntity.setCourse(courseOptional.get());
         lessonRepository.save(lessonEntity);
         return lessonEntity;
     }
 
-    public void deleteLessonById(UUID id) {
-        boolean exists = lessonRepository.existsById(id);
-        if (!exists) {
+    @Transactional
+    public void deleteLessonById(UUID courseId, UUID lessonsId) {
+        Optional<CourseEntity> courseOptional = courseRepository.findById(courseId);
+        if (courseOptional.isEmpty()) {
             throw new IllegalStateException(
-                    "The course with id " + id + "does not exist!"
+                    "The course with id " + courseId + " does not exists"
             );
         }
-        lessonRepository.deleteById(id);
+        boolean exists = lessonRepository.existsById(lessonsId);
+        if (!exists) {
+            throw new IllegalStateException(
+                    "The course with id " + lessonsId + "does not exist!"
+            );
+        }
+        lessonRepository.deleteByIDAndCourse(lessonsId,courseOptional.get());
     }
-    @Transactional
-    public LessonEntity updateLesson(UUID id, LessonDTO lesson) {
 
-        LessonEntity lessonFound = lessonRepository.findById(id)
+    @Transactional
+    public LessonEntity updateLesson(UUID courseId,UUID lessonId, LessonDTO lesson) {
+        Optional<CourseEntity> courseOptional = courseRepository.findById(courseId);
+        if (courseOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The course with id " + courseId + " does not exists"
+            );
+        }
+        LessonEntity lessonFound = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new IllegalStateException(
-                        "The course with id " + id + "does not exist!"
+                        "The course with id " + lessonId + "does not exist!"
                 ));
-        LessonEntity lessonEntity = lessonsConverter.toEntity(lesson);
+        LessonEntity lessonEntity = lessonConverter.toEntity(lesson);
         if (lessonEntity.getTitle() != null
                 && lessonEntity.getTitle().length() > 0) {
             lessonFound.setTitle(lessonEntity.getTitle());
@@ -69,8 +109,8 @@ public class LessonsServiceImpl {
                 && lessonEntity.getVideoURL().length() > 0) {
             lessonFound.setVideoURL(lessonEntity.getVideoURL());
         }
-
-        lessonFound.setCourse(lessonEntity.getCourse());
+        lessonFound.setCourse(courseOptional.get());
+//        lessonFound.setCourse(lessonEntity.getCourse());
         return lessonRepository.save(lessonFound);
     }
 }

@@ -10,9 +10,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @ToString
 public class LessonDTO {
-    //private UUID id;
     private String videoURL;
     private String title;
     private String description;
-    private UUID courseId;
 }

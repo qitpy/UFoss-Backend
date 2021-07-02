@@ -15,8 +15,7 @@ public class LessonsConverter {
         return new LessonEntity(
                 dto.getVideoURL(),
                 dto.getTitle(),
-                dto.getDescription(),
-                courseRepository.findById(dto.getCourseId()).get()
+                dto.getDescription()
         );
     }
 
