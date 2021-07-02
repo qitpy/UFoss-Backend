@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.config;
 
+import com.smartdev.ufoss.component.RoleSelect;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.security.JwtTokenVerifier;
 import com.smartdev.ufoss.service.impI.ApplicationUserServiceImpl;
@@ -53,11 +54,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                         "index",
                         "/css/*",
                         "/js/*",
-                        "/login",
+                        "/auth/**",
                         "/register/**",
                         "/password/**",
                         "/api/**").permitAll()
-                //.antMatchers("/admin/*").hasRole(ADMIN.name())
+                //.antMatchers("/admin/**").hasRole(RoleSelect.ADMIN.name())
                 .anyRequest()
                 .authenticated();
         http

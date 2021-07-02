@@ -92,7 +92,6 @@ public class DefaultDataConfig {
             rINSTRUCTOR.addPermission(permissionRepository.findByName(pInstructorWrite.getName()).get());
             rINSTRUCTOR.addPermission(permissionRepository.findByName(pRateRead.getName()).get());
 
-
             roleRepository.saveAll(List.of(rUser, rAdmin, rINSTRUCTOR));
 
             // Create User

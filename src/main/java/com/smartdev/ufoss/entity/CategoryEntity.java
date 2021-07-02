@@ -21,7 +21,6 @@ public class CategoryEntity {
     @Column
     private String name;
 
-
     @OneToMany(mappedBy = "parent", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<CategoryEntity> children;
 
