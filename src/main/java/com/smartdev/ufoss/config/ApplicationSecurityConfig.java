@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.config;
 
+import com.smartdev.ufoss.component.RoleSelect;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.security.JwtTokenVerifier;
 import com.smartdev.ufoss.service.impI.ApplicationUserServiceImpl;
@@ -24,21 +25,24 @@ import javax.crypto.SecretKey;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@AllArgsConstructor
 @NoArgsConstructor
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     private ApplicationUserServiceImpl applicationUserService;
 
-    @Autowired
     private SecretKey secretKey;
 
-    @Autowired
     private JwtConfig jwtConfig;
+
+    @Autowired
+    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserServiceImpl applicationUserService, SecretKey secretKey, JwtConfig jwtConfig) {
+        this.passwordEncoder = passwordEncoder;
+        this.applicationUserService = applicationUserService;
+        this.secretKey = secretKey;
+        this.jwtConfig = jwtConfig;
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -53,11 +57,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                         "index",
                         "/css/*",
                         "/js/*",
-                        "/login",
+                        "/auth/**",
                         "/register/**",
                         "/password/**",
                         "/api/**").permitAll()
-                //.antMatchers("/admin/*").hasRole(ADMIN.name())
+                //.antMatchers("/admin/**").hasRole(RoleSelect.ADMIN.name())
                 .anyRequest()
                 .authenticated();
         http
