@@ -6,6 +6,7 @@ import com.smartdev.ufoss.exception.MessageErrorException;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.service.CategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<CategoryEntity> getMenu() {
