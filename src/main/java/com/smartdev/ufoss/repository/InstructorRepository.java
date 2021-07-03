@@ -10,4 +10,6 @@ import java.util.UUID;
 
 public interface InstructorRepository extends JpaRepository<InstructorEntity, UUID> {
     Optional<InstructorEntity> findByEmail(String email);
+
+
 }
