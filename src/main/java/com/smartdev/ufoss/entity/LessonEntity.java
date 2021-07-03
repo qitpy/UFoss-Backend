@@ -27,6 +27,5 @@ public class LessonEntity extends AbstractEntity {
             name = "course_id",
             nullable = false
     )
-    @JsonIgnore
     private CourseEntity course;
 }

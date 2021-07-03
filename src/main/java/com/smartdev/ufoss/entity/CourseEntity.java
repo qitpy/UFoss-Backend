@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,13 +29,16 @@ public class CourseEntity extends AbstractEntity {
     @Column(name = "create_at", updatable = false)
     private LocalDateTime createAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<RateEntity> rates;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<PaymentEntity> payments;
 
-    @OneToMany(mappedBy = "course")
+    @JsonIgnore
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<LessonEntity> lessons;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,7 +47,8 @@ public class CourseEntity extends AbstractEntity {
     )
     private InstructorEntity instructor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "category_id"
     )

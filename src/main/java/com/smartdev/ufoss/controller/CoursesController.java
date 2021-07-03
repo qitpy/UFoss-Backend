@@ -6,44 +6,56 @@ import com.smartdev.ufoss.dto.CourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.CourseService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@AllArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class CoursesController {
 
-    @Autowired
-    private CourseService coursesService;
+    private final CourseService coursesService;
 
-    @GetMapping("/courses")
-    public List<CourseEntity> getAllCourses() {
-        return coursesService.getAllCourses();
+    @GetMapping("/categories/{category}/courses")
+    public List<CourseEntity> getAllCourses(@PathVariable("category") String category) {
+        return coursesService.findByCategory(category);
     }
 
-    @GetMapping("/courses/{courseId}")
-    public CourseEntity getCourseById(@PathVariable("courseId") UUID id) {
-        return coursesService.getCourseById(id);
+    @GetMapping("/categories/{category}/courses/{courseId}")
+    public CourseEntity getCourseById(
+            @PathVariable("category") String category,
+            @PathVariable("courseId") UUID id) {
+
+        return coursesService.findByIDAndCategory(id, category);
     }
 
-    @PostMapping("/courses")
-    public CourseEntity addNewCourse(@RequestBody CourseDTO newCourse) {
-        return coursesService.addNewCourse(CourseConverter.toEntity(newCourse));
+    @PostMapping("/categories/{category}/courses")
+    public CourseEntity addNewCourse(
+            @PathVariable("category") String category,
+            @RequestBody CourseDTO newCourse) {
+
+        return coursesService.addByCategory(CourseConverter.toEntity(newCourse), category);
     }
 
-    @DeleteMapping("/courses/{courseId}")
-    public void deleteCourseById(@PathVariable("courseId") UUID id) {
-        coursesService.deleteCourseById(id);
+    @DeleteMapping("/categories/{category}/courses/{courseId}")
+    public void deleteCourseById(
+            @PathVariable("category") String category,
+            @PathVariable("courseId") UUID id) {
+
+        coursesService.deleteByIdAndCategory(id, category);
     }
 
-    @PutMapping("/courses/{courseId}")
-    public CourseEntity updateCourse(@PathVariable("courseId") UUID id,
-                                     @RequestBody CourseDTO course) {
-        return coursesService.updateCourse(id, CourseConverter.toEntity(course));
+    @PutMapping("/categories/{category}/courses/{courseId}")
+    public CourseEntity updateCourse(
+            @PathVariable("category") String category,
+            @PathVariable("courseId") UUID id,
+            @RequestBody CourseDTO course) {
+
+        return coursesService.updateByIdAndCategory(id, CourseConverter.toEntity(course), category);
     }
 }
 
