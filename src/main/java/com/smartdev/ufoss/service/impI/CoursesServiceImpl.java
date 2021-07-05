@@ -127,7 +127,6 @@ public class CoursesServiceImpl implements CourseService {
 
         if (newest.equalsIgnoreCase("mostrating")) {
             listCourses = coursesRepository.findByCategoryAndfilterWithTotalRateDesc(rate, categoryOptional.get().getId());
-            System.out.println("---------------------++++ạmqnfjok");
         } else {
             listCourses = coursesRepository.findByCategoryAndfilterWithCreateAtDesc(rate, categoryOptional.get().getId());
         }
