@@ -33,7 +33,7 @@ public class InstructorController {
         return  instructorService.getInstructorById(id);
     }
     @PostMapping("/instructors")
-    public InstructorEntity addNewInstructor(@RequestBody InstructorDTO newInstructor){
+    public InstructorEntity newInstructor(@RequestBody InstructorDTO newInstructor){
         return instructorService.addNewCourse(InstructorConvertor.toEntity(newInstructor));
     }
     @DeleteMapping("/instructors/{instructorId}")
