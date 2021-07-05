@@ -1,6 +1,7 @@
 package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.dto.RateDTO;
 import com.smartdev.ufoss.entity.RateEntity;
+import com.smartdev.ufoss.service.RateService;
 import com.smartdev.ufoss.service.impI.RateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.UUID;
 public class RateController {
 
     @Autowired
-    private RateServiceImpl rateService;
+    private RateService rateService;
 
     @GetMapping("/{id}")
     public RateEntity getRateById(@PathVariable UUID id) {
