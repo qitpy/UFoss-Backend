@@ -18,7 +18,8 @@ public class PaymentEntity extends AbstractEntity {
     @Column
     private String createAt;
 
-    @JsonBackReference
+
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "user_id",
@@ -26,7 +27,7 @@ public class PaymentEntity extends AbstractEntity {
     )
     private UserEntity user;
 
-    @JsonBackReference
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "course_id",
