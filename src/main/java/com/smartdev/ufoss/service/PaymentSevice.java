@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface PaymentSevice {
     public List<PaymentDTOGet> getAllPayments ();
-    public PaymentEntity getPaymentById(UUID id);
-    public PaymentDTOGet getPaymentByUsernameID(String id);
-    public PaymentEntity addNewPayment(PaymentDTO newPayment);
+    public PaymentDTOGet getPaymentById(UUID id);
+    public List<PaymentDTOGet> getPaymentByUsernameID(UUID id);
+    public List<PaymentDTOGet> addNewPayment(PaymentDTO newPayment);
 }

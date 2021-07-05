@@ -13,6 +13,6 @@ import java.util.UUID;
 @EqualsAndHashCode
 @ToString
 public class PaymentDTO {
-    private UserEntity userEntity;
-    private List<CourseEntity> courseEntities;
+    private String userId;
+    private List<String>  courId;
 }

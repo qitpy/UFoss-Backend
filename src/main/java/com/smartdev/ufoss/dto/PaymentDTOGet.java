@@ -14,5 +14,4 @@ public class PaymentDTOGet {
     private String userId;
     private String courseId;
     private String createAt;
-
 }

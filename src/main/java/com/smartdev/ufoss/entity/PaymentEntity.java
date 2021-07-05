@@ -18,8 +18,6 @@ public class PaymentEntity extends AbstractEntity {
     @Column
     private String createAt;
 
-
-//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "user_id",
@@ -27,11 +25,14 @@ public class PaymentEntity extends AbstractEntity {
     )
     private UserEntity user;
 
-//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "course_id",
             nullable = false
     )
     private CourseEntity course;
+
+    public PaymentEntity(String userId, String courseId, String createAt) {
+        super();
+    }
 }

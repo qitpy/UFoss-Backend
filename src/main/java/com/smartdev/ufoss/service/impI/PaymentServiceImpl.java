@@ -1,10 +1,11 @@
 package com.smartdev.ufoss.service.impI;
 
 import com.smartdev.ufoss.converter.PaymentConverter;
+import com.smartdev.ufoss.converter.UserConverter;
 import com.smartdev.ufoss.dto.PaymentDTO;
 import com.smartdev.ufoss.dto.PaymentDTOGet;
+import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
-import com.smartdev.ufoss.entity.InstructorEntity;
 import com.smartdev.ufoss.entity.PaymentEntity;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.repository.CoursesRepository;
@@ -15,17 +16,20 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-@AllArgsConstructor
 @Service
 public class PaymentServiceImpl implements PaymentSevice {
     private PaymentRepository paymentRepository;
     private UserRepository userRepository;
     private CoursesRepository coursesRepository;
+
+    @Autowired
+    public PaymentServiceImpl(PaymentRepository paymentRepository, UserRepository userRepository, CoursesRepository coursesRepository) {
+        this.paymentRepository = paymentRepository;
+        this.userRepository = userRepository;
+        this.coursesRepository = coursesRepository;
+    }
 
     @Override
     public List<PaymentDTOGet> getAllPayments() {
@@ -39,36 +43,46 @@ public class PaymentServiceImpl implements PaymentSevice {
     }
 
     @Override
-    public PaymentEntity getPaymentById(UUID id) {
-        return paymentRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(
-                        "The payment with id " + id + "doesn't exit!"
-                ));
+    public PaymentDTOGet getPaymentById(UUID id) {
+        Optional<PaymentEntity> paymentEntity = paymentRepository.findById(id);
+        PaymentDTOGet paymentDTOGet = PaymentConverter.toDTO(paymentEntity.get(), new PaymentDTOGet());
+        return paymentDTOGet;
     }
 
     @Override
-    public PaymentDTOGet getPaymentByUsernameID(String id) {
-            Optional<PaymentDTOGet>  paymentOptional = Optional.ofNullable(paymentRepository.findByUsernameId(id));
-        return null;
+    public List<PaymentDTOGet> getPaymentByUsernameID(UUID id) {
+        List<PaymentDTOGet> paymentDTOGets = new ArrayList<>();
+        Optional<UserEntity> user = userRepository.findById(id);
+        List<PaymentEntity> paymentEntity = paymentRepository.findPaymentEntitiesByUser(user.get());
+         if (paymentEntity != null)
+         {
+             for (PaymentEntity entity:paymentEntity){
+                 System.out.println(entity.getCourse().getID());
+                 paymentDTOGets.add(PaymentConverter.toDTO(entity, new PaymentDTOGet()));
+             }
+         } else {
+             throw new IllegalStateException(  "The  userId = " + id + " does not exists.");
+         }
+        return paymentDTOGets;
     }
 
 
     @Override
-    public PaymentEntity addNewPayment(PaymentDTO newPayment) {
-        Optional<UserEntity> userEntity = userRepository.findById(newPayment.getUserEntity().getID());
-        if(userEntity.isEmpty()){
-            throw new IllegalStateException("User does not exist.");
+        public List<PaymentDTOGet> addNewPayment(PaymentDTO newPayment) {
+        UUID userId = UUID.fromString(newPayment.getUserId());
+        List<PaymentDTOGet> paymentDTOGets = new ArrayList<>();
+        for(String strCourseId :  newPayment.getCourId() ){
+            UUID courseId = UUID.fromString(strCourseId);
+            PaymentEntity paymentEntity = new PaymentEntity(
+                    Calendar.getInstance().getTime().toString(),
+                    userRepository.findById(userId).get(),
+                    coursesRepository.findById(courseId).get()
+            );
+            //System.out.println("saveeeee"+paymentEntity);
+            paymentRepository.save(paymentEntity);
+            PaymentDTOGet paymentDTOGet = PaymentConverter.toDTO(paymentEntity, new PaymentDTOGet());
+            paymentDTOGets.add(paymentDTOGet);
         }
-        List<PaymentEntity> paymentEntities = new ArrayList<>();
-        List<CourseEntity> courseEntities = newPayment.getCourseEntities();
-        System.out.println("payment neeee"+ newPayment);
-        for(int i = 0; i<= newPayment.getCourseEntities().size(); i++){
-//            PaymentEntity paymentEntity = new PaymentEntity(newPayment.getUserEntity(), courseEntities.next());
-
-//            paymentEntities.add(new PaymentEntity(UserEntity , newPayment.getCourseEntities()[i]));
-        }
-       return null;
+        return paymentDTOGets;
     }
-
-    ;
 }

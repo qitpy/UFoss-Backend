@@ -16,9 +16,11 @@ public class PaymentConverter {
         dto.setCreateAt(entity.getCreateAt());
         return dto;
     }
-//    public static PaymentEntity toEntity(PaymentDTOGet dtoGet, PaymentEntity entity){
-//        coursetId = dtoGet.getUserId();
-//        entity.getUser().setID(coursetId);
-//        entity.getCourse().setID(dtoGet.getCourseId().toString());
-//    }
+    public static PaymentEntity toEntity(PaymentDTOGet dtoGet, PaymentEntity entity){
+        return  new PaymentEntity(
+                dtoGet.getUserId(),
+                dtoGet.getCourseId(),
+                dtoGet.getCreateAt()
+        );
+    }
 }
