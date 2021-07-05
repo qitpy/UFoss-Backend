@@ -27,4 +27,8 @@ public class RateEntity extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private CourseEntity course;
+
+    public RateEntity(int score) {
+        this.score = score;
+    }
 }
