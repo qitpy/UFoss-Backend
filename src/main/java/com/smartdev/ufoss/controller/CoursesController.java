@@ -7,6 +7,7 @@ import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.CourseService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,5 +58,18 @@ public class CoursesController {
 
         return coursesService.updateByIdAndCategory(id, CourseConverter.toEntity(course), category);
     }
+
+    @GetMapping("/categories/{category}/courses/filter")
+    public ResponseEntity<?> filter(
+            @PathVariable("category") String category,
+            @RequestParam("rate") Double rate,
+            @RequestParam(value = "newest",defaultValue = "newest") String newest,
+            @RequestParam(value = "price", defaultValue = "asc") String price
+    ) {
+        List<CourseEntity> result = coursesService.filterCourses(category, rate, newest, price);
+
+        return ResponseEntity.ok(result);
+    }
+
 }
 
