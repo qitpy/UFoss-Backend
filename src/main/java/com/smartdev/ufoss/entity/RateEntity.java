@@ -21,7 +21,7 @@ public class RateEntity extends AbstractEntity {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    private UserEntity user; 
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
