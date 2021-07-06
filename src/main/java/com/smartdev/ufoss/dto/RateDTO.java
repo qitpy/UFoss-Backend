@@ -12,6 +12,6 @@ import java.util.UUID;
 @EqualsAndHashCode
 @ToString
 public class RateDTO {
-    private int score; // 0 --> 5
+    private Integer score; // 0 --> 5
     private UUID userId;
 }

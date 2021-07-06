@@ -676,82 +676,82 @@ public class DefaultDataConfig {
 
             // Create Rate
             RateEntity r1 = new RateEntity(
-                    4.0,
+                    4,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().stream().findFirst().get()
             );
             RateEntity r2 = new RateEntity(
-                    5.0,
+                    5,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(18)
             );
             RateEntity r3 = new RateEntity(
-                    3.5,
+                    3,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(10)
             );
             RateEntity r4 = new RateEntity(
-                    5.0,
+                    5,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(4)
             );
             RateEntity r5 = new RateEntity(
-                    4.5,
+                    4,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(10)
             );
             RateEntity r6 = new RateEntity(
-                    2.5,
+                    2,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().stream().findFirst().get()
             );
             RateEntity r7 = new RateEntity(
-                    4.0,
+                    4,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(18)
             );
             RateEntity r8 = new RateEntity(
-                    3.5,
+                    3,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(10)
             );
             RateEntity r9 = new RateEntity(
-                    1.0,
+                    1,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(4)
             );
             RateEntity r11 = new RateEntity(
-                    4.5,
+                    4,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().stream().findFirst().get()
             );
             RateEntity r12 = new RateEntity(
-                    4.0,
+                    4,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(18)
             );
             RateEntity r13 = new RateEntity(
-                    3.0,
+                    3,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(10)
             );
             RateEntity r14 = new RateEntity(
-                    2.5,
+                    2,
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(4)
             );
             RateEntity r15 = new RateEntity(
-                    2.5,
+                    2,
                     userRepository.findByUsername(hai.getUsername()).get(),
                     coursesRepository.findAll().get(4)
             );
             RateEntity r16 = new RateEntity(
-                    3.0,
+                    3,
                     userRepository.findByUsername(thiet.getUsername()).get(),
                     coursesRepository.findAll().get(7)
             );
             RateEntity r17 = new RateEntity(
-                    2.5,
+                    2,
                     userRepository.findByUsername(hoang.getUsername()).get(),
                     coursesRepository.findAll().get(7)
             );
