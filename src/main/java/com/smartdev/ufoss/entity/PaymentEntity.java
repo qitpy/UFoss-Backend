@@ -2,6 +2,7 @@ package com.smartdev.ufoss.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 
@@ -33,4 +34,8 @@ public class PaymentEntity extends AbstractEntity {
             nullable = false
     )
     private CourseEntity course;
+
+    public PaymentEntity(String userId, String courseId, String createAt) {
+        super();
+    }
 }

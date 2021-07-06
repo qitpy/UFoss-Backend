@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "Rate")
 public class RateEntity extends AbstractEntity {
     @Column(name = "score")
-    private int score;
+    private Integer score;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,4 +27,8 @@ public class RateEntity extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private CourseEntity course;
+
+    public RateEntity(Integer score) {
+        this.score = score;
+    }
 }

@@ -6,14 +6,11 @@ import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.service.CourseService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -79,7 +76,7 @@ public class CoursesServiceImpl implements CourseService {
         boolean exists = coursesRepository.existsById(id);
         if (!exists) {
             throw new IllegalStateException(
-                    "The course with id " + id + " in " + category+ "does not exist!"
+                    "The course with id " + id + " in " + category + "does not exist!"
             );
         }
         coursesRepository.deleteByIDAndCategory(id, categoryOptional.get());
@@ -115,6 +112,37 @@ public class CoursesServiceImpl implements CourseService {
         }
 
         return coursesRepository.save(courseFound);
+    }
+
+    @Override
+    public List<CourseEntity> filterCourses(String category, Double rate, String newest, String sortByPrice) {
+
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
+        if (categoryOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The category " + category + " does not exists."
+            );
+        }
+        List<CourseEntity> listCourses = null;
+
+        if (newest.equalsIgnoreCase("mostrating")) {
+            listCourses = coursesRepository.findByCategoryAndfilterWithTotalRateDesc(rate, categoryOptional.get().getId());
+        } else {
+            listCourses = coursesRepository.findByCategoryAndfilterWithCreateAtDesc(rate, categoryOptional.get().getId());
+        }
+
+        Comparator<CourseEntity> compareByPrice = (CourseEntity c1, CourseEntity c2) ->
+                c1.getPrice().compareTo(c2.getPrice());
+
+        if (sortByPrice.equalsIgnoreCase("desc")){
+            Collections.sort(listCourses, compareByPrice);
+        } else {
+            Collections.sort(listCourses, compareByPrice.reversed());
+        }
+
+
+
+        return listCourses;
     }
 
 }
