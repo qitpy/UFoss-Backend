@@ -13,29 +13,29 @@ import java.util.UUID;
 @AllArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/payments")
 
 public class PaymentController {
 
     @Autowired
     private final PaymentSevice paymentSevice;
 
-    @GetMapping("/payments")
+    @GetMapping("")
     public List<PaymentGetDTO> getAllPayments() {
         return paymentSevice.getAllPayments();
     }
 
-    @GetMapping("/payments/usernameid/{usernameid}")
+    @GetMapping("/usernameid/{usernameid}")
     public List<PaymentGetDTO> getPaymentByUsername(@PathVariable("usernameid") UUID usernameId){
         return paymentSevice.getPaymentByUsernameID(usernameId);
     }
 
-    @GetMapping("/payments/{paymentid}")
+    @GetMapping("/{paymentid}")
     public PaymentGetDTO getPaymentById(@PathVariable("paymentid") UUID paymentId){
         return  paymentSevice.getPaymentById(paymentId);
     }
 
-    @PostMapping("/payments")
+    @PostMapping("")
     public List<PaymentGetDTO> addNewPayment(@RequestBody PaymentDTO newPayment){
         return paymentSevice.addNewPayment(newPayment);
     }
