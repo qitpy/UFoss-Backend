@@ -1,6 +1,9 @@
 package com.smartdev.ufoss.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.smartdev.ufoss.dto.Rate;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,28 +30,31 @@ public class CourseEntity extends AbstractEntity {
     private String imageURL;
 
     @Column(name = "create_at", updatable = false)
-    private LocalDateTime createAt;
+    private LocalDateTime createAt = LocalDateTime.now();
 
     @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<RateEntity> rates;
 
-
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "course")
     private Set<PaymentEntity> payments;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<LessonEntity> lessons;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ManyToOne()
     @JoinColumn(
             name = "instructor_id"
     )
     private InstructorEntity instructor;
 
-    @JsonIgnore
+    @Transient
+    private Rate rate;
+
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "category_id"
@@ -61,5 +67,31 @@ public class CourseEntity extends AbstractEntity {
         this.price = price;
         this.imageURL = imageURL;
         this.createAt = LocalDateTime.now();
+    }
+
+    public CourseEntity(String title,
+                        String description,
+                        Double price,
+                        String imageURL,
+                        InstructorEntity instructor) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.imageURL = imageURL;
+        this.instructor = instructor;
+    }
+
+    public Rate getRate() {
+        int rating = 0;
+        int score = 0;
+        for (RateEntity rateEntity : this.getRates()) {
+            rating++;
+            score += rateEntity.getScore();
+        }
+        if (rating == 0) return new Rate();
+        return new Rate(
+                rating,
+                score
+        );
     }
 }

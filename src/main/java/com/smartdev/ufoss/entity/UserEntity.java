@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,9 +36,11 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     @Column(name = "username")
     private String username;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
@@ -45,19 +48,21 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     private Boolean isAccountNonLocked = true;
     private Boolean isEnabled = false;
 
+    @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role"))
     private Set<RoleEntity> roles = new HashSet<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user")
     private RefreshTokenEntity refreshToken;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RateEntity> rates;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<PaymentEntity> payment;
 
