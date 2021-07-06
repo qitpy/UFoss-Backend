@@ -33,6 +33,7 @@ public class CourseEntity extends AbstractEntity {
     @OneToMany(mappedBy = "course")
     private Set<RateEntity> rates;
 
+
     @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<PaymentEntity> payments;
