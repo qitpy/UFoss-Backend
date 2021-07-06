@@ -3,26 +3,30 @@ package com.smartdev.ufoss.service;
 import com.smartdev.ufoss.entity.CourseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface CourseService {
+    List<CourseEntity> findByTitleOrDescription(String title, String description);
 
-    public Page<CourseEntity> findCourses(Pageable pageable);
+    Page<CourseEntity> findAllInCategory(String category, Pageable pageable);
 
-    public Page<CourseEntity> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+    ResponseEntity<Map<String, Object>> findByTitleOrDescriptionInCategory(
+            String category,
             String title,
             String desc,
             Pageable pageable);
 
-    public CourseEntity findCourseById(UUID id);
+    CourseEntity findByIDAndCategory(UUID id, String category);
 
-    public CourseEntity addNewCourse(CourseEntity newCourse);
+    CourseEntity addByCategory(CourseEntity newCourse, String category);
 
-    public void deleteCourseById(UUID id);
+    void deleteByIdAndCategory(UUID id, String category);
 
     @Transactional
-    public CourseEntity updateCourse(UUID id, CourseEntity course);
-
+    CourseEntity updateByIdAndCategory(UUID id, CourseEntity course, String category);
 }

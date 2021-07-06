@@ -1,4 +1,3 @@
-
 package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.converter.CourseConverter;
@@ -8,6 +7,8 @@ import com.smartdev.ufoss.service.CourseService;
 
 import lombok.AllArgsConstructor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,57 +26,63 @@ import java.util.*;
 public class CoursesController {
 
     private final CourseService coursesService;
+    static final Logger logger = LoggerFactory.getLogger(CoursesController.class);
 
     @GetMapping("/courses")
-    public ResponseEntity<Map<String, Object>> getAllCourses(
+    public List<CourseEntity> findByTitleOrDescription(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String desc
+    ) {
+//        if (title == null) {
+//
+//        }
+        return coursesService.findByTitleOrDescription(title, desc);
+    }
+
+    @GetMapping("/categories/{category}/courses")
+    public ResponseEntity<Map<String, Object>> findByTitleOrDescriptionInCategory(
+            @PathVariable("category") String category,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String desc,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size
-    ) {
-        try {
-            List<CourseEntity> courses = new ArrayList<CourseEntity>();
-            Pageable paging = PageRequest.of(page, size, Sort.by("createAt"));
+            @RequestParam(defaultValue = "10") Integer size) {
 
-            Page<CourseEntity> pageCourses;
-            if (title == null && desc == null)
-                pageCourses = coursesService.findCourses(paging);
-            else
-                pageCourses = coursesService.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(title, desc, paging);
+        Pageable paging = PageRequest.of(page, size, Sort.by("createAt"));
 
-            courses = pageCourses.getContent();
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("data", courses);
-            response.put("currentPage", pageCourses.getNumber());
-            response.put("totalItems", pageCourses.getTotalElements());
-            response.put("totalPages", pageCourses.getTotalPages());
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return coursesService.findByTitleOrDescriptionInCategory(category, title, desc, paging);
     }
 
-    @GetMapping("/courses/{courseId}")
-    public CourseEntity getCourseById(@PathVariable("courseId") UUID id) {
-        return coursesService.findCourseById(id);
+    @GetMapping("/categories/{category}/courses/{courseId}")
+    public CourseEntity getCourseByIdInCategory(
+            @PathVariable("category") String category,
+            @PathVariable("courseId") UUID id) {
+
+        return coursesService.findByIDAndCategory(id, category);
     }
 
-    @PostMapping("/courses")
-    public CourseEntity addNewCourse(@RequestBody CourseDTO newCourse) {
-        return coursesService.addNewCourse(CourseConverter.toEntity(newCourse));
+    @PostMapping("/categories/{category}/courses")
+    public CourseEntity addNewCourseInCategory(
+            @PathVariable("category") String category,
+            @RequestBody CourseDTO newCourse) {
+
+        return coursesService.addByCategory(CourseConverter.toEntity(newCourse), category);
     }
 
-    @DeleteMapping("/courses/{courseId}")
-    public void deleteCourseById(@PathVariable("courseId") UUID id) {
-        coursesService.deleteCourseById(id);
+    @DeleteMapping("/categories/{category}/courses/{courseId}")
+    public void deleteCourseByIdInCategory(
+            @PathVariable("category") String category,
+            @PathVariable("courseId") UUID id) {
+
+        coursesService.deleteByIdAndCategory(id, category);
     }
 
-    @PutMapping("/courses/{courseId}")
-    public CourseEntity updateCourse(@PathVariable("courseId") UUID id,
-                                     @RequestBody CourseDTO course) {
-        return coursesService.updateCourse(id, CourseConverter.toEntity(course));
+    @PutMapping("/categories/{category}/courses/{courseId}")
+    public CourseEntity updateCourseInCategory(
+            @PathVariable("category") String category,
+            @PathVariable("courseId") UUID id,
+            @RequestBody CourseDTO course) {
+
+        return coursesService.updateByIdAndCategory(id, CourseConverter.toEntity(course), category);
     }
 }
 
