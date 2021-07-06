@@ -32,14 +32,17 @@ public class InstructorController {
     public InstructorEntity getInstructorById(@PathVariable("instructorId") UUID id) {
         return  instructorService.getInstructorById(id);
     }
+
     @PostMapping("/instructors")
     public InstructorEntity newInstructor(@RequestBody InstructorDTO newInstructor){
         return instructorService.addNewCourse(InstructorConvertor.toEntity(newInstructor));
     }
+
     @DeleteMapping("/instructors/{instructorId}")
     public void deleteInstructorById (@PathVariable("instructorId") UUID id) {
         instructorService.deleteCourseById(id);
     }
+
     @PutMapping("/instructors/{instructorId}")
     public  InstructorEntity updateInstructor(@PathVariable("instructorId") UUID id, @RequestBody InstructorDTO instructor) {
         return instructorService.updateInstructor(id, InstructorConvertor.toEntity(instructor));

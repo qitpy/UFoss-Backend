@@ -5,6 +5,7 @@ import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.exception.MessageErrorException;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.service.CategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,10 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@AllArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping("/categories")
     public ResponseEntity<?> getMenu() {

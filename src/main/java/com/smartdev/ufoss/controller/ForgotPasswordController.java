@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class ForgotPasswordController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final EmailSenderService emailSenderService;
 
-    @Autowired
-    private EmailSenderService emailSenderService;
 
     @PostMapping("/reset")
     public ResponseEntity<?> processForgotPasswordForm(@RequestBody ResetPasswordDTO model) {
@@ -48,6 +46,7 @@ public class ForgotPasswordController {
             );
 
         } catch (UserNotFoundException e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 

@@ -29,4 +29,6 @@ public interface CourseService {
 
     @Transactional
     CourseEntity updateByIdAndCategory(UUID id, CourseEntity course, String category);
+
+    List<CourseEntity> filterCourses(String category, Double rate , String newest, String sortByPrice);
 }

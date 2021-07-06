@@ -311,7 +311,7 @@ public class DefaultDataConfig {
                             instruc17, instruc18, instruc19, instruc20
                     )
             );
-            
+
             List<CategoryDTO> listCateDTO = new ArrayList<>();
             // Create Category
             CategoryEntity cateWeb = new CategoryEntity(
@@ -695,7 +695,68 @@ public class DefaultDataConfig {
                     userRepository.findByUsername(user.getUsername()).get(),
                     coursesRepository.findAll().get(4)
             );
-            rateRepository.saveAll(List.of(r1, r2, r3, r4));
+            RateEntity r5 = new RateEntity(
+                    4,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().get(10)
+            );
+            RateEntity r6 = new RateEntity(
+                    2,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().stream().findFirst().get()
+            );
+            RateEntity r7 = new RateEntity(
+                    4,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().get(18)
+            );
+            RateEntity r8 = new RateEntity(
+                    3,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().get(10)
+            );
+            RateEntity r9 = new RateEntity(
+                    1,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().get(4)
+            );
+            RateEntity r11 = new RateEntity(
+                    4,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().stream().findFirst().get()
+            );
+            RateEntity r12 = new RateEntity(
+                    4,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().get(18)
+            );
+            RateEntity r13 = new RateEntity(
+                    3,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().get(10)
+            );
+            RateEntity r14 = new RateEntity(
+                    2,
+                    userRepository.findByUsername(user.getUsername()).get(),
+                    coursesRepository.findAll().get(4)
+            );
+            RateEntity r15 = new RateEntity(
+                    2,
+                    userRepository.findByUsername(hai.getUsername()).get(),
+                    coursesRepository.findAll().get(4)
+            );
+            RateEntity r16 = new RateEntity(
+                    3,
+                    userRepository.findByUsername(thiet.getUsername()).get(),
+                    coursesRepository.findAll().get(7)
+            );
+            RateEntity r17 = new RateEntity(
+                    2,
+                    userRepository.findByUsername(hoang.getUsername()).get(),
+                    coursesRepository.findAll().get(7)
+            );
+            rateRepository.saveAll(List.of(r1, r2, r3, r4, r5, r6, r7, r8,
+                    r9, r11, r12, r13, r14, r15, r1));
         };
     }
 }

@@ -187,4 +187,32 @@ public class CoursesServiceImpl implements CourseService {
         return coursesRepository.save(courseFound);
     }
 
+    @Override
+    public List<CourseEntity> filterCourses(String category, Double rate, String newest, String sortByPrice) {
+
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
+        if (categoryOptional.isEmpty()) {
+            throw new IllegalStateException(
+                    "The category " + category + " does not exists."
+            );
+        }
+        List<CourseEntity> listCourses = null;
+
+        if (newest.equalsIgnoreCase("mostrating")) {
+            listCourses = coursesRepository.findByCategoryAndfilterWithTotalRateDesc(rate, categoryOptional.get().getId());
+        } else {
+            listCourses = coursesRepository.findByCategoryAndfilterWithCreateAtDesc(rate, categoryOptional.get().getId());
+        }
+
+        Comparator<CourseEntity> compareByPrice = (CourseEntity c1, CourseEntity c2) ->
+                c1.getPrice().compareTo(c2.getPrice());
+
+        if (sortByPrice.equalsIgnoreCase("desc")) {
+            Collections.sort(listCourses, compareByPrice);
+        } else {
+            Collections.sort(listCourses, compareByPrice.reversed());
+        }
+
+        return listCourses;
+    }
 }
