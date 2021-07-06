@@ -490,26 +490,26 @@ public class DefaultDataConfig {
 
             // Create Lesson
             LessonEntity l1 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=C7dPqrmDWxs&list=PLGYPpIsdZKnLRU3hBKDmUBRdzVdM0rS0z",
+                    "https://www.youtube.com/embed/watch?v=C7dPqrmDWxs&list=PLGYPpIsdZKnLRU3hBKDmUBRdzVdM0rS0z",
                     "Pharrell Williams - Happy (Official Video)",
                     "Pharrell Williams  Dear  G  I  R  L  Tour Dates",
                     coursesRepository.findAll().get(0)
             );
             LessonEntity l2 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=9bZkp7q19f0",
+                    "https://www.youtube.com/embed/watch?v=9bZkp7q19f0",
                     "PSY - GANGNAM STYLE(강남스타일) M/V",
                     "YG Entertainment Inc. (Music)",
                     coursesRepository.findAll().get(1)
             );
             LessonEntity l3 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=fWNaR-rxAic",
+                    "https://www.youtube.com/embed/watch?v=fWNaR-rxAic",
                     "Carly Rae Jepsen - Call Me Maybe",
                     "Get E•MO•TION on iTunes now:Sign up for Carly Rae Jepsen news here: Music video by Carly Rae Jepsen performing Call Me Maybe. (C) 2011 604 Records Inc.\n" +
                             "#VEVOCertified on June 8, 2012.",
                     coursesRepository.findAll().get(2)
             );
             LessonEntity l4 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=I-QfPUz1es8",
+                    "https://www.youtube.com/embed/watch?v=I-QfPUz1es8",
                     "Imagine Dragons - Bad Liar",
                     "Get Origins, ft. Natural, Zero, Machine and Bad Liar, out now: http://smarturl.it/OriginsID\n" +
                             "\n" +
@@ -518,14 +518,14 @@ public class DefaultDataConfig {
                     coursesRepository.findAll().get(3)
             );
             LessonEntity l5 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=gH476CxJxfg",
+                    "https://www.youtube.com/embed/watch?v=gH476CxJxfg",
                     "Daniel Powter - Bad Day (Official Music Video) | Warner Vault",
                     "Bad Day by Daniel Powter from the album Daniel Powter © 2005\n" +
                             "\uD83D\uDD14  Subscribe & Turn on notifications to stay updated with new uploads!",
                     coursesRepository.findAll().get(4)
             );
             LessonEntity l6 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=dbK5bC9tmwM",
+                    "https://www.youtube.com/embed/watch?v=dbK5bC9tmwM",
                     "[Vietsub+Lyrics] The Show - Lenka",
                     "I'm just a little bit caught in the middle\n" +
                             "Life is a maze and love is a riddle\n" +
@@ -534,7 +534,7 @@ public class DefaultDataConfig {
                     coursesRepository.findAll().get(5)
             );
             LessonEntity l7 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=gBmPZjOUppI",
+                    "https://www.youtube.com/embed/watch?v=gBmPZjOUppI",
                     "[Vietsub+Lyrics] Proud Of You - Fiona Fung",
                     "Love in your eyes\n" +
                             "Sitting silent by my side\n" +
@@ -545,7 +545,7 @@ public class DefaultDataConfig {
                     coursesRepository.findAll().get(6)
             );
             LessonEntity l8 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=3gK_2XdjOdY",
+                    "https://www.youtube.com/embed/watch?v=3gK_2XdjOdY",
                     "Titanic - My Heart Will Go On (Music Video)",
                     "Every night in my dreams\n" +
                             "I see you, I feel you\n" +
@@ -553,7 +553,7 @@ public class DefaultDataConfig {
                     coursesRepository.findAll().get(7)
             );
             LessonEntity l9 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=ulOb9gIGGd0",
+                    "https://www.youtube.com/embed/watch?v=ulOb9gIGGd0",
                     "Westlife - My Love (Official Video)",
                     "An empty street, an empty house\n" +
                             "A hole inside my heart\n" +
@@ -561,19 +561,19 @@ public class DefaultDataConfig {
                     coursesRepository.findAll().get(8)
             );
             LessonEntity l10 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=64VZUNTmGQM",
+                    "https://www.youtube.com/embed/watch?v=64VZUNTmGQM",
                     "PARK BOM - YOU AND I M/V",
                     "That was the most played song on the radio in Korea’s HISTORY for a good time! Truly a masterpiece as Park Bom herself described",
                     coursesRepository.findAll().get(9)
             );
             LessonEntity l11 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=-Plg9lj6YwQ",
+                    "https://www.youtube.com/embed/watch?v=-Plg9lj6YwQ",
                     "The way to kick Love",
                     "DuoQuyenTinhYeu",
                     coursesRepository.findAll().get(10)
             );
             LessonEntity l12 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=tLtxoa1RAyE",
+                    "https://www.youtube.com/embed/watch?v=tLtxoa1RAyE",
                     "Aloha | English Version | Video Lyrics",
                     "Oh the candlelight shimmers in the night\n" +
                             "We promise our love with glasses of wine\n" +
@@ -582,7 +582,7 @@ public class DefaultDataConfig {
                     coursesRepository.findAll().get(11)
             );
             LessonEntity l13 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=pBTp2RWxq-s",
+                    "https://www.youtube.com/embed/watch?v=pBTp2RWxq-s",
                     "[Vietsub+Lyrics] I Do - 911",
                     "My whole world changed from the moment I met you\n" +
                             "And it would never be the same\n" +
@@ -593,39 +593,39 @@ public class DefaultDataConfig {
                     coursesRepository.findAll().get(12)
             );
             LessonEntity l14 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=nQY4dIxY1H4",
+                    "https://www.youtube.com/embed/watch?v=nQY4dIxY1H4",
                     "Chris Medina - What Are Words (Official Video)",
                     "Music video by Chris Medina performing What Are Words. (C) 2011 19 Recordings, Inc.",
                     coursesRepository.findAll().get(13)
             );
             LessonEntity l15 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=btDd9rOlc2k",
+                    "https://www.youtube.com/embed/watch?v=btDd9rOlc2k",
                     "BIGBANG - MONSTER M/V",
                     "bukan monster. hanya seseorang yang diam-diam patah hati tanpa dia tau, aku pernah jatuh cinta.",
                     coursesRepository.findAll().get(14)
             );
             LessonEntity l16 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=amOSaNX7KJg",
+                    "https://www.youtube.com/embed/watch?v=amOSaNX7KJg",
                     "숀 (SHAUN) - 웨이백홈 (Way Back Home) [Lyric Video]",
                     "For those who think English ver made this song popular.\n" +
                             "This song got popular before English version was released, incase you don't know in korean music shows and charts this song topped Bts and Blackpink. ",
                     coursesRepository.findAll().get(15)
             );
             LessonEntity l17 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=h0UUqTCczHQ",
+                    "https://www.youtube.com/embed/watch?v=h0UUqTCczHQ",
                     "lofi hip hop radio \uD83C\uDF31 beats to relax/study to",
                     "All pictures are collected by me or sent by fans, I just create more. So if there is any problem related to copyright, email me first and I will take care of it immediately!\n" +
                             "Thank you very much!!!",
                     coursesRepository.findAll().get(16)
             );
             LessonEntity l18 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=63nQdUoo388",
+                    "https://www.youtube.com/embed/watch?v=63nQdUoo388",
                     "Why so sad ? Lofi hip hop mix~ Stress Relief, Aesthetic Music",
                     "All pictures are collected by me or sent by fans, I just create more. So if there is any problem related to copyright, email me first and I will take care of it immediately!",
                     coursesRepository.findAll().get(17)
             );
             LessonEntity l19 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=Id6ARZyuxaw",
+                    "https://www.youtube.com/embed/watch?v=Id6ARZyuxaw",
                     "Xe Đạp x Anh Yêu Em Nhiều Lắm - Nhạc Lofi Cực Chill Nhẹ Nhàng Thư Giãn 2021",
                     " Xe Đạp x Anh Yêu Em Nhiều Lắm\n" +
                             "Nhạc Lofi Cực Chill Nhẹ Nhàng Thư Giãn 2021\n" +
@@ -633,7 +633,7 @@ public class DefaultDataConfig {
                     coursesRepository.findAll().get(18)
             );
             LessonEntity l20 = new LessonEntity(
-                    "https://www.youtube.com/watch?v=ArQHATe9zk0",
+                    "https://www.youtube.com/embed/watch?v=ArQHATe9zk0",
                     "Em Đi Xa Nơi Phương Trời Chỉ Có Mỗi Anh Nơi Này - Nhạc Lofi Chill 2021 - Mình Anh Nơi Này, Nàng Thơ",
                     "Em Đi Xa Nơi Phương Trời Chỉ Có Mỗi Anh Nơi Này" +
                             "Nhạc Lofi  Chill 2021 - Mình Anh Nơi Này, Nàng Thơ" +

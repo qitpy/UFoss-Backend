@@ -46,7 +46,6 @@ public class CourseEntity extends AbstractEntity {
     )
     private InstructorEntity instructor;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "category_id"
