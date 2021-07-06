@@ -1,15 +1,14 @@
 package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.dto.PaymentDTO;
-import com.smartdev.ufoss.dto.PaymentDTOGet;
-import com.smartdev.ufoss.entity.PaymentEntity;
+import com.smartdev.ufoss.dto.PaymentGetDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface PaymentSevice {
-    public List<PaymentDTOGet> getAllPayments ();
-    public PaymentDTOGet getPaymentById(UUID id);
-    public List<PaymentDTOGet> getPaymentByUsernameID(UUID id);
-    public List<PaymentDTOGet> addNewPayment(PaymentDTO newPayment);
+    public List<PaymentGetDTO> getAllPayments ();
+    public PaymentGetDTO getPaymentById(UUID id);
+    public List<PaymentGetDTO> getPaymentByUsernameID(UUID id);
+    public List<PaymentGetDTO> addNewPayment(PaymentDTO newPayment);
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PaymentDTOGet {
+public class PaymentGetDTO {
     private UUID id;
     private String userId;
     private String courseId;
