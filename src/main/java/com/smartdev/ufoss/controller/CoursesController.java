@@ -4,13 +4,18 @@ package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.converter.CourseConverter;
 import com.smartdev.ufoss.dto.CourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
+import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.service.CourseService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -20,11 +25,6 @@ import java.util.UUID;
 public class CoursesController {
 
     private final CourseService coursesService;
-
-    @GetMapping("/categories/{category}/courses")
-    public List<CourseEntity> getAllCourses(@PathVariable("category") String category) {
-        return coursesService.findByCategory(category);
-    }
 
     @GetMapping("/categories/{category}/courses/{courseId}")
     public CourseEntity getCourseById(
@@ -59,17 +59,23 @@ public class CoursesController {
         return coursesService.updateByIdAndCategory(id, CourseConverter.toEntity(course), category);
     }
 
-    @GetMapping("/categories/{category}/courses/filter")
-    public ResponseEntity<?> filter(
+    CoursesRepository coursesRepository;
+
+    @GetMapping("/categories/{category}/courses")
+    public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
             @PathVariable("category") String category,
-            @RequestParam("rate") Double rate,
-            @RequestParam(value = "newest",defaultValue = "newest") String newest,
-            @RequestParam(value = "price", defaultValue = "asc") String price
+            @RequestParam(value = "ratings", defaultValue = "0", required = false) Double ratings,
+            @RequestParam(value = "criteria", defaultValue = "newest", required = false) String criteria,
+            @RequestParam(value = "sortByPrice", defaultValue = "asc", required = false) String sortByPrice,
+            @RequestParam("page") Integer page,
+            @RequestParam("size") Integer size
     ) {
-        List<CourseEntity> result = coursesService.filterCourses(category, rate, newest, price);
+        Sort sort = Sort.by("price");
+        sort = "asc".equalsIgnoreCase(sortByPrice) ? sort.ascending() : sort.descending();
 
-        return ResponseEntity.ok(result);
+        Pageable paging = PageRequest.of(page, size, sort);
+
+        return coursesService.findCoursesWithFilter(category, ratings, criteria, sortByPrice, paging);
     }
-
 }
 
