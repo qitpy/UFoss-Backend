@@ -38,70 +38,6 @@ public class CoursesServiceImpl implements CourseService {
         return coursesRepository.findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(title, desc);
     }
 
-    @Override
-    public Page<CourseEntity> findAllInCategory(String category, Pageable pageable) {
-        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
-        if (categoryOptional.isEmpty()) {
-            throw new IllegalStateException(
-                    "The category " + category + " does not exists."
-            );
-        }
-
-        return coursesRepository.findAllByCategory(categoryOptional.get(), pageable);
-    }
-
-    @Override
-    public ResponseEntity<Map<String, Object>> findByTitleOrDescriptionInCategory(
-            String category,
-            String title,
-            String desc,
-            Pageable pageable) {
-
-        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
-        if (categoryOptional.isEmpty()) {
-            throw new IllegalStateException(
-                    "The category " + category + " does not exists."
-            );
-        }
-
-        try {
-            List<CourseEntity> courses;
-            Page<CourseEntity> pageCourses;
-            if (title == null && desc == null)
-                pageCourses = coursesRepository.findAllByCategory(categoryOptional.get(), pageable);
-            else if (title == null) {
-                pageCourses = coursesRepository.findByCategoryAndDescriptionContainingIgnoreCase(
-                        categoryOptional.get(),
-                        desc,
-                        pageable);
-            } else if (desc == null) {
-                pageCourses = coursesRepository.findByCategoryAndTitleContainingIgnoreCase(
-                        categoryOptional.get(),
-                        title,
-                        pageable);
-            } else {
-                pageCourses = coursesRepository.findByCategoryAndTitleContainingOrCategoryAndDescriptionContainingAllIgnoreCase(
-                        categoryOptional.get(),
-                        title,
-                        categoryOptional.get(),
-                        desc,
-                        pageable);
-            }
-
-            courses = pageCourses.getContent();
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("data", courses);
-            response.put("currentPage", pageCourses.getNumber());
-            response.put("totalItems", pageCourses.getTotalElements());
-            response.put("totalPages", pageCourses.getTotalPages());
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     public CourseEntity findByIDAndCategory(UUID id, String category) {
         Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
         if (categoryOptional.isEmpty()) {
@@ -188,31 +124,48 @@ public class CoursesServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseEntity> filterCourses(String category, Double rate, String newest, String sortByPrice) {
-
+    public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
+            String category,
+            Double ratings,
+            String criteria,
+            String sortByPrice,
+            Pageable pageable
+    ) {
         Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
         if (categoryOptional.isEmpty()) {
             throw new IllegalStateException(
                     "The category " + category + " does not exists."
             );
         }
-        List<CourseEntity> listCourses = null;
 
-        if (newest.equalsIgnoreCase("mostrating")) {
-            listCourses = coursesRepository.findByCategoryAndfilterWithTotalRateDesc(rate, categoryOptional.get().getId());
+        try {
+        List<CourseEntity> courses = null;
+        Page<CourseEntity> pageCourses = null;
+
+        if(ratings == null && criteria == null && sortByPrice == null){
+            pageCourses = coursesRepository.findAllByCategory(categoryOptional.get(),pageable);
+        } else if ("newest".equalsIgnoreCase(criteria)) {
+
+            pageCourses = coursesRepository.findByCategoryWithFilterAndNewest(ratings, categoryOptional.get().getId(), pageable);
+
         } else {
-            listCourses = coursesRepository.findByCategoryAndfilterWithCreateAtDesc(rate, categoryOptional.get().getId());
+            if(ratings < 3.0){
+                pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(categoryOptional.get().getId(), pageable);
+            } else {
+                pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(categoryOptional.get().getId(), ratings, pageable);
+            }
         }
+        courses = pageCourses.getContent();
 
-        Comparator<CourseEntity> compareByPrice = (CourseEntity c1, CourseEntity c2) ->
-                c1.getPrice().compareTo(c2.getPrice());
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", courses);
+        response.put("currentPage", pageCourses.getNumber());
+        response.put("totalItems", pageCourses.getTotalElements());
+        response.put("totalPages", pageCourses.getTotalPages());
 
-        if (sortByPrice.equalsIgnoreCase("desc")) {
-            Collections.sort(listCourses, compareByPrice);
-        } else {
-            Collections.sort(listCourses, compareByPrice.reversed());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return listCourses;
     }
 }
