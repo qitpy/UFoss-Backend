@@ -52,11 +52,12 @@ public class AuthController {
 
         RefreshTokenEntity refreshTokenEntity = refreshTokenService.createRefreshToken(username);
         String refreshToken = refreshTokenEntity.getRefreshToken();
-
+        UserEntity userEntity = loginService.getUserEntity(username);
         return new JwtResponseDTO(
                 accessToken,
                 refreshToken,
-                username
+                username,
+                userEntity
                 );
     }
 

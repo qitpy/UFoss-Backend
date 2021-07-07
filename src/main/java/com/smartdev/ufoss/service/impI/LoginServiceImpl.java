@@ -74,4 +74,9 @@ public class LoginServiceImpl implements LoginService {
         String accessToken = jwtConfig.getTokenPrefix() + token;
         return accessToken;
     }
+
+    @Override
+    public UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username).get();
+    }
 }
