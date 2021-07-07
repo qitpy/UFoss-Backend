@@ -1,6 +1,6 @@
 package com.smartdev.ufoss.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,6 +30,7 @@ public class InstructorEntity extends AbstractEntity {
     @Column
     private String bio;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "instructor")
     private Set<CourseEntity> courses;
 
