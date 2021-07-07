@@ -6,11 +6,14 @@ import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.service.CourseService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -115,34 +118,47 @@ public class CoursesServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseEntity> filterCourses(String category, Double rate, String newest, String sortByPrice) {
-
+    public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
+            String category,
+            Double ratings,
+            String criteria,
+            String sortByPrice,
+            Pageable pageable
+    ) {
         Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
         if (categoryOptional.isEmpty()) {
             throw new IllegalStateException(
                     "The category " + category + " does not exists."
             );
         }
-        List<CourseEntity> listCourses = null;
 
-        if (newest.equalsIgnoreCase("mostrating")) {
-            listCourses = coursesRepository.findByCategoryAndfilterWithTotalRateDesc(rate, categoryOptional.get().getId());
+        try {
+        List<CourseEntity> courses = null;
+        Page<CourseEntity> pageCourses = null;
+
+
+        if ("newest".equalsIgnoreCase(criteria)) {
+            pageCourses = coursesRepository.findByCategoryWithFilterAndNewest(ratings, categoryOptional.get().getId(), pageable);
         } else {
-            listCourses = coursesRepository.findByCategoryAndfilterWithCreateAtDesc(rate, categoryOptional.get().getId());
+            if(ratings < 3.0){
+                pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(categoryOptional.get().getId(), pageable);
+            } else {
+                pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(categoryOptional.get().getId(), ratings, pageable);
+            }
+        }
+        courses = pageCourses.getContent();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", courses);
+        response.put("currentPage", pageCourses.getNumber());
+        response.put("totalItems", pageCourses.getTotalElements());
+        response.put("totalPages", pageCourses.getTotalPages());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        Comparator<CourseEntity> compareByPrice = (CourseEntity c1, CourseEntity c2) ->
-                c1.getPrice().compareTo(c2.getPrice());
-
-        if (sortByPrice.equalsIgnoreCase("desc")){
-            Collections.sort(listCourses, compareByPrice);
-        } else {
-            Collections.sort(listCourses, compareByPrice.reversed());
-        }
-
-
-
-        return listCourses;
     }
 
 }
