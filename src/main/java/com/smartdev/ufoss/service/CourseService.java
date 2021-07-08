@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface CourseService {
-    List<CourseEntity> findByCategory(String category);
+    List<CourseEntity> findByTitleOrDescription(String title, String description);
 
     CourseEntity findByIDAndCategory(UUID id, String category);
 

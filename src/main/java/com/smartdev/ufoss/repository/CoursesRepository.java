@@ -15,7 +15,13 @@ import java.util.UUID;
 @Repository
 public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
 
-    List<CourseEntity> findByCategory(CategoryEntity category);
+    List<CourseEntity> findTop5ByTitleContainingIgnoreCaseOrderByTitle(String title);
+
+    List<CourseEntity> findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(String desc);
+
+    List<CourseEntity> findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(
+            String title, String desc);
+
 
     Optional<CourseEntity> findByIDAndCategory(UUID id, CategoryEntity category);
 
@@ -89,4 +95,5 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
     Page<CourseEntity> findByCategoryWithFilterAndSellestAndRating(Long category, Double rating, Pageable pageable);
 
     Page<CourseEntity> findAllByCategory(CategoryEntity category, Pageable pageable);
+
 }

@@ -27,7 +27,7 @@ public class InstructorEntity extends AbstractEntity {
     @Column
     private String phone;
 
-    @Column
+    @Column(length = 1024)
     private String bio;
 
     @JsonBackReference

@@ -20,7 +20,7 @@ public class CourseEntity extends AbstractEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 1024)
     private String description;
 
     @Column(name = "price", nullable = false)
@@ -69,29 +69,22 @@ public class CourseEntity extends AbstractEntity {
         this.createAt = LocalDateTime.now();
     }
 
-    public CourseEntity(String title,
-                        String description,
-                        Double price,
-                        String imageURL,
-                        InstructorEntity instructor) {
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.imageURL = imageURL;
-        this.instructor = instructor;
-    }
-
     public Rate getRate() {
-        int rating = 0;
-        int score = 0;
-        for (RateEntity rateEntity : this.getRates()) {
-            rating++;
-            score += rateEntity.getScore();
-        }
-        if (rating == 0) return new Rate();
+//        Khong xoa comment nay
+//        int rating = 0;
+//        int score = 0;
+//        for (RateEntity rateEntity : this.getRates()) {
+//            rating++;
+//            score += rateEntity.getScore();
+//        }
+//        if (rating == 0) return new Rate();
+//        return new Rate(
+//                rating,
+//                score
+//        );
         return new Rate(
-                rating,
-                score
+                (int)(Math.random() * 100 + 10),
+                (int)(Math.random() * 1000 + 100)
         );
     }
 }

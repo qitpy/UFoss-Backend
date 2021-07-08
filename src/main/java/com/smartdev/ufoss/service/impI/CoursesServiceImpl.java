@@ -25,14 +25,20 @@ public class CoursesServiceImpl implements CourseService {
     private final CoursesRepository coursesRepository;
     private final CategoryRepository categoryRepository;
 
-    public List<CourseEntity> findByCategory(String category) {
-        Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
-        if (categoryOptional.isEmpty()) {
+    @Override
+    public List<CourseEntity> findByTitleOrDescription(String title, String desc) {
+        if (title == null && desc == null) {
             throw new IllegalStateException(
-                    "The category " + category + " does not exists."
+                    "The searching courses feature need either title or description."
             );
         }
-        return coursesRepository.findByCategory(categoryOptional.get());
+        if (title == null)
+            return coursesRepository.findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(desc);
+
+        if (desc == null)
+            return coursesRepository.findTop5ByTitleContainingIgnoreCaseOrderByTitle(title);
+
+        return coursesRepository.findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(title, desc);
     }
 
     public CourseEntity findByIDAndCategory(UUID id, String category) {
@@ -137,6 +143,7 @@ public class CoursesServiceImpl implements CourseService {
         }
 
         try {
+
             List<CourseEntity> courses = null;
             Page<CourseEntity> pageCourses = null;
             Pageable paging;
@@ -190,7 +197,6 @@ public class CoursesServiceImpl implements CourseService {
                         );
                     }
                 } else {
-//                -------------------------
                     if (Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
                         //not rating and sort by price
                         sort = Sort.by("sellest").descending();
@@ -244,6 +250,5 @@ public class CoursesServiceImpl implements CourseService {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 }
