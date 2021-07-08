@@ -59,23 +59,17 @@ public class CoursesController {
         return coursesService.updateByIdAndCategory(id, CourseConverter.toEntity(course), category);
     }
 
-    CoursesRepository coursesRepository;
-
     @GetMapping("/categories/{category}/courses")
     public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
             @PathVariable("category") String category,
-            @RequestParam(value = "ratings", defaultValue = "0", required = false) Double ratings,
-            @RequestParam(value = "criteria", defaultValue = "newest", required = false) String criteria,
-            @RequestParam(value = "sortByPrice", defaultValue = "asc", required = false) String sortByPrice,
+            @RequestParam(value = "ratings", required = false) Double ratings,
+            @RequestParam(value = "criteria", required = false) String criteria,
+            @RequestParam(value = "sortByPrice", required = false) String sortByPrice,
             @RequestParam("page") Integer page,
             @RequestParam("size") Integer size
     ) {
-        Sort sort = Sort.by("price");
-        sort = "asc".equalsIgnoreCase(sortByPrice) ? sort.ascending() : sort.descending();
 
-        Pageable paging = PageRequest.of(page, size, sort);
-
-        return coursesService.findCoursesWithFilter(category, ratings, criteria, sortByPrice, paging);
+        return coursesService.findCoursesWithFilter(category, ratings, criteria, sortByPrice,  page, size);
     }
 }
 
