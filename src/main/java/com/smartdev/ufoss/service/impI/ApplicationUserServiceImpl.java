@@ -69,7 +69,7 @@ public class ApplicationUserServiceImpl implements UserDetailsService, Applicati
                     .findByUsername(userEntity.getUsername()).get()
                     : applicationUserRepository.findByEmail(userEntity.getEmail()).get();
             if (userFinding.getIsEnabled())
-                throw new IllegalStateException("email or username already taken!");
+                throw new IllegalStateException("Email or username already taken!");
             else {
                 ConfirmationToken confirmationToken = confirmationTokenRepository
                         .findByEmail(userFinding.getEmail())

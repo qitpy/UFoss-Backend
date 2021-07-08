@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(path = "/register")
+@RequestMapping(path = "/api/auth")
 @AllArgsConstructor
 public class RegistrationController {
 
     @Autowired
     private final RegistrationService registrationService;
 
-    @PostMapping
+    @PostMapping("/register")
     public String register(@RequestBody RegistrationRequest request) {
         return registrationService.register(request);
     }
 
-    @GetMapping(path = "confirm")
+    @GetMapping(path = "/register/confirm")
     public String confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
     }

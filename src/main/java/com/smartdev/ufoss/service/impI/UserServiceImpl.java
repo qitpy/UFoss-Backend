@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, UserNotFoundException {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(
-                () -> new UserNotFoundException("failed to get Profile, cause is id is not valid")
+                () -> new UserNotFoundException("Failed to get Profile, cause is id is not valid")
         );
 
         if (userEntity.getUsername().equals(usernameFromToken)) {

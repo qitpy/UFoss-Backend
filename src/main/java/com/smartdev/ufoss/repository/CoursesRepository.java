@@ -15,7 +15,14 @@ import java.util.UUID;
 @Repository
 public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
 
-    List<CourseEntity> findByCategory(CategoryEntity category);
+    List<CourseEntity> findTop5ByTitleContainingIgnoreCaseOrderByTitle(String title);
+
+    List<CourseEntity> findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(String desc);
+
+    List<CourseEntity> findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(
+            String title, String desc);
+
+    Page<CourseEntity> findAllByCategory(CategoryEntity category, Pageable pageable);
 
     Optional<CourseEntity> findByIDAndCategory(UUID id, CategoryEntity category);
 
@@ -30,7 +37,7 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     "select r.course_id as temp_id " +
                     "from rate r " +
                     "group by r.course_id " +
-                    "having avg(r.score) > ?1 " +
+                    "having avg(r.score/2) > ?1 " +
                     ") as temp " +
                     "on temp.temp_id = c.id " +
                     "where category_id = ?2 " +
@@ -48,7 +55,7 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     ") as temp1 " +
                     "on temp1.tb1_course_id_FK = c.id " +
                     "full join( " +
-                    "select r.course_id as tb2_course_id_FK, avg(r.score) as score_rate " +
+                    "select r.course_id as tb2_course_id_FK, avg(r.score/2) as score_rate " +
                     "from rate r " +
                     "group by r.course_id " +
                     ") as temp2 " +
@@ -68,7 +75,7 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     ") as temp1 " +
                     "on temp1.tb1_course_id_FK = c.id " +
                     "full join( " +
-                    "select r.course_id as tb2_course_id_FK, avg(r.score) as score_rate " +
+                    "select r.course_id as tb2_course_id_FK, avg(r.score/2) as score_rate " +
                     "from rate r " +
                     "group by r.course_id " +
                     ") as temp2 " +
@@ -77,4 +84,5 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     "order by temp1.sellest ",
             nativeQuery = true)
     Page<CourseEntity> findByCategoryWithFilterAndSellestAndRating(Long category, Double rating, Pageable pageable);
+
 }
