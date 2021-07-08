@@ -49,7 +49,7 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     "select r.course_id as temp_id " +
                     "from rate r " +
                     "group by r.course_id " +
-                    "having avg(r.score/2) > ?1 " +
+                    "having avg(r.score/2) >= ?1 " +
                     ") as temp " +
                     "on temp.temp_id = c.id " +
                     "where category_id = ?2 ",
