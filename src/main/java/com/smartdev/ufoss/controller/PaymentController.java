@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/payments")
-
+@AllArgsConstructor
 public class PaymentController {
 
     @Autowired
