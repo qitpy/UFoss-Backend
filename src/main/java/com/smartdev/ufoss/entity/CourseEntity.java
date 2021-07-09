@@ -70,21 +70,17 @@ public class CourseEntity extends AbstractEntity {
     }
 
     public Rate getRate() {
-//        Khong xoa comment nay
-//        int rating = 0;
-//        int score = 0;
-//        for (RateEntity rateEntity : this.getRates()) {
-//            rating++;
-//            score += rateEntity.getScore();
-//        }
-//        if (rating == 0) return new Rate();
-//        return new Rate(
-//                rating,
-//                score
-//        );
+
+        int rating = 0;
+        int score = 0;
+        for (RateEntity rateEntity : this.getRates()) {
+            rating++;
+            score += rateEntity.getScore();
+        }
+        if (rating == 0) return new Rate();
         return new Rate(
-                (int)(Math.random() * 100 + 10),
-                (int)(Math.random() * 1000 + 100)
+                rating,
+                score
         );
     }
 }
