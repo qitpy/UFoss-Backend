@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.service;
 
+import com.smartdev.ufoss.dto.ProfileDTO;
 import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;
@@ -22,6 +23,6 @@ public interface UserService {
 
     void updatePassword(UserEntity model);
 
-    void updateUser(String firstName, String lastName, String phone, UUID id);
+    UserEntity updateUser(ProfileDTO profile, UUID id);
 }
 

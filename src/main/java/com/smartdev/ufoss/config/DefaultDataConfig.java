@@ -810,6 +810,15 @@ public class DefaultDataConfig {
                     )
             );
 
+            coursesRepository.findAll().stream().forEach(c -> {
+                RateEntity newRate = new RateEntity((int)(Math.random() * 7 + 4));
+                newRate.setUser(
+                        userRepository.findByUsername("user").get()
+                );
+                newRate.setCourse(c);
+                rateRepository.save(newRate);
+            });
+
             // Create Lesson
             LessonEntity l1 = new LessonEntity(
                     "https://www.youtube.com/embed/watch?v=tRTfYsLy29I",
