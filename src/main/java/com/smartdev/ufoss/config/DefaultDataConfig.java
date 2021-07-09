@@ -477,8 +477,12 @@ public class DefaultDataConfig {
                     c16, c17, c18, c19, c20,
                     c21
             ).stream().forEach(c -> {
-                c.setCategory(cateWeb);
-                c.setInstructor(instruc1);
+                c.setCategory(
+                        categoryRepository.findByName("Web Deverlopment").get()
+                );
+                c.setInstructor(
+                        instructorRepository.findAll().get(0)
+                );
             });
 
             CourseEntity c0b = new CourseEntity(
@@ -654,8 +658,10 @@ public class DefaultDataConfig {
                     c11b, c12b, c13b, c14b, c15b,
                     c16b, c17b, c18b, c19b, c20b
             ).stream().forEach(c -> {
-                c.setCategory(cateBusiness);
-                c.setInstructor(instruc2);
+                c.setCategory(categoryRepository.findByName("Business").get());
+                c.setInstructor(
+                        instructorRepository.findAll().get(1)
+                );
             });
 
             CourseEntity c0c = new CourseEntity(
@@ -790,8 +796,10 @@ public class DefaultDataConfig {
                     c6c, c7c, c8c, c9c, c10c,
                     c11c, c12c, c13c, c14c, c15c
             ).stream().forEach(c -> {
-                c.setCategory(cateDesign);
-                c.setInstructor(instruc3);
+                c.setCategory(categoryRepository.findByName("Design").get());
+                c.setInstructor(
+                        instructorRepository.findAll().get(2)
+                );
             });
 
             coursesRepository.saveAll(
