@@ -8,7 +8,6 @@ import com.smartdev.ufoss.repository.RoleRepository;
 import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.RegistrationService;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +19,13 @@ import java.util.Set;
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private ApplicationUserServiceImpl applicationUserService;
+    private final ApplicationUserServiceImpl applicationUserService;
 
-    private ConfirmationTokenServiceImpl confirmationTokenService;
+    private final ConfirmationTokenServiceImpl confirmationTokenService;
 
-    private EmailSenderService emailSenderService;
+    private final EmailSenderService emailSenderService;
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public RegistrationServiceImpl(ApplicationUserServiceImpl applicationUserService, ConfirmationTokenServiceImpl confirmationTokenService, EmailSenderService emailSenderService, RoleRepository roleRepository) {
@@ -59,7 +58,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         );
 
         String subjectEmail = "Register account UFoss";
-        String link = "http://localhost:8688/register/confirm?token=" + token;
+        String link = "http://localhost:8080/api/auth/register/confirm?token=" + token;
 
         emailSenderService.email(
                 request.getEmail(),
@@ -75,16 +74,16 @@ public class RegistrationServiceImpl implements RegistrationService {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(() ->
-                        new IllegalStateException("token not found"));
+                        new IllegalStateException("Token not found"));
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+            throw new IllegalStateException("Email already confirmed");
         }
 
         LocalDateTime expireAt = confirmationToken.getExpiresAt();
 
         if (expireAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+            throw new IllegalStateException("Token expired");
         }
 
         confirmationTokenService.setConfirmedAt(token);

@@ -5,7 +5,7 @@ import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.service.LoginService;
 import io.jsonwebtoken.Jwts;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,19 +13,18 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Date;
 
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    private JwtConfig jwtConfig;
+    private final JwtConfig jwtConfig;
 
-    private SecretKey secretKey;
+    private final SecretKey secretKey;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public LoginServiceImpl(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;

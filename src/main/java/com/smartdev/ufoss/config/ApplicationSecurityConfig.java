@@ -4,7 +4,6 @@ import com.smartdev.ufoss.component.RoleSelect;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.security.JwtTokenVerifier;
 import com.smartdev.ufoss.service.impI.ApplicationUserServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -57,9 +56,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                         "index",
                         "/css/*",
                         "/js/*",
-                        "/auth/**",
-                        "/register/**",
-                        "/password/**",
                         "/api/**").permitAll()
                 //.antMatchers("/admin/**").hasRole(RoleSelect.ADMIN.name())
                 .anyRequest()

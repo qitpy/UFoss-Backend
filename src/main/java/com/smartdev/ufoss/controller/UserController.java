@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.controller;
 
+import com.smartdev.ufoss.dto.ProfileDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.security.JwtConfig;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -16,7 +18,7 @@ import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private UserService userService;
@@ -51,13 +53,12 @@ public class UserController {
     }
 
     @PutMapping(path = "/update/{id}")
-    public void updateUser(
+    public ResponseEntity<?> updateUser(
             @PathVariable("id") UUID id,
-            @RequestParam(name = "firstName", required = false) String firstName,
-            @RequestParam(name = "lastName", required = false) String lastName,
-            @RequestParam(name = "phone", required = false) String phone
+            @RequestBody ProfileDTO profifie
     ) {
-        if (firstName != null || lastName != null || phone != null)
-            userService.updateUser(firstName, lastName, phone, id);
+            UserEntity result = userService.updateUser(profifie, id);
+
+            return ResponseEntity.ok(result);
     }
 }

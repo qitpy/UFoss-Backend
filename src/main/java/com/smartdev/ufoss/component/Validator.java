@@ -11,4 +11,21 @@ public class Validator {
 
         return false;
     }
+
+    public static boolean checkNullFields(String i) {
+        if (i == null || "".equals(i) || "null".equalsIgnoreCase(i)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean validateFields(String ...strings) {
+        for (String i : strings) {
+            if (i == null || "".equals(i) || "null".equalsIgnoreCase(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

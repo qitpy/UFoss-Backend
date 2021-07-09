@@ -2,6 +2,7 @@ package com.smartdev.ufoss.service.impI;
 
 import com.smartdev.ufoss.config.PasswordConfig;
 import com.smartdev.ufoss.converter.UserConverter;
+import com.smartdev.ufoss.dto.ProfileDTO;
 import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.exception.UserNotFoundException;
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getProfile(String usernameFromToken, UUID id) throws IllegalAccessException, UserNotFoundException {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(
-                () -> new UserNotFoundException("failed to get Profile, cause is id is not valid")
+                () -> new UserNotFoundException("Failed to get Profile, cause is id is not valid")
         );
 
         if (userEntity.getUsername().equals(usernameFromToken)) {
@@ -87,13 +88,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(String firstName, String lastName, String phone, UUID id) {
+    public UserEntity updateUser(ProfileDTO profile, UUID id) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(()-> new IllegalStateException("ID Not Found!"));
-        if (firstName != null) userEntity.setFirstName(firstName);
-        if (lastName != null) userEntity.setLastName(lastName);
-        if (phone != null) userEntity.setPhone(phone);
+        if (profile.getFirstName() != null) userEntity.setFirstName(profile.getFirstName());
+        if (profile.getLastName() != null) userEntity.setLastName(profile.getLastName());
+        if (profile.getPhone() != null) userEntity.setPhone(profile.getPhone());
 
-        userRepository.save(userEntity);
+        return userRepository.save(userEntity);
     }
 }
