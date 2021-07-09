@@ -1,16 +1,21 @@
-
 package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.converter.CourseConverter;
 import com.smartdev.ufoss.dto.CourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
+import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.service.CourseService;
 
 import lombok.AllArgsConstructor;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -21,13 +26,16 @@ public class CoursesController {
 
     private final CourseService coursesService;
 
-    @GetMapping("/categories/{category}/courses")
-    public List<CourseEntity> getAllCourses(@PathVariable("category") String category) {
-        return coursesService.findByCategory(category);
+    @GetMapping("/courses")
+    public List<CourseEntity> findByTitleOrDescription(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String desc) {
+
+        return coursesService.findByTitleOrDescription(title, desc);
     }
 
     @GetMapping("/categories/{category}/courses/{courseId}")
-    public CourseEntity getCourseById(
+    public CourseEntity getCourseByIdInCategory(
             @PathVariable("category") String category,
             @PathVariable("courseId") UUID id) {
 
@@ -35,7 +43,7 @@ public class CoursesController {
     }
 
     @PostMapping("/categories/{category}/courses")
-    public CourseEntity addNewCourse(
+    public CourseEntity addNewCourseInCategory(
             @PathVariable("category") String category,
             @RequestBody CourseDTO newCourse) {
 
@@ -43,7 +51,7 @@ public class CoursesController {
     }
 
     @DeleteMapping("/categories/{category}/courses/{courseId}")
-    public void deleteCourseById(
+    public void deleteCourseByIdInCategory(
             @PathVariable("category") String category,
             @PathVariable("courseId") UUID id) {
 
@@ -51,7 +59,7 @@ public class CoursesController {
     }
 
     @PutMapping("/categories/{category}/courses/{courseId}")
-    public CourseEntity updateCourse(
+    public CourseEntity updateCourseInCategory(
             @PathVariable("category") String category,
             @PathVariable("courseId") UUID id,
             @RequestBody CourseDTO course) {
@@ -59,17 +67,17 @@ public class CoursesController {
         return coursesService.updateByIdAndCategory(id, CourseConverter.toEntity(course), category);
     }
 
-    @GetMapping("/categories/{category}/courses/filter")
-    public ResponseEntity<?> filter(
+    @GetMapping("/categories/{category}/courses")
+    public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
             @PathVariable("category") String category,
-            @RequestParam("rate") Double rate,
-            @RequestParam(value = "newest",defaultValue = "newest") String newest,
-            @RequestParam(value = "price", defaultValue = "asc") String price
+            @RequestParam(value = "ratings", required = false) Double ratings,
+            @RequestParam(value = "criteria", required = false) String criteria,
+            @RequestParam(value = "sortByPrice", required = false) String sortByPrice,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
     ) {
-        List<CourseEntity> result = coursesService.filterCourses(category, rate, newest, price);
 
-        return ResponseEntity.ok(result);
+        return coursesService.findCoursesWithFilter(category, ratings, criteria, sortByPrice, page, size);
     }
-
 }
 

@@ -1,13 +1,17 @@
 package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.entity.CourseEntity;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface CourseService {
-    List<CourseEntity> findByCategory(String category);
+    List<CourseEntity> findByTitleOrDescription(String title, String description);
 
     CourseEntity findByIDAndCategory(UUID id, String category);
 
@@ -18,5 +22,12 @@ public interface CourseService {
     @Transactional
     CourseEntity updateByIdAndCategory(UUID id, CourseEntity course, String category);
 
-    List<CourseEntity> filterCourses(String category, Double rate , String newest, String sortByPrice);
+    ResponseEntity<Map<String, Object>> findCoursesWithFilter(
+            String category,
+            Double ratings,
+            String criteria,
+            String sortByPrice,
+            Integer page,
+            Integer size
+    );
 }
