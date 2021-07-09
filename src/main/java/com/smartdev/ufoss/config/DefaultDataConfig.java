@@ -1,6 +1,6 @@
+
 package com.smartdev.ufoss.config;
 
-import com.smartdev.ufoss.dto.Rate;
 import com.smartdev.ufoss.entity.*;
 
 import com.smartdev.ufoss.repository.*;
@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
-import java.util.Set;
 
 @Configuration
 public class DefaultDataConfig {
@@ -25,7 +24,6 @@ public class DefaultDataConfig {
             CoursesRepository coursesRepository,
             InstructorRepository instructorRepository,
             LessonRepository lessonRepository,
-            PaymentRepository paymentRepository,
             RateRepository rateRepository,
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
