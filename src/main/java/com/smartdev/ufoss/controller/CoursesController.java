@@ -76,7 +76,6 @@ public class CoursesController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size
     ) {
-        System.out.println(ratings);
 
         return coursesService.findCoursesWithFilter(category, ratings, criteria, sortByPrice, page, size);
     }
