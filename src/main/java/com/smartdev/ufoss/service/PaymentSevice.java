@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PaymentSevice {
-    public List<PaymentGetDTO> getAllPayments ();
-    public PaymentGetDTO getPaymentById(UUID id);
-    public List<PaymentGetDTO> getPaymentByUsernameID(UUID id);
-    public List<PaymentGetDTO> addNewPayment(PaymentDTO newPayment);
+    List<PaymentGetDTO> getAllPayments ();
+    PaymentGetDTO getPaymentById(UUID id);
+    List<PaymentGetDTO> getPaymentByUsernameID(UUID id);
+    List<PaymentGetDTO> addNewPayment(PaymentDTO newPayment);
 }

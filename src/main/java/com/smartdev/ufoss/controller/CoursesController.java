@@ -3,14 +3,10 @@ package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.converter.CourseConverter;
 import com.smartdev.ufoss.dto.CourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
-import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.service.CourseService;
 
 import lombok.AllArgsConstructor;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

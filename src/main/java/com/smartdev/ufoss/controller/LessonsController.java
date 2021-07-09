@@ -2,11 +2,8 @@ package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.dto.LessonDTO;
 import com.smartdev.ufoss.entity.LessonEntity;
-import com.smartdev.ufoss.repository.LessonRepository;
 import com.smartdev.ufoss.service.LessonsService;
-import com.smartdev.ufoss.service.impI.LessonsServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

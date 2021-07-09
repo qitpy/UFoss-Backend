@@ -476,7 +476,7 @@ public class DefaultDataConfig {
                     c21
             ).stream().forEach(c -> {
                 c.setCategory(
-                        categoryRepository.findByName("Web Deverlopment").get()
+                        categoryRepository.findByName("Web Development").get()
                 );
                 c.setInstructor(
                         instructorRepository.findAll().get(0)

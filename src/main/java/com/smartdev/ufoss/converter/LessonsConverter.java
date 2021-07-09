@@ -1,11 +1,10 @@
 package com.smartdev.ufoss.converter;
 
-import com.smartdev.ufoss.repository.CoursesRepository;
 import org.springframework.stereotype.Component;
 
 import com.smartdev.ufoss.dto.LessonDTO;
 import com.smartdev.ufoss.entity.LessonEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+
 @Component
 public class LessonsConverter {
 
