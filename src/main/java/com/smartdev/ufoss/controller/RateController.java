@@ -27,7 +27,7 @@ public class RateController {
     @GetMapping("/course/{courseId}/user/{userId}")
     public RateEntity getRateByCourseAndUser(@PathVariable CourseEntity courseId,
                                              @PathVariable UserEntity userId) {
-        return rateService.getByCourseAndUser(courseId,userId);
+        return rateService.getAllByCourseAndUser(courseId,userId);
     }
 
     @PostMapping("/categories/{category}/courses/{courseId}/rate")

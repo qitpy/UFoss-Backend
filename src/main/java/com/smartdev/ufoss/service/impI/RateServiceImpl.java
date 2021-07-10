@@ -36,8 +36,8 @@ public class RateServiceImpl implements RateService {
                 ));
     }
 
-    public RateEntity getByCourseAndUser(CourseEntity courseId,UserEntity userId) {
-        return rateRepository.getByCourseAndUser(courseId,userId);
+    public RateEntity getAllByCourseAndUser(CourseEntity courseId,UserEntity userId) {
+        return rateRepository.getAllByCourseAndUser(courseId,userId);
     }
 
     public RateEntity addNewRate(UUID courseId, String category, RateDTO newRate) {

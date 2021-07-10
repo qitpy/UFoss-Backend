@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface RateRepository extends JpaRepository<RateEntity, UUID> {
-    RateEntity getByCourseAndUser(CourseEntity courseId, UserEntity userId);
+    RateEntity getAllByCourseAndUser(CourseEntity courseId, UserEntity userId);
 }
