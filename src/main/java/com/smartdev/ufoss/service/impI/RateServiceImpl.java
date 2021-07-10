@@ -9,6 +9,7 @@ import com.smartdev.ufoss.service.CourseService;
 import com.smartdev.ufoss.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -33,6 +34,10 @@ public class RateServiceImpl implements RateService {
                 .orElseThrow(() -> new IllegalStateException(
                         "The course with id " + id + "does not exist!"
                 ));
+    }
+
+    public RateEntity getByCourseAndUser(CourseEntity courseId,UserEntity userId) {
+        return rateRepository.getByCourseAndUser(courseId,userId);
     }
 
     public RateEntity addNewRate(UUID courseId, String category, RateDTO newRate) {
