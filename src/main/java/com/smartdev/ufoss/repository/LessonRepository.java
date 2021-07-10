@@ -15,5 +15,7 @@ public interface LessonRepository extends JpaRepository<LessonEntity, UUID> {
 
     Optional<LessonEntity> findByIDAndCourse(UUID id, CourseEntity course);
 
+    boolean existsByCourseAndTitle(CourseEntity course, String title);
+
     void deleteByIDAndCourse(UUID lessonId,CourseEntity course );
 }
