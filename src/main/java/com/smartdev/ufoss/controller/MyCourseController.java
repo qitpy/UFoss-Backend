@@ -1,7 +1,5 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.dto.CourseDTO;
-import com.smartdev.ufoss.dto.MyCourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.MyCourseSevice;
 import lombok.AllArgsConstructor;
@@ -22,7 +20,6 @@ public class MyCourseController {
 
     @GetMapping("/mycourses/{userId}")
     public List<CourseEntity> getMyCourses(@PathVariable("userId") UUID userId){
-        System.out.println("haha"+ userId);
         return myCourseSevice.getMyCourseByUserId(userId);
     }
 

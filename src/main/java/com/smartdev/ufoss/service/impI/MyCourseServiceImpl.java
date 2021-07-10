@@ -26,6 +26,7 @@ public class MyCourseServiceImpl implements MyCourseSevice {
     private CoursesRepository coursesRepository;
     @Override
     public List<CourseEntity> getMyCourseByUserId(UUID userId) {
+        System.out.println("no o day ");
         List<CourseEntity> courseEntities = new ArrayList<>();
         Optional<UserEntity> userEntity = userRepository.findById(userId);
         List<PaymentEntity> paymentEntity = paymentRepository.findPaymentEntitiesByUser(userEntity.get());
