@@ -79,4 +79,11 @@ public class PaymentServiceImpl implements PaymentSevice {
         }
         return paymentGetDTOS;
     }
+
+    @Override
+    public boolean isPaid(UUID userId, UUID courseId) {
+        if (paymentRepository.findPaymentEntityByUserIdAndCourseId(userId, courseId).isPresent())
+            return true;
+        return false;
+    }
 }
