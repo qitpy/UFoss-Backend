@@ -115,7 +115,7 @@ public class LessonsServiceImpl implements LessonsService {
 
         LessonEntity lessonEntity = new LessonEntity(title, videoURL);
         lessonEntity.setCourse(course);
-        return lessonEntity;
+        return lessonRepository.save(lessonEntity);
     }
 
     public List<LessonEntity> uploadMultipleLesson(UUID courseId, MultipartFile[] lessons) {
