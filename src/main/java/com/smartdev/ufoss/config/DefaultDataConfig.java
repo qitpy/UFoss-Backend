@@ -777,7 +777,6 @@ public class DefaultDataConfig {
                     "https://img-c.udemycdn.com/course/240x135/3406388_848f_4.jpg"
             );
 
-
             CourseEntity c15c = new CourseEntity(
                     "T-Shirt Design Workshop 01: Foundation",
                     "Design a t-shirt like a professional: specialty printing methods, fabrics, inks, dyes, and washes.",
