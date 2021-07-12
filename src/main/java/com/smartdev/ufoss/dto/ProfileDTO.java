@@ -1,6 +1,5 @@
 package com.smartdev.ufoss.dto;
 
-
 import lombok.*;
 
 @Getter

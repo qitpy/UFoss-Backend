@@ -1,7 +1,5 @@
 package com.smartdev.ufoss.service;
 
-import com.smartdev.ufoss.entity.UserEntity;
-
 public interface EmailSenderService {
 
     void email(

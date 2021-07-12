@@ -1,7 +1,6 @@
 package com.smartdev.ufoss.repository;
 
 import com.smartdev.ufoss.entity.RefreshTokenEntity;
-import com.smartdev.ufoss.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

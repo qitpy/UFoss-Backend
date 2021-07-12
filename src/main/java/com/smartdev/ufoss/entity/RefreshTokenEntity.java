@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Entity(name = "refreshtoken")
-public class RefreshTokenEntity extends AbstractEntity{
-    @OneToOne@JoinColumn(name = "user_id", referencedColumnName = "id")
+public class RefreshTokenEntity extends AbstractEntity {
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
     private String refreshToken;

@@ -1,4 +1,5 @@
 package com.smartdev.ufoss.controller;
+
 import com.smartdev.ufoss.dto.RateDTO;
 import com.smartdev.ufoss.entity.RateEntity;
 import com.smartdev.ufoss.service.RateService;
