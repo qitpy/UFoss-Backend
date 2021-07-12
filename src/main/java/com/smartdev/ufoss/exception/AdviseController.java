@@ -101,4 +101,15 @@ public class AdviseController {
         );
         return new ResponseEntity<>(apiException, httpStatus);
     }
+
+    @ExceptionHandler(value = ForbiddenException.class)
+    public ResponseEntity<Object> handleAccessDeniedException(ForbiddenException e) {
+        HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                httpStatus,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+        return new ResponseEntity<>(apiException, httpStatus);
+    }
 }

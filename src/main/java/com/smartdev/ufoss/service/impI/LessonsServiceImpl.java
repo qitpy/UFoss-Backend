@@ -2,6 +2,7 @@ package com.smartdev.ufoss.service.impI;
 
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.entity.LessonEntity;
+import com.smartdev.ufoss.exception.ForbiddenException;
 import com.smartdev.ufoss.exception.HandleException;
 import com.smartdev.ufoss.repository.CoursesRepository;
 import com.smartdev.ufoss.repository.LessonRepository;
@@ -86,19 +87,23 @@ public class LessonsServiceImpl implements LessonsService {
     @Override
     public ResponseEntity<Resource> getLessonVideo(UUID courseId, String fileName, HttpServletRequest request) {
 
-        String token = request.getHeader(jwtConfig.getAuthorizationHeader())
-                .replace(jwtConfig.getTokenPrefix(), "");
-        Jws<Claims> claimsJws = Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token);
-        Claims body = claimsJws.getBody();
-        String usernameFromToken = body.getSubject();
+        try {
+            String token = request.getHeader(jwtConfig.getAuthorizationHeader())
+                    .replace(jwtConfig.getTokenPrefix(), "");
+            Jws<Claims> claimsJws = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(token);
+            Claims body = claimsJws.getBody();
+            String usernameFromToken = body.getSubject();
 
-        UUID userId = userRepository.findByUsername(usernameFromToken).orElseThrow(
-                () -> new HandleException("user not found")).getID();
+            UUID userId = userRepository.findByUsername(usernameFromToken).orElseThrow(
+                    () -> new HandleException("user not found")).getID();
 
-        if (!paymentSevice.isPaid(userId, courseId)) {
-            throw new HandleException("Buy course to see this lesson");
+            if (!paymentSevice.isPaid(userId, courseId)) {
+                throw new HandleException("Buy course to see this lesson");
+            }
+        } catch (ForbiddenException e) {
+            throw new ForbiddenException("authentication failed");
         }
 
         Optional<CourseEntity> courseOptional = coursesRepository.findById(courseId);
