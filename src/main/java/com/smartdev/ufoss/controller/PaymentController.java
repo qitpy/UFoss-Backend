@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/payments")
-
+@AllArgsConstructor
 public class PaymentController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class PaymentController {
 
     @GetMapping("/usernameid/{usernameid}")
     public List<PaymentGetDTO> getPaymentByUsername(@PathVariable("usernameid") UUID usernameId){
-        return paymentSevice.getPaymentByUsernameID(usernameId);
+        return paymentSevice.getPaymentByUserId(usernameId);
     }
 
     @GetMapping("/{paymentid}")

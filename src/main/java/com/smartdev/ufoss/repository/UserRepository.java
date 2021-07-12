@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.repository;
 
+import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,6 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     UserEntity findByEmail(String email);
 
     Optional<UserEntity> findByUsername(String username);
+
+    Optional<UserEntity> findById(UUID id);
 }
