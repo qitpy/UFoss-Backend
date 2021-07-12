@@ -1,8 +1,6 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.component.PermissionSelect;
 import com.smartdev.ufoss.dto.UserDTO;
-import com.smartdev.ufoss.entity.PermissionEntity;
 import com.smartdev.ufoss.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +25,10 @@ public class AdminController {
         return userService.getUsers();
     }
 
-    /*@GetMapping(path = "/get-role/{id}")
-    public RoleEntity getRoles(@PathVariable("id") UUID id) { return roleRepository.findById(id).get(); }*/
+    /*
+    @GetMapping(path = "/get-role/{id}")
+    public RoleEntity getRoles(@PathVariable("id") UUID id) { return roleRepository.findById(id).get(); }
+    */
 
     @DeleteMapping(path = "/delete-user/{id}")
     void deleteUser(@PathVariable("id") UUID id) {

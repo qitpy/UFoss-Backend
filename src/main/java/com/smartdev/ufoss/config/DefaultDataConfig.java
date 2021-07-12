@@ -1,6 +1,5 @@
 package com.smartdev.ufoss.config;
 
-import com.smartdev.ufoss.dto.Rate;
 import com.smartdev.ufoss.entity.*;
 
 import com.smartdev.ufoss.repository.*;
@@ -817,95 +816,6 @@ public class DefaultDataConfig {
                 newRate.setCourse(c);
                 rateRepository.save(newRate);
             });
-
-            // Create Lesson
-            LessonEntity l1 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=tRTfYsLy29I",
-                    "JavaScript Releases ES5, ES6+ and ESNext",
-                    "Become an advanced, confident, and modern JavaScript developer from scratch"
-            );
-            LessonEntity l2 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=PHixT6kZJMI",
-                    "Course Structure and Projects",
-                    "Become job-ready by understanding how JavaScript really works behind the scenes"
-            );
-            LessonEntity l3 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=u8I31l8Pwc4",
-                    "Introduction to Arrays",
-                    "JavaScript fundamentals: variables, if/else, operators, boolean logic, functions, arrays, objects, loops, strings, etc.");
-            LessonEntity l4 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=KkyIDI6rQJI",
-                    "Coding Challenge #4",
-                    "Modern OOP: Classes, constructors, prototypal inheritance, encapsulation, etc."
-            );
-            LessonEntity l5 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=44a4bD1_Ois",
-                    "Pathways and Section Roadmaps",
-                    "Asynchronous JavaScript: Event loop, promises, async/await, AJAX calls and APIs"
-            );
-            LessonEntity l6 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=ZFH1vxKWKP4",
-                    "PROJECT #3: Pig Game",
-                    "Modern tools for 2021 and beyond: NPM, Parcel, Babel and ES6 modules"
-            );
-            LessonEntity l7 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=uH-tVP8MUs8",
-                    "Scope and The Scope Chain",
-                    "Get friendly support in the Q&A area"
-            );
-            LessonEntity l8 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=3a0I8ICR1Vg",
-                    "Closures",
-                    "Build 6 beautiful real-world projects for your portfolio (not boring toy apps)"
-            );
-            LessonEntity l9 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=DPYCs9yWBuI",
-                    "PROJECT: \"Bankist\" App",
-                    "How to think and work like a developer: problem-solving, researching, workflows"
-            );
-
-            LessonEntity l10 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=Z_gjlIji8hU",
-                    "Project Overview and Planning (I)",
-                    "Asynchronous JavaScript: Event loop, promises, async/await, AJAX calls and APIs"
-            );
-
-            LessonEntity l11 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=3AKh0-PDsMw",
-                    "Prototypal Inheritance and The Prototype Chain",
-                    "Complex concepts like the 'this' keyword, higher-order functions, closures, etc."
-            );
-            LessonEntity l12 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=-6VFV8q0zmI",
-                    "Project Overview",
-                    "How to architect your code using flowcharts and common patterns"
-            );
-            LessonEntity l13 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=UI6lqHOVHic",
-                    "Managing Workout Data: Creating Classes",
-                    "Practice your skills with 50+ challenges and assignments (solutions included)"
-            );
-            LessonEntity l14 = new LessonEntity(
-                    "https://www.youtube.com/embed/watch?v=GfVMKkUk2Uo",
-                    "Chaining Promises",
-                    "Design your unique learning path according to your goals: course pathways"
-            );
-
-            List.of(
-                    l1, l2, l3, l4, l5,
-                    l6, l7, l8, l9, l10,
-                    l11, l12, l13, l14
-            ).stream().forEach(l -> {
-                l.setCourse(c0);
-            });
-
-            lessonRepository.saveAll(
-                    List.of(
-                            l1, l2, l3, l4, l5,
-                            l6, l7, l8, l9, l10,
-                            l11, l12, l13, l14
-                    )
-            );
         };
     }
 }

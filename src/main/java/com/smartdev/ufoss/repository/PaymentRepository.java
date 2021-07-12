@@ -11,4 +11,7 @@ import java.util.UUID;
 
 public interface PaymentRepository extends JpaRepository<PaymentEntity, UUID> {
     List<PaymentEntity> findPaymentEntitiesByUser(UserEntity user);
+
+    @Query("SELECT p FROM PaymentEntity p WHERE p.user.ID = ?1 and p.course.ID = ?2")
+    Optional<PaymentEntity> findPaymentEntityByUserIdAndCourseId(UUID userId, UUID courseId);
 }

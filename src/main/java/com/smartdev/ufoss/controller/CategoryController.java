@@ -6,7 +6,6 @@ import com.smartdev.ufoss.exception.MessageErrorException;
 import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.service.CategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

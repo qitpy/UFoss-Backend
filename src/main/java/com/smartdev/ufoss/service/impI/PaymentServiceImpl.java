@@ -46,7 +46,7 @@ public class PaymentServiceImpl implements PaymentSevice {
     }
 
     @Override
-    public List<PaymentGetDTO> getPaymentByUserId(UUID id) {
+    public List<PaymentGetDTO> getPaymentByUsernameID(UUID id) {
         List<PaymentGetDTO> paymentGetDTOS = new ArrayList<>();
         Optional<UserEntity> user = userRepository.findById(id);
         List<PaymentEntity> paymentEntity = paymentRepository.findPaymentEntitiesByUser(user.get());
@@ -78,5 +78,12 @@ public class PaymentServiceImpl implements PaymentSevice {
             paymentGetDTOS.add(paymentGetDTO);
         }
         return paymentGetDTOS;
+    }
+
+    @Override
+    public boolean isPaid(UUID userId, UUID courseId) {
+        if (paymentRepository.findPaymentEntityByUserIdAndCourseId(userId, courseId).isPresent())
+            return true;
+        return false;
     }
 }

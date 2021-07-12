@@ -1,11 +1,9 @@
 package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.entity.CourseEntity;
-import javassist.NotFoundException;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;

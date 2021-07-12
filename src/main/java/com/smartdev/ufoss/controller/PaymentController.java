@@ -27,7 +27,7 @@ public class PaymentController {
 
     @GetMapping("/usernameid/{usernameid}")
     public List<PaymentGetDTO> getPaymentByUsername(@PathVariable("usernameid") UUID usernameId){
-        return paymentSevice.getPaymentByUserId(usernameId);
+        return paymentSevice.getPaymentByUsernameID(usernameId);
     }
 
     @GetMapping("/{paymentid}")

@@ -1,8 +1,8 @@
 package com.smartdev.ufoss.controller;
+
 import com.smartdev.ufoss.dto.RateDTO;
 import com.smartdev.ufoss.entity.RateEntity;
 import com.smartdev.ufoss.service.RateService;
-import com.smartdev.ufoss.service.impI.RateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +19,12 @@ public class RateController {
     @GetMapping("/{id}")
     public RateEntity getRateById(@PathVariable UUID id) {
         return rateService.getRateById(id);
+    }
+
+    @GetMapping("/course/{courseId}/user/{userId}")
+    public RateEntity getRateByCourseAndUser(@PathVariable("courseId") UUID courseId,
+                                             @PathVariable("userId") UUID userId) {
+        return rateService.getAllByCourseAndUser(courseId,userId);
     }
 
     @PostMapping("/categories/{category}/courses/{courseId}/rate")

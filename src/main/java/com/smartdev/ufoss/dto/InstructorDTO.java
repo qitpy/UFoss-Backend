@@ -2,7 +2,6 @@ package com.smartdev.ufoss.dto;
 
 import lombok.*;
 
-import javax.persistence.Column;
 @Getter
 @Setter
 @NoArgsConstructor
