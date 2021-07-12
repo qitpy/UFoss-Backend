@@ -2,6 +2,7 @@ package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.converter.CourseConverter;
 import com.smartdev.ufoss.dto.CourseDTO;
+import com.smartdev.ufoss.dto.SearchingCourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.CourseService;
 
@@ -23,7 +24,7 @@ public class CoursesController {
     private final CourseService coursesService;
 
     @GetMapping("/courses")
-    public List<CourseEntity> findByTitleOrDescription(
+    public List<SearchingCourseDTO> findByTitleOrDescription(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String desc) {
 

@@ -1,10 +1,13 @@
 package com.smartdev.ufoss.service.impI;
 
 import com.smartdev.ufoss.component.Validator;
+import com.smartdev.ufoss.dto.SearchingCourseDTO;
 import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.entity.CourseEntity;
+import com.smartdev.ufoss.entity.RateEntity;
 import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.repository.CoursesRepository;
+import com.smartdev.ufoss.repository.RateRepository;
 import com.smartdev.ufoss.service.CourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -24,21 +28,42 @@ public class CoursesServiceImpl implements CourseService {
 
     private final CoursesRepository coursesRepository;
     private final CategoryRepository categoryRepository;
+    private final RateRepository rateRepository;
 
     @Override
-    public List<CourseEntity> findByTitleOrDescription(String title, String desc) {
+    public List<SearchingCourseDTO> findByTitleOrDescription(String title, String desc) {
         if (title == null && desc == null) {
             throw new IllegalStateException(
                     "The searching courses feature need either title or description."
             );
         }
-        if (title == null)
-            return coursesRepository.findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(desc);
+        if (title == null) {
+            List<CourseEntity> courses = coursesRepository.findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(desc);
+            return courses.stream().map(course ->
+                    new SearchingCourseDTO(
+                        course.getID(),
+                        course.getTitle(),
+                        course.getDescription()
+                )).collect(Collectors.toList());
+        }
 
-        if (desc == null)
-            return coursesRepository.findTop5ByTitleContainingIgnoreCaseOrderByTitle(title);
+        if (desc == null) {
+            List<CourseEntity> courses = coursesRepository.findTop5ByTitleContainingIgnoreCaseOrderByTitle(title);
+            return courses.stream().map(course ->
+                    new SearchingCourseDTO(
+                        course.getID(),
+                        course.getTitle(),
+                        course.getDescription()
+                )).collect(Collectors.toList());
+        }
 
-        return coursesRepository.findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(title, desc);
+        List<CourseEntity> courses = coursesRepository.findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(title, desc);
+        return courses.stream().map(course ->
+            new SearchingCourseDTO(
+                    course.getID(),
+                    course.getTitle(),
+                    course.getDescription()
+            )).collect(Collectors.toList());
     }
 
     public CourseEntity findByIDAndCategory(UUID id, String category) {
@@ -48,6 +73,13 @@ public class CoursesServiceImpl implements CourseService {
                     "The category " + category + " does not exists."
             );
         }
+
+        CourseEntity course = coursesRepository.findByIDAndCategory(id, categoryOptional.get())
+                .orElseThrow(() -> new IllegalStateException(
+                        "The course with id " + id + " does not exist!"
+                ));
+
+//        RateEntity rated = rateRepository.
 
         return coursesRepository.findByIDAndCategory(id, categoryOptional.get())
                 .orElseThrow(() -> new IllegalStateException(

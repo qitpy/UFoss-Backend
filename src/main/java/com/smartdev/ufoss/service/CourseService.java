@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.service;
 
+import com.smartdev.ufoss.dto.SearchingCourseDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface CourseService {
-    List<CourseEntity> findByTitleOrDescription(String title, String description);
+    List<SearchingCourseDTO> findByTitleOrDescription(String title, String description);
 
     CourseEntity findByIDAndCategory(UUID id, String category);
 
