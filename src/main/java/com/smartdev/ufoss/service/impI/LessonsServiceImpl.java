@@ -102,7 +102,7 @@ public class LessonsServiceImpl implements LessonsService {
             if (!paymentSevice.isPaid(userId, courseId)) {
                 throw new HandleException("Buy course to see this lesson");
             }
-        } catch (ForbiddenException e) {
+        } catch (Exception e) {
             throw new ForbiddenException("authentication failed");
         }
 
