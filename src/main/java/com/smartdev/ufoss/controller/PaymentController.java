@@ -1,21 +1,20 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.component.RoleSelect;
 import com.smartdev.ufoss.dto.PaymentDTO;
 import com.smartdev.ufoss.dto.PaymentGetDTO;
 import com.smartdev.ufoss.service.PaymentSevice;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/payments")
+@AllArgsConstructor
 public class PaymentController {
 
     @Autowired
