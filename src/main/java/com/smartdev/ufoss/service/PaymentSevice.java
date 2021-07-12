@@ -9,6 +9,6 @@ import java.util.UUID;
 public interface PaymentSevice {
     public List<PaymentGetDTO> getAllPayments ();
     public PaymentGetDTO getPaymentById(UUID id);
-    public List<PaymentGetDTO> getPaymentByUsernameID(UUID id);
+    public List<PaymentGetDTO> getPaymentByUserId(UUID id);
     public List<PaymentGetDTO> addNewPayment(PaymentDTO newPayment);
 }
