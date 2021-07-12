@@ -1,14 +1,10 @@
 package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.dto.RateDTO;
-import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.entity.RateEntity;
-import com.smartdev.ufoss.entity.UserEntity;
 import com.smartdev.ufoss.service.RateService;
-import com.smartdev.ufoss.service.impI.RateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
