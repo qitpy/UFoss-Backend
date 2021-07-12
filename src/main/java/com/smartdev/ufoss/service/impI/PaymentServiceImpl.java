@@ -64,10 +64,10 @@ public class PaymentServiceImpl implements PaymentSevice {
 
     @Override
         public List<PaymentGetDTO> addNewPayment(PaymentDTO newPayment) {
-        UUID userId = UUID.fromString(newPayment.getUserId());
+        UUID userId = newPayment.getUserId();
         List<PaymentGetDTO> paymentGetDTOS = new ArrayList<>();
-        for(String strCourseId :  newPayment.getCourId() ){
-            UUID courseId = UUID.fromString(strCourseId);
+        for(UUID strCourseId :  newPayment.getCourseId() ){
+            UUID courseId = strCourseId;
             PaymentEntity paymentEntity = new PaymentEntity(
                     Calendar.getInstance().getTime().toString(),
                     userRepository.findById(userId).get(),
@@ -78,5 +78,12 @@ public class PaymentServiceImpl implements PaymentSevice {
             paymentGetDTOS.add(paymentGetDTO);
         }
         return paymentGetDTOS;
+    }
+
+    @Override
+    public boolean isPaid(UUID userId, UUID courseId) {
+        if (paymentRepository.findPaymentEntityByUserIdAndCourseId(userId, courseId).isPresent())
+            return true;
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.converter.CourseConverter;
 import com.smartdev.ufoss.dto.CourseDTO;
+import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.CourseService;
 
@@ -70,10 +71,11 @@ public class CoursesController {
             @RequestParam(value = "criteria", defaultValue = "newest", required = false) String criteria,
             @RequestParam(value = "sortByPrice", required = false) String sortByPrice,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size
-    ) {
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestBody UserDTO user
+            ) {
 
-        return coursesService.findCoursesWithFilter(category, ratings, criteria, sortByPrice, page, size);
+        return coursesService.findCoursesWithFilter(user.getId(), category, ratings, criteria, sortByPrice, page, size);
     }
 }
 

@@ -1,6 +1,7 @@
 package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.entity.CourseEntity;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public interface CourseService {
     CourseEntity updateByIdAndCategory(UUID id, CourseEntity course, String category);
 
     ResponseEntity<Map<String, Object>> findCoursesWithFilter(
+            UUID userID,
             String category,
             Double ratings,
             String criteria,

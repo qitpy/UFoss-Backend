@@ -1,7 +1,10 @@
 package com.smartdev.ufoss.dto;
 
 import lombok.*;
+
 import java.util.List;
+import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -10,6 +13,6 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class PaymentDTO {
-    private String userId;
-    private List<String>  courId;
+    private UUID userId;
+    private List<UUID> courseId;
 }

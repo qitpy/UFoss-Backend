@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.config;
 
+import com.smartdev.ufoss.component.RoleSelect;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.security.JwtTokenVerifier;
 import com.smartdev.ufoss.service.impI.ApplicationUserServiceImpl;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.crypto.SecretKey;
+import java.net.http.HttpRequest;
 
 @Configuration
 @EnableWebSecurity
@@ -50,6 +53,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers( "/api/payments/**")
+                    .hasAnyRole(RoleSelect.ADMIN.name(), RoleSelect.USER.name())
+                .antMatchers(HttpMethod.POST).hasRole(RoleSelect.ADMIN.name())
+                .antMatchers(HttpMethod.PUT).hasRole(RoleSelect.ADMIN.name())
+                .antMatchers(HttpMethod.PATCH).hasRole(RoleSelect.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE).hasRole(RoleSelect.ADMIN.name())
                 .antMatchers(
                         "/",
                         "index",
