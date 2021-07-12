@@ -46,7 +46,7 @@ public class PaymentServiceImpl implements PaymentSevice {
     }
 
     @Override
-    public List<PaymentGetDTO> getPaymentByUserId(UUID id) {
+    public List<PaymentGetDTO> getPaymentByUsernameID(UUID id) {
         List<PaymentGetDTO> paymentGetDTOS = new ArrayList<>();
         Optional<UserEntity> user = userRepository.findById(id);
         List<PaymentEntity> paymentEntity = paymentRepository.findPaymentEntitiesByUser(user.get());

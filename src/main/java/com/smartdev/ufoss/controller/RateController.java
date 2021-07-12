@@ -21,6 +21,12 @@ public class RateController {
         return rateService.getRateById(id);
     }
 
+    @GetMapping("/course/{courseId}/user/{userId}")
+    public RateEntity getRateByCourseAndUser(@PathVariable("courseId") UUID courseId,
+                                             @PathVariable("userId") UUID userId) {
+        return rateService.getAllByCourseAndUser(courseId,userId);
+    }
+
     @PostMapping("/categories/{category}/courses/{courseId}/rate")
     public RateEntity createLesson(@PathVariable UUID courseId,
                                    @PathVariable String category,
