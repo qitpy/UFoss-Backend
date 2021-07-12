@@ -1,21 +1,21 @@
 package com.smartdev.ufoss.service;
 
-
-import com.smartdev.ufoss.dto.LessonDTO;
 import com.smartdev.ufoss.entity.LessonEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
 public interface LessonsService {
 
-    public List<LessonEntity> findByCourseId(UUID courseId);
-    public LessonEntity getLessonByIdAndCourse(UUID courseId, UUID lessonsId);
-    public LessonEntity addNewLesson(UUID courseId, LessonDTO newLesson);
+    List<LessonEntity> findByCourseId(UUID courseId);
+    LessonEntity getLessonByIdAndCourse(UUID courseId, UUID lessonsId);
+    List<LessonEntity> uploadMultipleLesson(UUID courseId, MultipartFile[] lessons);
 
-    public void deleteLessonById(UUID courseId, UUID lessonsId);
+    void deleteLessonById(UUID courseId, UUID lessonsId);
 
-    @Transactional
-    public LessonEntity updateLesson(UUID courseId,UUID lessonId, LessonDTO lesson);
+    ResponseEntity<Resource> getLessonVideo(UUID courseId, String fileName, HttpServletRequest request);
 }

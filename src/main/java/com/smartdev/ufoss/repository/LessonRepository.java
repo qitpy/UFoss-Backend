@@ -8,11 +8,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 @Repository
 public interface LessonRepository extends JpaRepository<LessonEntity, UUID> {
     List<LessonEntity> findAllByCourse (CourseEntity course);
 
     Optional<LessonEntity> findByIDAndCourse(UUID id, CourseEntity course);
+
+    boolean existsByCourseAndTitle(CourseEntity course, String title);
 
     void deleteByIDAndCourse(UUID lessonId,CourseEntity course );
 }

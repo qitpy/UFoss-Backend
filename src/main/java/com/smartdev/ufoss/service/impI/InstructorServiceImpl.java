@@ -4,7 +4,6 @@ import com.smartdev.ufoss.entity.InstructorEntity;
 import com.smartdev.ufoss.repository.InstructorRepository;
 import com.smartdev.ufoss.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

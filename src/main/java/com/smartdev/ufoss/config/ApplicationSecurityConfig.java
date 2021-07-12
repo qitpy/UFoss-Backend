@@ -1,6 +1,5 @@
 package com.smartdev.ufoss.config;
 
-import com.smartdev.ufoss.component.RoleSelect;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.security.JwtTokenVerifier;
 import com.smartdev.ufoss.service.impI.ApplicationUserServiceImpl;

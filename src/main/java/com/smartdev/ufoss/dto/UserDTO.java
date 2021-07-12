@@ -2,7 +2,6 @@ package com.smartdev.ufoss.dto;
 
 import lombok.*;
 
-import javax.persistence.Column;
 import java.util.UUID;
 
 @Getter

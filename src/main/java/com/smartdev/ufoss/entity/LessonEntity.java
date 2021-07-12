@@ -1,8 +1,7 @@
 package com.smartdev.ufoss.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,9 +20,6 @@ public class LessonEntity extends AbstractEntity {
     @Column
     private String title;
 
-    @Column
-    private String description;
-
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -32,9 +28,8 @@ public class LessonEntity extends AbstractEntity {
     )
     private CourseEntity course;
 
-    public LessonEntity(String videoURL, String title, String description) {
-        this.videoURL = videoURL;
+    public LessonEntity(String title, String videoURL) {
         this.title = title;
-        this.description = description;
+        this.videoURL = videoURL;
     }
 }

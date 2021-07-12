@@ -8,7 +8,6 @@ import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.security.JwtConfig;
 import com.smartdev.ufoss.service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

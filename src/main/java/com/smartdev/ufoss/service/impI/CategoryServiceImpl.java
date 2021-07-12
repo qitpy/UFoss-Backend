@@ -7,7 +7,6 @@ import com.smartdev.ufoss.exception.UserNotFoundException;
 import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.service.CategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

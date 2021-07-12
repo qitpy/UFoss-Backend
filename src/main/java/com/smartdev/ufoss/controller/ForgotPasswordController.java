@@ -8,13 +8,12 @@ import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.UserService;
 import lombok.AllArgsConstructor;
 import net.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/password")
+@RequestMapping("/api/password")
 @AllArgsConstructor
 public class ForgotPasswordController {
 
@@ -26,7 +25,7 @@ public class ForgotPasswordController {
     public ResponseEntity<?> processForgotPasswordForm(@RequestBody ResetPasswordDTO model) {
 
         if (!Validator.emailValidate(model.getEmail())) {
-            return ResponseEntity.ok("Email not validate!");
+            return ResponseEntity.badRequest().body("Email not validate!");
         }
 
         String token = RandomString.make(50);
@@ -35,7 +34,7 @@ public class ForgotPasswordController {
             UserEntity user = userService.updateResetPassword(token, model.getEmail());
             String subjectEmail = "Email <Reset Password>";
 
-            String resetPasswordLink = "https://www.facebook.com/ngochai20101" + "/reset-password?token=" + token;
+            String resetPasswordLink = "https://ufoss-smd-intern.herokuapp.com/" + "/reset-password?token=" + token;
 
             emailSenderService.emailResetPassword(
                     user.getEmail(),
