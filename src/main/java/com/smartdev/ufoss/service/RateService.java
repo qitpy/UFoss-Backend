@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface RateService {
     RateEntity getRateById(UUID id);
-    RateEntity getAllByCourseAndUser(CourseEntity courseId, UserEntity userId);
+    RateEntity getAllByCourseAndUser(UUID courseId, UUID userId);
     RateEntity addNewRate(UUID courseId, String category, RateDTO newRate);
 }

@@ -25,8 +25,8 @@ public class RateController {
     }
 
     @GetMapping("/course/{courseId}/user/{userId}")
-    public RateEntity getRateByCourseAndUser(@PathVariable CourseEntity courseId,
-                                             @PathVariable UserEntity userId) {
+    public RateEntity getRateByCourseAndUser(@PathVariable("courseId") UUID courseId,
+                                             @PathVariable("userId") UUID userId) {
         return rateService.getAllByCourseAndUser(courseId,userId);
     }
 
