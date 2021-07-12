@@ -22,7 +22,6 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
     List<CourseEntity> findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(
             String title, String desc);
 
-
     Optional<CourseEntity> findByIDAndCategory(UUID id, CategoryEntity category);
 
     Optional<CourseEntity> findByTitleAndCategory(String title, CategoryEntity category);
