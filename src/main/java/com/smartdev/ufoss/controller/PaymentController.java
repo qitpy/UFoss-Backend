@@ -35,7 +35,7 @@ public class PaymentController {
         return  paymentSevice.getPaymentById(paymentId);
     }
 
-    @PostMapping("")
+    @PostMapping
     public List<PaymentGetDTO> addNewPayment(@RequestBody PaymentDTO newPayment){
         return paymentSevice.addNewPayment(newPayment);
     }

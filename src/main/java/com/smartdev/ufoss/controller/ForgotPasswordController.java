@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/password")
+@RequestMapping("/api/auth")
 @AllArgsConstructor
 public class ForgotPasswordController {
 
@@ -21,7 +21,7 @@ public class ForgotPasswordController {
     private final EmailSenderService emailSenderService;
 
 
-    @PostMapping("/reset")
+    @PostMapping("/reset-password")
     public ResponseEntity<?> processForgotPasswordForm(@RequestBody ResetPasswordDTO model) {
 
         if (!Validator.emailValidate(model.getEmail())) {
@@ -52,7 +52,7 @@ public class ForgotPasswordController {
         return ResponseEntity.ok("check your email");
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update-password")
     public ResponseEntity<?> processResetPassword(@RequestBody ResetPasswordDTO model) {
         System.out.println(model.getPassword());
         UserEntity user = userService.getUserWithToken(model.getResetPasswordToken());

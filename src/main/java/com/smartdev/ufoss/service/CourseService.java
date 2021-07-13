@@ -1,18 +1,21 @@
 package com.smartdev.ufoss.service;
 
+import com.smartdev.ufoss.dto.SearchingCourseDTO;
+import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public interface CourseService {
-    List<CourseEntity> findByTitleOrDescription(String title, String description);
+    List<SearchingCourseDTO> findByTitleOrDescription(String title, String description);
 
-    CourseEntity findByIDAndCategory(UUID id, String category);
+    CourseEntity findByIDAndCategory(UUID userID, UUID id, String category);
 
     CourseEntity addByCategory(CourseEntity newCourse, String category);
 

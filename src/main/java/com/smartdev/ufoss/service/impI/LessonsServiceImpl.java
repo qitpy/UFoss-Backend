@@ -87,24 +87,24 @@ public class LessonsServiceImpl implements LessonsService {
     @Override
     public ResponseEntity<Resource> getLessonVideo(UUID courseId, String fileName, HttpServletRequest request) {
 
-        try {
-            String token = request.getHeader(jwtConfig.getAuthorizationHeader())
-                    .replace(jwtConfig.getTokenPrefix(), "");
-            Jws<Claims> claimsJws = Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token);
-            Claims body = claimsJws.getBody();
-            String usernameFromToken = body.getSubject();
-
-            UUID userId = userRepository.findByUsername(usernameFromToken).orElseThrow(
-                    () -> new HandleException("user not found")).getID();
-
-            if (!paymentSevice.isPaid(userId, courseId)) {
-                throw new HandleException("Buy course to see this lesson");
-            }
-        } catch (Exception e) {
-            throw new ForbiddenException("authentication failed");
-        }
+//        try {
+//            String token = request.getHeader(jwtConfig.getAuthorizationHeader())
+//                    .replace(jwtConfig.getTokenPrefix(), "");
+//            Jws<Claims> claimsJws = Jwts.parser()
+//                    .setSigningKey(secretKey)
+//                    .parseClaimsJws(token);
+//            Claims body = claimsJws.getBody();
+//            String usernameFromToken = body.getSubject();
+//
+//            UUID userId = userRepository.findByUsername(usernameFromToken).orElseThrow(
+//                    () -> new HandleException("user not found")).getID();
+//
+//            if (!paymentSevice.isPaid(userId, courseId)) {
+//                throw new HandleException("Buy course to see this lesson");
+//            }
+//        } catch (Exception e) {
+//            throw new ForbiddenException("authentication failed");
+//        }
 
         Optional<CourseEntity> courseOptional = coursesRepository.findById(courseId);
         if (courseOptional.isEmpty()) {

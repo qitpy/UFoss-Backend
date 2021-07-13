@@ -56,10 +56,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers( "/api/payment/**")
                     .hasAnyRole(RoleSelect.ADMIN.name(), RoleSelect.USER.name())
-                .antMatchers(HttpMethod.POST).hasRole(RoleSelect.ADMIN.name())
-                .antMatchers(HttpMethod.PUT).hasRole(RoleSelect.ADMIN.name())
-                .antMatchers(HttpMethod.PATCH).hasRole(RoleSelect.ADMIN.name())
-                .antMatchers(HttpMethod.DELETE).hasRole(RoleSelect.ADMIN.name())
                 .antMatchers(
                         "/",
                         "index",

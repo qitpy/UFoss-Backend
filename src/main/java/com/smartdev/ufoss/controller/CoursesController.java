@@ -1,8 +1,9 @@
 package com.smartdev.ufoss.controller;
 
-import com.smartdev.ufoss.component.Validator;
 import com.smartdev.ufoss.converter.CourseConverter;
 import com.smartdev.ufoss.dto.CourseDTO;
+import com.smartdev.ufoss.dto.SearchingCourseDTO;
+
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.CourseService;
 
@@ -24,7 +25,7 @@ public class CoursesController {
     private final CourseService coursesService;
 
     @GetMapping("/courses")
-    public List<CourseEntity> findByTitleOrDescription(
+    public List<SearchingCourseDTO> findByTitleOrDescription(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String desc) {
 
@@ -33,10 +34,11 @@ public class CoursesController {
 
     @GetMapping("/categories/{category}/courses/{courseId}")
     public CourseEntity getCourseByIdInCategory(
+            @RequestParam(required = false) UUID userId,
             @PathVariable("category") String category,
             @PathVariable("courseId") UUID id) {
 
-        return coursesService.findByIDAndCategory(id, category);
+        return coursesService.findByIDAndCategory(userId, id, category);
     }
 
     @PostMapping("/categories/{category}/courses")
@@ -74,7 +76,6 @@ public class CoursesController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "", required = false) String userID
     ) {
-
         return coursesService.findCoursesWithFilter(userID, category, ratings, criteria, sortByPrice, page, size);
     }
 
