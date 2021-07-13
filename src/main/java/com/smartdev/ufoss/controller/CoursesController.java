@@ -71,8 +71,11 @@ public class CoursesController {
             @RequestParam(value = "sortByPrice", required = false) String sortByPrice,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
-            @RequestParam(defaultValue = "", required = false) String userID
+            @RequestParam(defaultValue = "", required = false) UUID userID
     ) {
+        if (userID == null) {
+            userID = UUID.randomUUID();
+        }
         return coursesService.findCoursesWithFilter(userID, category, ratings, criteria, sortByPrice, page, size);
     }
 

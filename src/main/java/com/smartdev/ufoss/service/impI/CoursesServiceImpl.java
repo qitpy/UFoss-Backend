@@ -163,7 +163,7 @@ public class CoursesServiceImpl implements CourseService {
 
     @Override
     public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
-            String userID,
+            UUID userID,
             String category,
             Double ratings,
             String criteria,
@@ -178,14 +178,14 @@ public class CoursesServiceImpl implements CourseService {
             );
         }
 
-        UUID userUUID = null;
-
-
-        if (Validator.checkNullFields(userID)) {
-            userUUID = UUID.randomUUID();
-        } else {
-            userUUID = UUID.fromString(userID);
-        }
+//        UUID userUUID = null;
+//
+//
+//        if (Validator.checkNullFields(userID)) {
+//            userUUID = UUID.randomUUID();
+//        } else {
+//            userUUID = UUID.fromString(userID);
+//        }
 
         try {
 
@@ -194,12 +194,11 @@ public class CoursesServiceImpl implements CourseService {
             Pageable paging;
             if (Validator.checkNullFields(criteria)) {
 
-                System.out.println(userUUID);
                 //get courses in home page
                 paging = PageRequest.of(page, size);
                 pageCourses = coursesRepository.findAllByCategoryInHome(
                         categoryOptional.get(),
-                        userUUID,
+                        userID,
                         paging
                 );
             } else {
@@ -214,7 +213,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
                                 categoryOptional.get().getId(),
-                                userUUID,
+                                userID,
                                 paging
                         );
                     } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
@@ -229,7 +228,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
                                 categoryOptional.get().getId(),
-                                userUUID,
+                                userID,
                                 paging
                         );
                     } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
@@ -240,7 +239,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
                                 ratings,
                                 categoryOptional.get().getId(),
-                                userUUID,
+                                userID,
                                 paging
                         );
                     } else {
@@ -251,7 +250,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
                                 ratings,
                                 categoryOptional.get().getId(),
-                                userUUID,
+                                userID,
                                 paging
                         );
                     }
@@ -263,7 +262,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
                                 categoryOptional.get().getId(),
-                                userUUID,
+                                userID,
                                 paging
                         );
                     } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
@@ -278,7 +277,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
                                 categoryOptional.get().getId(),
-                                userUUID,
+                                userID,
                                 paging
                         );
                     } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
@@ -288,7 +287,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
                                 categoryOptional.get().getId(),
                                 ratings,
-                                userUUID,
+                                userID,
                                 paging
                         );
                     } else {
@@ -298,7 +297,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
                                 categoryOptional.get().getId(),
                                 ratings,
-                                userUUID,
+                                userID,
                                 paging
                         );
                     }
