@@ -109,5 +109,14 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
             nativeQuery = true)
     Page<CourseEntity> findByCategoryWithFilterAndSellestAndRating(Long category, Double rating, UUID userID, Pageable pageable);
 
-    Page<CourseEntity> findAllByCategory(CategoryEntity category, Pageable pageable);
+    @Query(value =
+            "select  * " +
+                    "from course c " +
+                    "where c.category_id = ?1 >= ?2 and c.id not in ( " +
+                    "select bill.course_id " +
+                    "from payment bill " +
+                    "where bill.user_id = ?3 " +
+                    ") ",
+            nativeQuery = true)
+    Page<CourseEntity> findAllByCategoryInHome(CategoryEntity category, Pageable pageable);
 }

@@ -177,7 +177,9 @@ public class CoursesServiceImpl implements CourseService {
                     "The category " + category + " does not exists."
             );
         }
+
         UUID userUUID = null;
+
 
         if (Validator.checkNullFields(userID)) {
             userUUID = UUID.randomUUID();
@@ -191,7 +193,7 @@ public class CoursesServiceImpl implements CourseService {
             if (Validator.checkNullFields(criteria)) {
                 //get courses in home page
                 paging = PageRequest.of(page, size);
-                pageCourses = coursesRepository.findAllByCategory(categoryOptional.get(), paging);
+                pageCourses = coursesRepository.findAllByCategoryInHome(categoryOptional.get(), paging);
             } else {
                 Sort sort;
 
