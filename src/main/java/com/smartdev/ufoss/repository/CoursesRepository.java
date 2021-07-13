@@ -110,5 +110,4 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
     Page<CourseEntity> findByCategoryWithFilterAndSellestAndRating(Long category, Double rating, UUID userID, Pageable pageable);
 
     Page<CourseEntity> findAllByCategory(CategoryEntity category, Pageable pageable);
-
 }

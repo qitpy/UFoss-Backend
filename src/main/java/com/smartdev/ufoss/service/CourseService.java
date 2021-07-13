@@ -22,7 +22,7 @@ public interface CourseService {
     CourseEntity updateByIdAndCategory(UUID id, CourseEntity course, String category);
 
     ResponseEntity<Map<String, Object>> findCoursesWithFilter(
-            UUID userID,
+            String userID,
             String category,
             Double ratings,
             String criteria,
