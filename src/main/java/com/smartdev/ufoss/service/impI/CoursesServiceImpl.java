@@ -164,7 +164,7 @@ public class CoursesServiceImpl implements CourseService {
 
     @Override
     public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
-            UUID userID,
+            String userID,
             String category,
             Double ratings,
             String criteria,
@@ -179,18 +179,26 @@ public class CoursesServiceImpl implements CourseService {
             );
         }
 
+        UUID userUUID = null;
+        try {
+            userUUID = UUID.fromString(userID);
+
+        } catch (Exception e) {
+            userID = "";
+        }
+
         try {
 
             List<CourseEntity> courses = null;
             Page<CourseEntity> pageCourses = null;
             Pageable paging;
-
-            if (Validator.checkNullFields(criteria)) {
+            if (Validator.checkNullFields(userID) || Validator.checkNullFields(criteria)) {
                 //get courses in home page
                 paging = PageRequest.of(page, size);
                 pageCourses = coursesRepository.findAllByCategory(categoryOptional.get(), paging);
             } else {
                 Sort sort;
+
                 //get courses with filter
                 if ("newest".equalsIgnoreCase(criteria)) {
                     if (Validator.checkNullFields(String.valueOf(ratings)) && Validator.checkNullFields(sortByPrice)) {
@@ -199,7 +207,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
                                 categoryOptional.get().getId(),
-                                userID,
+                                userUUID,
                                 paging
                         );
                     } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
@@ -214,7 +222,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
                                 categoryOptional.get().getId(),
-                                userID,
+                                userUUID,
                                 paging
                         );
                     } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
@@ -224,7 +232,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
                                 ratings,
                                 categoryOptional.get().getId(),
-                                userID,
+                                userUUID,
                                 paging
                         );
                     } else {
@@ -234,7 +242,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
                                 ratings,
                                 categoryOptional.get().getId(),
-                                userID,
+                                userUUID,
                                 paging
                         );
                     }
@@ -245,7 +253,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
                                 categoryOptional.get().getId(),
-                                userID,
+                                userUUID,
                                 paging
                         );
                     } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
@@ -259,7 +267,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
                                 categoryOptional.get().getId(),
-                                userID,
+                                userUUID,
                                 paging
                         );
                     } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
@@ -268,7 +276,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
                                 categoryOptional.get().getId(),
                                 ratings,
-                                userID,
+                                userUUID,
                                 paging
                         );
                     } else {
@@ -277,7 +285,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
                                 categoryOptional.get().getId(),
                                 ratings,
-                                userID,
+                                userUUID,
                                 paging
                         );
                     }
