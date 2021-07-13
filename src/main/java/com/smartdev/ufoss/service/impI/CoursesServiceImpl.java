@@ -150,7 +150,7 @@ public class CoursesServiceImpl implements CourseService {
         try {
             userUUID = UUID.fromString(userID);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             userID = "";
         }
 
