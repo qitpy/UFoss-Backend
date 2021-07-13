@@ -67,7 +67,7 @@ public class CoursesController {
     public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
             @PathVariable("category") String category,
             @RequestParam(value = "ratings", required = false) Double ratings,
-            @RequestParam(value = "criteria", defaultValue = "newest", required = false) String criteria,
+            @RequestParam(value = "criteria", defaultValue = "", required = false) String criteria,
             @RequestParam(value = "sortByPrice", required = false) String sortByPrice,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,

@@ -183,6 +183,8 @@ public class CoursesServiceImpl implements CourseService {
 
         if (Validator.checkNullFields(userID)) {
             userUUID = UUID.randomUUID();
+        } else {
+            userUUID = UUID.fromString(userID);
         }
 
         try {
@@ -191,16 +193,23 @@ public class CoursesServiceImpl implements CourseService {
             Page<CourseEntity> pageCourses = null;
             Pageable paging;
             if (Validator.checkNullFields(criteria)) {
+
+                System.out.println(userUUID);
                 //get courses in home page
                 paging = PageRequest.of(page, size);
-                pageCourses = coursesRepository.findAllByCategoryInHome(categoryOptional.get(), paging);
+                pageCourses = coursesRepository.findAllByCategoryInHome(
+                        categoryOptional.get(),
+                        userUUID,
+                        paging
+                );
             } else {
                 Sort sort;
 
                 //get courses with filter
                 if ("newest".equalsIgnoreCase(criteria)) {
                     if (Validator.checkNullFields(String.valueOf(ratings)) && Validator.checkNullFields(sortByPrice)) {
-                        //not rating and sort by price
+
+                        //not rating and not sort by price
                         sort = Sort.by("create_at").descending();
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
@@ -225,6 +234,7 @@ public class CoursesServiceImpl implements CourseService {
                         );
                     } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
                         //has rating but not price
+
                         sort = Sort.by("create_at");
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
@@ -235,6 +245,7 @@ public class CoursesServiceImpl implements CourseService {
                         );
                     } else {
                         //has rating and price
+
                         sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price") : Sort.by("price").descending();
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
@@ -247,6 +258,7 @@ public class CoursesServiceImpl implements CourseService {
                 } else {
                     if (Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
                         //not rating and sort by price
+
                         sort = Sort.by("sellest").descending();
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
@@ -256,6 +268,7 @@ public class CoursesServiceImpl implements CourseService {
                         );
                     } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
                         //not rating but has price
+
                         if ("asc".equalsIgnoreCase(sortByPrice)) {
                             sort = Sort.by("price").ascending();
 
@@ -270,6 +283,7 @@ public class CoursesServiceImpl implements CourseService {
                         );
                     } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
                         //has rating but not price
+
                         paging = PageRequest.of(page, size);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
                                 categoryOptional.get().getId(),
@@ -278,6 +292,7 @@ public class CoursesServiceImpl implements CourseService {
                                 paging
                         );
                     } else {
+
                         sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price", "create_at") : Sort.by("price").descending();
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
