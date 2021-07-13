@@ -1,12 +1,9 @@
 package com.smartdev.ufoss.service;
 
 import com.smartdev.ufoss.dto.SearchingCourseDTO;
-import com.smartdev.ufoss.dto.UserDTO;
 import com.smartdev.ufoss.entity.CourseEntity;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;

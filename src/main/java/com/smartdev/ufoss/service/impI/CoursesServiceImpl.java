@@ -4,7 +4,6 @@ import com.smartdev.ufoss.component.Validator;
 import com.smartdev.ufoss.dto.SearchingCourseDTO;
 import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.entity.CourseEntity;
-
 import com.smartdev.ufoss.entity.LessonEntity;
 import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.repository.CoursesRepository;
@@ -42,29 +41,29 @@ public class CoursesServiceImpl implements CourseService {
             List<CourseEntity> courses = coursesRepository.findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(desc);
             return courses.stream().map(course ->
                     new SearchingCourseDTO(
-                        course.getID(),
-                        course.getTitle(),
-                        course.getDescription()
-                )).collect(Collectors.toList());
+                            course.getID(),
+                            course.getTitle(),
+                            course.getDescription()
+                    )).collect(Collectors.toList());
         }
 
         if (desc == null) {
             List<CourseEntity> courses = coursesRepository.findTop5ByTitleContainingIgnoreCaseOrderByTitle(title);
             return courses.stream().map(course ->
                     new SearchingCourseDTO(
-                        course.getID(),
-                        course.getTitle(),
-                        course.getDescription()
-                )).collect(Collectors.toList());
+                            course.getID(),
+                            course.getTitle(),
+                            course.getDescription()
+                    )).collect(Collectors.toList());
         }
 
         List<CourseEntity> courses = coursesRepository.findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(title, desc);
         return courses.stream().map(course ->
-            new SearchingCourseDTO(
-                    course.getID(),
-                    course.getTitle(),
-                    course.getDescription()
-            )).collect(Collectors.toList());
+                new SearchingCourseDTO(
+                        course.getID(),
+                        course.getTitle(),
+                        course.getDescription()
+                )).collect(Collectors.toList());
     }
 
     public CourseEntity findByIDAndCategory(UUID userId, UUID id, String category) {
@@ -178,13 +177,10 @@ public class CoursesServiceImpl implements CourseService {
                     "The category " + category + " does not exists."
             );
         }
-
         UUID userUUID = null;
-        try {
-            userUUID = UUID.fromString(userID);
 
-        } catch (Exception e) {
-            userID = "";
+        if (Validator.checkNullFields(userID)) {
+            userUUID = UUID.randomUUID();
         }
 
         try {
@@ -192,7 +188,7 @@ public class CoursesServiceImpl implements CourseService {
             List<CourseEntity> courses = null;
             Page<CourseEntity> pageCourses = null;
             Pageable paging;
-            if (Validator.checkNullFields(userID) || Validator.checkNullFields(criteria)) {
+            if (Validator.checkNullFields(criteria)) {
                 //get courses in home page
                 paging = PageRequest.of(page, size);
                 pageCourses = coursesRepository.findAllByCategory(categoryOptional.get(), paging);
