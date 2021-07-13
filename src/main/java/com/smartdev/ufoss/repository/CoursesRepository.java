@@ -37,9 +37,13 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     "group by r.course_id " +
                     ") as temp " +
                     "on temp.temp_id = c.id " +
-                    "where category_id = ?1 ",
+                    "where category_id = ?1  and c.id not in ( " +
+                    "select bill.course_id " +
+                    "from payment bill " +
+                    "where bill.user_id = ?2 " +
+                    ") ",
             nativeQuery = true)
-    Page<CourseEntity> findByCategoryWithFilterAndNewestNotRating(Long category, Pageable pageable);
+    Page<CourseEntity> findByCategoryWithFilterAndNewestNotRating(Long category, UUID userID, Pageable pageable);
 
     @Query(value =
             "select * " +
@@ -48,12 +52,16 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     "select r.course_id as temp_id " +
                     "from rate r " +
                     "group by r.course_id " +
-                    "having avg(r.score/2) >= ?1 " +
+                    "having avg(r.score/2) > ?1 " +
                     ") as temp " +
                     "on temp.temp_id = c.id " +
-                    "where category_id = ?2 ",
+                    "where category_id = ?2 and c.id not in( " +
+                    "select bill.course_id " +
+                    "from payment bill " +
+                    "where bill.user_id = ?3 " +
+                    ") ",
             nativeQuery = true)
-    Page<CourseEntity> findByCategoryWithFilterAndNewestAndRating(Double rating, Long category, Pageable pageable);
+    Page<CourseEntity> findByCategoryWithFilterAndNewestAndRating(Double rating, Long category, UUID userID, Pageable pageable);
 
     @Query(value =
             "select * " +
@@ -70,9 +78,13 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     "group by r.course_id " +
                     ") as temp2 " +
                     "on temp2.tb2_course_id_FK = c.id " +
-                    "where c.category_id = ?1 ",
+                    "where c.category_id = ?1 and c.id not in ( " +
+                    "select bill.course_id " +
+                    "from payment bill " +
+                    "where bill.user_id = ?2 " +
+                    ") ",
             nativeQuery = true)
-    Page<CourseEntity> findByCategoryWithFilterAndSellestNotRating(Long category, Pageable pageable);
+    Page<CourseEntity> findByCategoryWithFilterAndSellestNotRating(Long category, UUID userID, Pageable pageable);
 
     @Query(value =
             "select * " +
@@ -89,9 +101,13 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
                     "group by r.course_id " +
                     ") as temp2 " +
                     "on temp2.tb2_course_id_FK = c.id " +
-                    "where c.category_id = ?1 and temp2.score_rate >= ?2 ",
+                    "where c.category_id = ?1 and temp2.score_rate >= ?2 and c.id not in (" +
+                    "select bill.course_id " +
+                    "from payment bill " +
+                    "where bill.user_id = ?3 " +
+                    ") ",
             nativeQuery = true)
-    Page<CourseEntity> findByCategoryWithFilterAndSellestAndRating(Long category, Double rating, Pageable pageable);
+    Page<CourseEntity> findByCategoryWithFilterAndSellestAndRating(Long category, Double rating, UUID userID, Pageable pageable);
 
     Page<CourseEntity> findAllByCategory(CategoryEntity category, Pageable pageable);
 

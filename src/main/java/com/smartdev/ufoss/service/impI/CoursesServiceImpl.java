@@ -4,11 +4,12 @@ import com.smartdev.ufoss.component.Validator;
 import com.smartdev.ufoss.dto.SearchingCourseDTO;
 import com.smartdev.ufoss.entity.CategoryEntity;
 import com.smartdev.ufoss.entity.CourseEntity;
-import com.smartdev.ufoss.entity.RateEntity;
+
+import com.smartdev.ufoss.entity.LessonEntity;
 import com.smartdev.ufoss.repository.CategoryRepository;
 import com.smartdev.ufoss.repository.CoursesRepository;
-import com.smartdev.ufoss.repository.RateRepository;
 import com.smartdev.ufoss.service.CourseService;
+import com.smartdev.ufoss.service.PaymentSevice;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +29,7 @@ public class CoursesServiceImpl implements CourseService {
 
     private final CoursesRepository coursesRepository;
     private final CategoryRepository categoryRepository;
-    private final RateRepository rateRepository;
+    private final PaymentSevice paymentSevice;
 
     @Override
     public List<SearchingCourseDTO> findByTitleOrDescription(String title, String desc) {
@@ -66,7 +67,7 @@ public class CoursesServiceImpl implements CourseService {
             )).collect(Collectors.toList());
     }
 
-    public CourseEntity findByIDAndCategory(UUID id, String category) {
+    public CourseEntity findByIDAndCategory(UUID userId, UUID id, String category) {
         Optional<CategoryEntity> categoryOptional = categoryRepository.findByName(category);
         if (categoryOptional.isEmpty()) {
             throw new IllegalStateException(
@@ -79,12 +80,15 @@ public class CoursesServiceImpl implements CourseService {
                         "The course with id " + id + " does not exist!"
                 ));
 
-//        RateEntity rated = rateRepository.
+        if (paymentSevice.isPaid(userId, id)) {
+            return course;
+        }
 
-        return coursesRepository.findByIDAndCategory(id, categoryOptional.get())
-                .orElseThrow(() -> new IllegalStateException(
-                        "The course with id " + id + " does not exist!"
-                ));
+        List<LessonEntity> listLessons = course.getLessons().stream().collect(Collectors.toList());
+        for (int i = 1; i < course.getLessons().size(); i++) {
+            listLessons.get(i).setVideoURL("");
+        }
+        return course;
     }
 
     public CourseEntity addByCategory(CourseEntity newCourse, String category) {
@@ -160,6 +164,7 @@ public class CoursesServiceImpl implements CourseService {
 
     @Override
     public ResponseEntity<Map<String, Object>> findCoursesWithFilter(
+            UUID userID,
             String category,
             Double ratings,
             String criteria,
@@ -194,6 +199,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
                                 categoryOptional.get().getId(),
+                                userID,
                                 paging
                         );
                     } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
@@ -208,6 +214,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
                                 categoryOptional.get().getId(),
+                                userID,
                                 paging
                         );
                     } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
@@ -217,14 +224,17 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
                                 ratings,
                                 categoryOptional.get().getId(),
+                                userID,
                                 paging
                         );
                     } else {
+                        //has rating and price
                         sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price") : Sort.by("price").descending();
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
                                 ratings,
                                 categoryOptional.get().getId(),
+                                userID,
                                 paging
                         );
                     }
@@ -235,6 +245,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
                                 categoryOptional.get().getId(),
+                                userID,
                                 paging
                         );
                     } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
@@ -248,6 +259,7 @@ public class CoursesServiceImpl implements CourseService {
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
                                 categoryOptional.get().getId(),
+                                userID,
                                 paging
                         );
                     } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
@@ -256,6 +268,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
                                 categoryOptional.get().getId(),
                                 ratings,
+                                userID,
                                 paging
                         );
                     } else {
@@ -264,6 +277,7 @@ public class CoursesServiceImpl implements CourseService {
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
                                 categoryOptional.get().getId(),
                                 ratings,
+                                userID,
                                 paging
                         );
                     }

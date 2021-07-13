@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/payment")
 @AllArgsConstructor
 public class PaymentController {
 
@@ -35,7 +35,7 @@ public class PaymentController {
         return  paymentSevice.getPaymentById(paymentId);
     }
 
-    @PostMapping("")
+    @PostMapping
     public List<PaymentGetDTO> addNewPayment(@RequestBody PaymentDTO newPayment){
         return paymentSevice.addNewPayment(newPayment);
     }

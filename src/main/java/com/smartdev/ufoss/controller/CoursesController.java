@@ -33,10 +33,11 @@ public class CoursesController {
 
     @GetMapping("/categories/{category}/courses/{courseId}")
     public CourseEntity getCourseByIdInCategory(
+            @RequestParam(required = false) UUID userId,
             @PathVariable("category") String category,
             @PathVariable("courseId") UUID id) {
 
-        return coursesService.findByIDAndCategory(id, category);
+        return coursesService.findByIDAndCategory(userId, id, category);
     }
 
     @PostMapping("/categories/{category}/courses")
@@ -71,10 +72,13 @@ public class CoursesController {
             @RequestParam(value = "criteria", defaultValue = "newest", required = false) String criteria,
             @RequestParam(value = "sortByPrice", required = false) String sortByPrice,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(required = false) UUID userId
     ) {
-
-        return coursesService.findCoursesWithFilter(category, ratings, criteria, sortByPrice, page, size);
+        if (userId == null) {
+            userId = UUID.randomUUID();
+        }
+        return coursesService.findCoursesWithFilter(userId, category, ratings, criteria, sortByPrice, page, size);
     }
 }
 

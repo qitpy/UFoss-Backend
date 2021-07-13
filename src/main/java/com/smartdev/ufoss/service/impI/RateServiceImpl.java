@@ -53,9 +53,9 @@ public class RateServiceImpl implements RateService {
     public RateEntity addNewRate(UUID courseId, String category, RateDTO newRate) {
         Optional<UserEntity> user = userRepository.findById(newRate.getUserId());
         if (user.isEmpty()) {
-            throw new IllegalStateException("Failed");
+            throw new IllegalStateException("User does not exists.");
         }
-        CourseEntity checkCourse = courseService.findByIDAndCategory(courseId, category);
+        CourseEntity checkCourse = courseService.findByIDAndCategory(newRate.getUserId(), courseId, category);
         RateEntity rateEntity = rateConverter.toEntity(newRate);
         rateEntity.setCourse(checkCourse);
         rateEntity.setUser(user.get());

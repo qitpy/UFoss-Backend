@@ -54,19 +54,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers( "/api/payments/**")
+                .antMatchers( "/api/payment/**")
                     .hasAnyRole(RoleSelect.ADMIN.name(), RoleSelect.USER.name())
-                .antMatchers(HttpMethod.POST).hasRole(RoleSelect.ADMIN.name())
-                .antMatchers(HttpMethod.PUT).hasRole(RoleSelect.ADMIN.name())
-                .antMatchers(HttpMethod.PATCH).hasRole(RoleSelect.ADMIN.name())
-                .antMatchers(HttpMethod.DELETE).hasRole(RoleSelect.ADMIN.name())
                 .antMatchers(
                         "/",
                         "index",
                         "/css/*",
                         "/js/*",
                         "/api/**").permitAll()
-
                 //.antMatchers("/admin/**").hasRole(RoleSelect.ADMIN.name())
                 .anyRequest()
                 .authenticated();
