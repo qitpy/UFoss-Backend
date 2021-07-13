@@ -179,12 +179,10 @@ public class CoursesServiceImpl implements CourseService {
             );
         }
 
-        UUID userUUID = null;
-        try {
-            userUUID = UUID.fromString(userID);
+       UUID userUUID = null;
 
-        } catch (Exception e) {
-            userID = "";
+        if (Validator.checkNullFields(userID)) {
+            userUUID = UUID.randomUUID();
         }
 
         try {
@@ -192,7 +190,7 @@ public class CoursesServiceImpl implements CourseService {
             List<CourseEntity> courses = null;
             Page<CourseEntity> pageCourses = null;
             Pageable paging;
-            if (Validator.checkNullFields(userID) || Validator.checkNullFields(criteria)) {
+            if (Validator.checkNullFields(criteria)) {
                 //get courses in home page
                 paging = PageRequest.of(page, size);
                 pageCourses = coursesRepository.findAllByCategory(categoryOptional.get(), paging);
