@@ -58,7 +58,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         );
 
         String subjectEmail = "Register account UFoss";
-        String link = "https://ufoss-smd-intern.herokuapp.com/api/auth/register/confirm?token=" + token;
+        String link = "https://ufoss-intern.herokuapp.com/api/auth/register/confirm?token=" + token;
 
         emailSenderService.email(
                 request.getEmail(),
