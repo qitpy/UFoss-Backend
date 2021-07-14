@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(path = "/api/auth")
@@ -23,5 +25,10 @@ public class RegistrationController {
     @GetMapping(path = "/register/confirm")
     public String confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
+    }
+
+    @GetMapping(path = "/register/resendmail/")
+    public String resendMail(@RequestParam("email") String email) {
+        return registrationService.resendMail(email);
     }
 }
