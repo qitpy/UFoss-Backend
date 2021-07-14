@@ -13,5 +13,5 @@ public class SearchingCourseDTO {
     UUID id;
     String title;
     String description;
-    CategoryEntity categoryEntity;
+    CategoryEntity category;
 }
