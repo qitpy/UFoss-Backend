@@ -32,11 +32,6 @@ public class CoursesServiceImpl implements CourseService {
 
     @Override
     public List<SearchingCourseDTO> findByTitleOrDescription(String search) {
-        if (search == null) {
-            throw new IllegalStateException(
-                    "The searching courses feature need either keyword."
-            );
-        }
 
         List<CourseEntity> courses = coursesRepository.findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(search, search);
         return courses.stream().map(course ->
@@ -165,119 +160,105 @@ public class CoursesServiceImpl implements CourseService {
             List<CourseEntity> courses = null;
             Page<CourseEntity> pageCourses = null;
             Pageable paging;
-            if (
-                    Validator.checkNullField(criteria) &&
-                    Validator.checkNullField(String.valueOf(ratings)) &&
-                    Validator.checkNullField(sortByPrice)
-            ) {
-                System.out.println("home");
-                //get courses in home page
-                paging = PageRequest.of(page, size);
-                pageCourses = coursesRepository.findAllByCategoryInHome(
-                        categoryOptional.get(),
-                        userID,
-                        paging
-                );
-            } else {
-                Sort sort;
 
-                //get courses with filter
-                if ("newest".equalsIgnoreCase(criteria)) {
-                    if (Validator.checkNullField(String.valueOf(ratings)) && Validator.checkNullField(sortByPrice)) {
-                        System.out.println("new not thing");
-                        //not rating and not sort by price
-                        sort = Sort.by("create_at").descending();
-                        paging = PageRequest.of(page, size, sort);
-                        pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
-                                categoryOptional.get().getId(),
-                                userID,
-                                paging
-                        );
-                    } else if (!Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
-                        //not rating but has price
-                        System.out.println("new not rate");
-                        if ("asc".equalsIgnoreCase(sortByPrice)) {
-                            sort = Sort.by("price").ascending();
+            Sort sort;
 
-                        } else {
-                            sort = Sort.by("price").descending();
-                        }
-                        paging = PageRequest.of(page, size, sort);
-                        pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
-                                categoryOptional.get().getId(),
-                                userID,
-                                paging
-                        );
-                    } else if (Validator.checkNullField(sortByPrice) && !Validator.checkNullField(String.valueOf(ratings))) {
-                        //has rating but not price
-                        System.out.println("new not sort");
-                        sort = Sort.by("create_at");
-                        paging = PageRequest.of(page, size, sort);
-                        pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
-                                ratings,
-                                categoryOptional.get().getId(),
-                                userID,
-                                paging
-                        );
+            //get courses with filter
+            if ("newest".equalsIgnoreCase(criteria)) {
+                if (Validator.checkNullField(String.valueOf(ratings)) && Validator.checkNullField(sortByPrice)) {
+
+                    //not rating and not sort by price
+                    sort = Sort.by("create_at").descending();
+                    paging = PageRequest.of(page, size, sort);
+                    pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
+                            categoryOptional.get().getId(),
+                            userID,
+                            paging
+                    );
+                } else if (!Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
+                    //not rating but has price
+
+                    if ("asc".equalsIgnoreCase(sortByPrice)) {
+                        sort = Sort.by("price").ascending();
+
                     } else {
-                        //has rating and price
-                        System.out.println("new has ET");
-                        sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price") : Sort.by("price").descending();
-                        paging = PageRequest.of(page, size, sort);
-                        pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
-                                ratings,
-                                categoryOptional.get().getId(),
-                                userID,
-                                paging
-                        );
+                        sort = Sort.by("price").descending();
                     }
+                    paging = PageRequest.of(page, size, sort);
+                    pageCourses = coursesRepository.findByCategoryWithFilterAndNewestNotRating(
+                            categoryOptional.get().getId(),
+                            userID,
+                            paging
+                    );
+                } else if (Validator.checkNullField(sortByPrice) && !Validator.checkNullField(String.valueOf(ratings))) {
+                    //has rating but not price
+
+                    sort = Sort.by("create_at");
+                    paging = PageRequest.of(page, size, sort);
+                    pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
+                            ratings,
+                            categoryOptional.get().getId(),
+                            userID,
+                            paging
+                    );
                 } else {
-                    if (Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
-                        //not rating and sort by price
-                        System.out.println("sell not thing");
-                        sort = Sort.by("sellest").descending();
-                        paging = PageRequest.of(page, size, sort);
-                        pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
-                                categoryOptional.get().getId(),
-                                userID,
-                                paging
-                        );
-                    } else if (!Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
-                        //not rating but has price
-                        System.out.println("sellest not rate");
-                        if ("asc".equalsIgnoreCase(sortByPrice)) {
-                            sort = Sort.by("price").ascending();
+                    //has rating and price
 
-                        } else {
-                            sort = Sort.by("price").descending();
-                        }
-                        paging = PageRequest.of(page, size, sort);
-                        pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
-                                categoryOptional.get().getId(),
-                                userID,
-                                paging
-                        );
-                    } else if (Validator.checkNullField(sortByPrice) && !Validator.checkNullField(String.valueOf(ratings))) {
-                        //has rating but not price
-                        System.out.println("new not sort");
-                        paging = PageRequest.of(page, size);
-                        pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
-                                categoryOptional.get().getId(),
-                                ratings,
-                                userID,
-                                paging
-                        );
+                    sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price") : Sort.by("price").descending();
+                    paging = PageRequest.of(page, size, sort);
+                    pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
+                            ratings,
+                            categoryOptional.get().getId(),
+                            userID,
+                            paging
+                    );
+                }
+            } else {
+                if (Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
+                    //not rating and sort by price
+
+                    sort = Sort.by("sellest").descending();
+                    paging = PageRequest.of(page, size, sort);
+                    pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
+                            categoryOptional.get().getId(),
+                            userID,
+                            paging
+                    );
+                } else if (!Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
+                    //not rating but has price
+
+                    if ("asc".equalsIgnoreCase(sortByPrice)) {
+                        sort = Sort.by("price").ascending();
+
                     } else {
-                        System.out.println("new has ET");
-                        sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price", "create_at") : Sort.by("price").descending();
-                        paging = PageRequest.of(page, size, sort);
-                        pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
-                                categoryOptional.get().getId(),
-                                ratings,
-                                userID,
-                                paging
-                        );
+                        sort = Sort.by("price").descending();
                     }
+                    paging = PageRequest.of(page, size, sort);
+                    pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
+                            categoryOptional.get().getId(),
+                            userID,
+                            paging
+                    );
+                } else if (Validator.checkNullField(sortByPrice) && !Validator.checkNullField(String.valueOf(ratings))) {
+                    //has rating but not price
+
+                    paging = PageRequest.of(page, size);
+                    pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
+                            categoryOptional.get().getId(),
+                            ratings,
+                            userID,
+                            paging
+                    );
+                } else {
+
+                    sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price", "create_at") : Sort.by("price").descending();
+                    paging = PageRequest.of(page, size, sort);
+                    pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
+                            categoryOptional.get().getId(),
+                            ratings,
+                            userID,
+                            paging
+                    );
                 }
             }
 
