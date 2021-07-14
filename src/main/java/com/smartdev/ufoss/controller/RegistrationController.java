@@ -27,7 +27,7 @@ public class RegistrationController {
         return registrationService.confirmToken(token);
     }
 
-    @GetMapping(path = "/register/resendmail/")
+    @GetMapping(path = "/register/resendmail")
     public String resendMail(@RequestParam("email") String email) {
         return registrationService.resendMail(email);
     }
