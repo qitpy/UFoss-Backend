@@ -23,10 +23,9 @@ public class CoursesController {
 
     @GetMapping("/courses")
     public List<SearchingCourseDTO> findByTitleOrDescription(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String desc) {
+            @RequestParam(required = false) String search) {
 
-        return coursesService.findByTitleOrDescription(title, desc);
+        return coursesService.findByTitleOrDescription(search);
     }
 
     @GetMapping("/categories/{category}/courses/{courseId}")

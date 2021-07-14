@@ -31,38 +31,20 @@ public class CoursesServiceImpl implements CourseService {
     private final PaymentSevice paymentSevice;
 
     @Override
-    public List<SearchingCourseDTO> findByTitleOrDescription(String title, String desc) {
-        if (title == null && desc == null) {
+    public List<SearchingCourseDTO> findByTitleOrDescription(String search) {
+        if (search == null) {
             throw new IllegalStateException(
-                    "The searching courses feature need either title or description."
+                    "The searching courses feature need either keyword."
             );
         }
-        if (title == null) {
-            List<CourseEntity> courses = coursesRepository.findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(desc);
-            return courses.stream().map(course ->
-                    new SearchingCourseDTO(
-                            course.getID(),
-                            course.getTitle(),
-                            course.getDescription()
-                    )).collect(Collectors.toList());
-        }
 
-        if (desc == null) {
-            List<CourseEntity> courses = coursesRepository.findTop5ByTitleContainingIgnoreCaseOrderByTitle(title);
-            return courses.stream().map(course ->
-                    new SearchingCourseDTO(
-                            course.getID(),
-                            course.getTitle(),
-                            course.getDescription()
-                    )).collect(Collectors.toList());
-        }
-
-        List<CourseEntity> courses = coursesRepository.findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(title, desc);
+        List<CourseEntity> courses = coursesRepository.findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(search, search);
         return courses.stream().map(course ->
                 new SearchingCourseDTO(
                         course.getID(),
                         course.getTitle(),
-                        course.getDescription()
+                        course.getDescription(),
+                        course.getCategory()
                 )).collect(Collectors.toList());
     }
 
@@ -178,22 +160,17 @@ public class CoursesServiceImpl implements CourseService {
             );
         }
 
-//        UUID userUUID = null;
-//
-//
-//        if (Validator.checkNullFields(userID)) {
-//            userUUID = UUID.randomUUID();
-//        } else {
-//            userUUID = UUID.fromString(userID);
-//        }
-
         try {
 
             List<CourseEntity> courses = null;
             Page<CourseEntity> pageCourses = null;
             Pageable paging;
-            if (Validator.checkNullFields(criteria)) {
-
+            if (
+                    Validator.checkNullField(criteria) &&
+                    Validator.checkNullField(String.valueOf(ratings)) &&
+                    Validator.checkNullField(sortByPrice)
+            ) {
+                System.out.println("home");
                 //get courses in home page
                 paging = PageRequest.of(page, size);
                 pageCourses = coursesRepository.findAllByCategoryInHome(
@@ -206,8 +183,8 @@ public class CoursesServiceImpl implements CourseService {
 
                 //get courses with filter
                 if ("newest".equalsIgnoreCase(criteria)) {
-                    if (Validator.checkNullFields(String.valueOf(ratings)) && Validator.checkNullFields(sortByPrice)) {
-
+                    if (Validator.checkNullField(String.valueOf(ratings)) && Validator.checkNullField(sortByPrice)) {
+                        System.out.println("new not thing");
                         //not rating and not sort by price
                         sort = Sort.by("create_at").descending();
                         paging = PageRequest.of(page, size, sort);
@@ -216,9 +193,9 @@ public class CoursesServiceImpl implements CourseService {
                                 userID,
                                 paging
                         );
-                    } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
+                    } else if (!Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
                         //not rating but has price
-
+                        System.out.println("new not rate");
                         if ("asc".equalsIgnoreCase(sortByPrice)) {
                             sort = Sort.by("price").ascending();
 
@@ -231,9 +208,9 @@ public class CoursesServiceImpl implements CourseService {
                                 userID,
                                 paging
                         );
-                    } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
+                    } else if (Validator.checkNullField(sortByPrice) && !Validator.checkNullField(String.valueOf(ratings))) {
                         //has rating but not price
-
+                        System.out.println("new not sort");
                         sort = Sort.by("create_at");
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
@@ -244,7 +221,7 @@ public class CoursesServiceImpl implements CourseService {
                         );
                     } else {
                         //has rating and price
-
+                        System.out.println("new has ET");
                         sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price") : Sort.by("price").descending();
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndNewestAndRating(
@@ -255,9 +232,9 @@ public class CoursesServiceImpl implements CourseService {
                         );
                     }
                 } else {
-                    if (Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
+                    if (Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
                         //not rating and sort by price
-
+                        System.out.println("sell not thing");
                         sort = Sort.by("sellest").descending();
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestNotRating(
@@ -265,9 +242,9 @@ public class CoursesServiceImpl implements CourseService {
                                 userID,
                                 paging
                         );
-                    } else if (!Validator.checkNullFields(sortByPrice) && Validator.checkNullFields(String.valueOf(ratings))) {
+                    } else if (!Validator.checkNullField(sortByPrice) && Validator.checkNullField(String.valueOf(ratings))) {
                         //not rating but has price
-
+                        System.out.println("sellest not rate");
                         if ("asc".equalsIgnoreCase(sortByPrice)) {
                             sort = Sort.by("price").ascending();
 
@@ -280,9 +257,9 @@ public class CoursesServiceImpl implements CourseService {
                                 userID,
                                 paging
                         );
-                    } else if (Validator.checkNullFields(sortByPrice) && !Validator.checkNullFields(String.valueOf(ratings))) {
+                    } else if (Validator.checkNullField(sortByPrice) && !Validator.checkNullField(String.valueOf(ratings))) {
                         //has rating but not price
-
+                        System.out.println("new not sort");
                         paging = PageRequest.of(page, size);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(
                                 categoryOptional.get().getId(),
@@ -291,7 +268,7 @@ public class CoursesServiceImpl implements CourseService {
                                 paging
                         );
                     } else {
-
+                        System.out.println("new has ET");
                         sort = "asc".equalsIgnoreCase(sortByPrice) ? Sort.by("price", "create_at") : Sort.by("price").descending();
                         paging = PageRequest.of(page, size, sort);
                         pageCourses = coursesRepository.findByCategoryWithFilterAndSellestAndRating(

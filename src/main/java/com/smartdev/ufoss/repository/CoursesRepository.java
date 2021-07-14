@@ -15,10 +15,6 @@ import java.util.UUID;
 @Repository
 public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
 
-    List<CourseEntity> findTop5ByTitleContainingIgnoreCaseOrderByTitle(String title);
-
-    List<CourseEntity> findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(String desc);
-
     List<CourseEntity> findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(
             String title, String desc);
 

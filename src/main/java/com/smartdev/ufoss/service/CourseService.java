@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface CourseService {
-    List<SearchingCourseDTO> findByTitleOrDescription(String title, String description);
+    List<SearchingCourseDTO> findByTitleOrDescription(String search);
 
     CourseEntity findByIDAndCategory(UUID userID, UUID id, String category);
 
