@@ -2,19 +2,11 @@ package com.smartdev.ufoss.controller;
 
 import com.smartdev.ufoss.entity.LessonEntity;
 import com.smartdev.ufoss.service.LessonsService;
-import com.smartdev.ufoss.service.impI.FileStorageService;
+import com.smartdev.ufoss.service.impI.AmazonClient;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +17,7 @@ import java.util.UUID;
 public class LessonsController {
 
     private final LessonsService lessonsService;
+    private final AmazonClient amazonClient;
 
     @GetMapping("/courses/{courseId}/lessons")
     public List<LessonEntity> getLessonOfCourse(@PathVariable("courseId") UUID courseId) {
@@ -36,14 +29,6 @@ public class LessonsController {
             @PathVariable("courseId") UUID courseId,
             @PathVariable("lessonId") UUID lessonId) {
         return lessonsService.getLessonByIdAndCourse(courseId, lessonId);
-    }
-
-    @GetMapping("/courses/{courseId}/lessons/video/{fileName:.+}")
-    public ResponseEntity<Resource> getLessonVideo(
-            @PathVariable("courseId") UUID courseId,
-            @PathVariable("fileName") String fileName,
-            HttpServletRequest request) {
-       return lessonsService.getLessonVideo(courseId, fileName, request);
     }
 
     @PostMapping("/courses/{courseId}/lessons")
