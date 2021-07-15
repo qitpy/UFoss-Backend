@@ -1,20 +1,25 @@
 package com.smartdev.ufoss.service.impI;
 
 import com.smartdev.ufoss.entity.RoleEntity;
+import com.smartdev.ufoss.exception.HandleException;
 import com.smartdev.ufoss.model.RegistrationRequest;
 import com.smartdev.ufoss.entity.ConfirmationToken;
 import com.smartdev.ufoss.entity.UserEntity;
+import com.smartdev.ufoss.repository.ConfirmationTokenRepository;
 import com.smartdev.ufoss.repository.RoleRepository;
+import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.RegistrationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -27,12 +32,18 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private final RoleRepository roleRepository;
 
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+
+    private final UserRepository userRepository;
+
     @Autowired
-    public RegistrationServiceImpl(ApplicationUserServiceImpl applicationUserService, ConfirmationTokenServiceImpl confirmationTokenService, EmailSenderService emailSenderService, RoleRepository roleRepository) {
+    public RegistrationServiceImpl(ApplicationUserServiceImpl applicationUserService, ConfirmationTokenServiceImpl confirmationTokenService, EmailSenderService emailSenderService, RoleRepository roleRepository, UserRepository userRepository, ConfirmationTokenRepository confirmationTokenRepository) {
         this.applicationUserService = applicationUserService;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSenderService = emailSenderService;
         this.roleRepository = roleRepository;
+        this.confirmationTokenRepository = confirmationTokenRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -58,7 +69,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         );
 
         String subjectEmail = "Register account UFoss";
-        String link = "https://ufoss-intern.herokuapp.com/api/auth/register/confirm?token=" + token;
+        String link = "https://ufoss.herokuapp.com/api/auth/register/confirm?token=" + token;
 
         emailSenderService.email(
                 request.getEmail(),
@@ -90,6 +101,35 @@ public class RegistrationServiceImpl implements RegistrationService {
         applicationUserService.enableApplicationUser(
                 confirmationToken.getUserEntity().getEmail());
         return "confirmed";
+    }
+
+    @Transactional
+    @Override
+    public String resendMail(String email) {
+
+        String token = UUID.randomUUID().toString();
+        try {
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity.getIsEnabled()) throw new HandleException("email was registered!");
+
+            ConfirmationToken confirmationToken = confirmationTokenRepository.findByEmail(email).get();
+            confirmationToken.setToken(token);
+            confirmationToken.setCreateAt(LocalDateTime.now());
+            confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(1));
+            confirmationTokenService.saveConfirmationToken(confirmationToken);
+        } catch (Exception e) {
+            throw new HandleException("email not found");
+        }
+
+        String subjectEmail = "Register account UFoss";
+        String link = "https://ufoss.herokuapp.com/api/auth/register/confirm?token=" + token;
+
+        emailSenderService.email(
+                email,
+                subjectEmail,
+                buildEmail("", link));
+
+        return token;
     }
 
     private String buildEmail(String name, String link) {
@@ -139,7 +179,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>FossDev-team,</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 1 minutes. <p>FossDev-team,</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
