@@ -88,6 +88,12 @@
             <version>28.1-jre</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.11.133</version>
+        </dependency>
+
         <!--dependency for database & postgres-->
         <dependency>
             <groupId>com.h2database</groupId>
