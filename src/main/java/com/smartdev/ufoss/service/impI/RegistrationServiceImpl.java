@@ -1,20 +1,25 @@
 package com.smartdev.ufoss.service.impI;
 
 import com.smartdev.ufoss.entity.RoleEntity;
+import com.smartdev.ufoss.exception.HandleException;
 import com.smartdev.ufoss.model.RegistrationRequest;
 import com.smartdev.ufoss.entity.ConfirmationToken;
 import com.smartdev.ufoss.entity.UserEntity;
+import com.smartdev.ufoss.repository.ConfirmationTokenRepository;
 import com.smartdev.ufoss.repository.RoleRepository;
+import com.smartdev.ufoss.repository.UserRepository;
 import com.smartdev.ufoss.service.EmailSenderService;
 import com.smartdev.ufoss.service.RegistrationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -27,12 +32,18 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private final RoleRepository roleRepository;
 
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+
+    private final UserRepository userRepository;
+
     @Autowired
-    public RegistrationServiceImpl(ApplicationUserServiceImpl applicationUserService, ConfirmationTokenServiceImpl confirmationTokenService, EmailSenderService emailSenderService, RoleRepository roleRepository) {
+    public RegistrationServiceImpl(ApplicationUserServiceImpl applicationUserService, ConfirmationTokenServiceImpl confirmationTokenService, EmailSenderService emailSenderService, RoleRepository roleRepository, UserRepository userRepository, ConfirmationTokenRepository confirmationTokenRepository) {
         this.applicationUserService = applicationUserService;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSenderService = emailSenderService;
         this.roleRepository = roleRepository;
+        this.confirmationTokenRepository = confirmationTokenRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -90,6 +101,35 @@ public class RegistrationServiceImpl implements RegistrationService {
         applicationUserService.enableApplicationUser(
                 confirmationToken.getUserEntity().getEmail());
         return "confirmed";
+    }
+
+    @Transactional
+    @Override
+    public String resendMail(String email) {
+
+        String token = UUID.randomUUID().toString();
+        try {
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity.getIsEnabled()) throw new HandleException("email was registered!");
+
+            ConfirmationToken confirmationToken = confirmationTokenRepository.findByEmail(email).get();
+            confirmationToken.setToken(token);
+            confirmationToken.setCreateAt(LocalDateTime.now());
+            confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(1));
+            confirmationTokenService.saveConfirmationToken(confirmationToken);
+        } catch (Exception e) {
+            throw new HandleException("email not found");
+        }
+
+        String subjectEmail = "Register account UFoss";
+        String link = "https://ufoss-smd.herokuapp.com/api/auth/register/confirm?token=" + token;
+
+        emailSenderService.email(
+                email,
+                subjectEmail,
+                buildEmail("", link));
+
+        return token;
     }
 
     private String buildEmail(String name, String link) {
