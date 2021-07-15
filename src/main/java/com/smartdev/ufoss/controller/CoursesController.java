@@ -3,12 +3,9 @@ package com.smartdev.ufoss.controller;
 import com.smartdev.ufoss.converter.CourseConverter;
 import com.smartdev.ufoss.dto.CourseDTO;
 import com.smartdev.ufoss.dto.SearchingCourseDTO;
-
 import com.smartdev.ufoss.entity.CourseEntity;
 import com.smartdev.ufoss.service.CourseService;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +23,9 @@ public class CoursesController {
 
     @GetMapping("/courses")
     public List<SearchingCourseDTO> findByTitleOrDescription(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String desc) {
+            @RequestParam(required = false, defaultValue = "") String search) {
 
-        return coursesService.findByTitleOrDescription(title, desc);
+        return coursesService.findByTitleOrDescription(search);
     }
 
     @GetMapping("/categories/{category}/courses/{courseId}")
@@ -74,8 +70,11 @@ public class CoursesController {
             @RequestParam(value = "sortByPrice", required = false) String sortByPrice,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
-            @RequestParam(defaultValue = "", required = false) String userID
+            @RequestParam(defaultValue = "", required = false) UUID userID
     ) {
+        if (userID == null) {
+            userID = UUID.randomUUID();
+        }
         return coursesService.findCoursesWithFilter(userID, category, ratings, criteria, sortByPrice, page, size);
     }
 

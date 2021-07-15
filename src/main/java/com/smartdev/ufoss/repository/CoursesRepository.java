@@ -15,10 +15,6 @@ import java.util.UUID;
 @Repository
 public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
 
-    List<CourseEntity> findTop5ByTitleContainingIgnoreCaseOrderByTitle(String title);
-
-    List<CourseEntity> findTop5ByDescriptionContainingIgnoreCaseOrderByTitle(String desc);
-
     List<CourseEntity> findTop5ByTitleContainingOrDescriptionContainingAllIgnoreCaseOrderByTitle(
             String title, String desc);
 
@@ -109,5 +105,14 @@ public interface CoursesRepository extends JpaRepository<CourseEntity, UUID> {
             nativeQuery = true)
     Page<CourseEntity> findByCategoryWithFilterAndSellestAndRating(Long category, Double rating, UUID userID, Pageable pageable);
 
-    Page<CourseEntity> findAllByCategory(CategoryEntity category, Pageable pageable);
+    @Query(value =
+            "select  * " +
+                    "from course c " +
+                    "where c.category_id = ?1 and c.id not in ( " +
+                    "select bill.course_id " +
+                    "from payment bill " +
+                    "where bill.user_id = ?2 " +
+                    ") ",
+            nativeQuery = true)
+    Page<CourseEntity> findAllByCategoryInHome(CategoryEntity category, UUID userID, Pageable pageable);
 }

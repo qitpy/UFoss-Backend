@@ -12,7 +12,7 @@ public class Validator {
         return false;
     }
 
-    public static boolean checkNullFields(String i) {
+    public static boolean checkNullField(String i) {
         if (i == null || "".equals(i) || "null".equalsIgnoreCase(i)) {
             return true;
         }

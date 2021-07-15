@@ -1,5 +1,6 @@
 package com.smartdev.ufoss.dto;
 
+import com.smartdev.ufoss.entity.CategoryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,4 +13,5 @@ public class SearchingCourseDTO {
     UUID id;
     String title;
     String description;
+    CategoryEntity category;
 }

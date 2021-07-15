@@ -34,7 +34,7 @@ public class ForgotPasswordController {
             UserEntity user = userService.updateResetPassword(token, model.getEmail());
             String subjectEmail = "Email <Reset Password>";
 
-            String resetPasswordLink = "https://ufoss-smd-intern.herokuapp.com/" + "/reset-password?token=" + token;
+            String resetPasswordLink = "https://ufoss-smd-intern.herokuapp.com" + "/reset-password?token=" + token;
 
             emailSenderService.emailResetPassword(
                     user.getEmail(),
