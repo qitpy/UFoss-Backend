@@ -11,9 +11,12 @@ import com.smartdev.ufoss.service.LoginService;
 import com.smartdev.ufoss.service.RefreshTokenService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -48,7 +51,7 @@ public class AuthController {
                 );
     }
 
-    @PostMapping("/refresh-token")
+    /*@PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
 
@@ -58,5 +61,17 @@ public class AuthController {
 
         String token = loginService.createNewToken(user.getUsername());
         return ResponseEntity.ok(new TokenRefreshResponseDTO(token, requestRefreshToken));
+    }*/
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+        String refreshToken = request.getHeader("Authorization");
+
+        RefreshTokenEntity refreshTokenEntity = refreshTokenService.findByToken(refreshToken)
+                .orElseThrow(() -> new HandleException("refresh token is not in database"));
+        UserEntity user = refreshTokenEntity.getUser();
+
+        String token = loginService.createNewToken(user.getUsername());
+        return ResponseEntity.ok(new TokenRefreshResponseDTO(token, refreshToken));
     }
 }
